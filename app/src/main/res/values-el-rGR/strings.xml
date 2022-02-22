@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BitCard</string>
+    <string name="login">Είσοδος</string>
+    <string name="password">Κωδικός</string>
+    <string name="username">Όνομα χρήστη</string>
+    <string name="LoginActivityLabel">Είσοδος</string>
+</resources>

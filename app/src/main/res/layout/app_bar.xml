@@ -15,7 +15,9 @@
         android:id="@+id/app_bar_title"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textAllCaps="true"/>
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:textColor="@color/secondaryTextColor"
+        android:textStyle="bold"/>
 
 </androidx.appcompat.widget.Toolbar>

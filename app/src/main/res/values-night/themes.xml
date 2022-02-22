@@ -11,7 +11,7 @@
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="android:textColorSecondary">@color/primaryTextColor</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="editTextStyle">@style/EditText</item>
     </style>
 
