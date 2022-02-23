@@ -28,6 +28,7 @@
             <!--invoke the background as the
                 custom_edit_text_cut-->
             <EditText
+                android:textColor="@color/primaryTextColor"
                 style="@style/EditText"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
@@ -46,6 +47,7 @@
             <!--same background for the password field
                 as the custom_edit_text_cut-->
             <EditText
+                android:textColor="@color/primaryTextColor"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
