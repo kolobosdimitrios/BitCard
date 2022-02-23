@@ -15,9 +15,5 @@
         <item name="editTextStyle">@style/EditText</item>
     </style>
 
-    <style name="EditText" parent="Widget.AppCompat.EditText">
 
-        <item name="hintTextColor">@color/secondaryDarkColor</item>
-
-    </style>
 </resources>
