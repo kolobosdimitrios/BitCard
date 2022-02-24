@@ -4,4 +4,10 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="LoginActivityLabel">Login</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="password_verification">Password Verification</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="create_account">Create Account</string>
+    <string name="CreateAccountActivityLabel">Create Account</string>
 </resources>

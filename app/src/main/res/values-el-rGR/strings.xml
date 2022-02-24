@@ -5,4 +5,10 @@
     <string name="password">Κωδικός</string>
     <string name="username">Όνομα χρήστη</string>
     <string name="LoginActivityLabel">Είσοδος</string>
+    <string name="name">Όνομα</string>
+    <string name="surname">Επώνυμο</string>
+    <string name="password_verification">Επαλήθευση Κωδικού</string>
+    <string name="date_of_birth">Ημερομηνία Γέννησης</string>
+    <string name="create_account">Δημιουργία Λογαριασμού</string>
+    <string name="CreateAccountActivityLabel">Δημιουργία Λογαριασμού</string>
 </resources>
