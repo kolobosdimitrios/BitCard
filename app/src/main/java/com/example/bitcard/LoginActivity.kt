@@ -1,5 +1,6 @@
 package com.example.bitcard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -26,6 +27,12 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, "Not working", Toast.LENGTH_LONG).show()
 
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, StartupActivity::class.java))
+        finish()
+    }
+
 
 
 }

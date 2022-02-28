@@ -1,5 +1,6 @@
 package com.example.bitcard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -35,5 +36,11 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
         if(p1){ //has focus
             selectDate()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, StartupActivity::class.java))
+        finish()
     }
 }
