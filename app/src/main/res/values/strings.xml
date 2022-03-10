@@ -11,4 +11,5 @@
     <string name="create_account">Create Account</string>
     <string name="CreateAccountActivityLabel">Create Account</string>
     <string name="welcome">Welcome</string>
+    <string name="title_activity_startup_compose">StartupActivityCompose</string>
 </resources>

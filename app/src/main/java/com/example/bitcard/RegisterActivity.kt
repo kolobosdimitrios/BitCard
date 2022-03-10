@@ -3,9 +3,11 @@ package com.example.bitcard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import com.example.bitcard.databinding.ActivityRegisterBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
@@ -28,6 +30,8 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
         datePicker.addOnPositiveButtonClickListener {
             //TODO get timestamp
+
+            binding.date.setText(datePicker.headerText)
         }
         datePicker.show(supportFragmentManager, null)
     }
