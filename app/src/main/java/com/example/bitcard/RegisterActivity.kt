@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
     private fun selectDate(){
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select dates")
+                .setTitleText(getString(R.string.select_date_dialog_header))
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {

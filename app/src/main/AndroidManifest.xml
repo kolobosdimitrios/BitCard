@@ -10,11 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:name=".StartupActivityCompose"
-            android:exported="false"
-            android:label="@string/title_activity_startup_compose"
-            android:theme="@style/splashScreenTheme" />
-        <activity
             android:name=".StartupActivity"
             android:exported="true">
             <intent-filter>
@@ -26,7 +21,7 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
-            android:label="@string/CreateAccountActivityLabel"></activity>
+            android:label="@string/CreateAccountActivityLabel" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"

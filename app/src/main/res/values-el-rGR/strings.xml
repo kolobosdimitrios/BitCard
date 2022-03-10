@@ -12,4 +12,5 @@
     <string name="create_account">Δημιουργία Λογαριασμού</string>
     <string name="CreateAccountActivityLabel">Δημιουργία Λογαριασμού</string>
     <string name="welcome">Καλώς ήρθατε</string>
+    <string name="select_date_dialog_header">Επιλέξτε ημερομηνία</string>
 </resources>
