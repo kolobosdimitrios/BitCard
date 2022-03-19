@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import com.example.bitcard.databinding.ActivityCreateCardBinding
-import com.example.bitcard.databinding.ActivityLoginBinding
-import com.example.bitcard.network.Request
-import com.example.bitcard.network.daos.CreateCardData
+import com.example.bitcard.network.daos.requests.CreateCardRequestModel
 
 class CreateCardActivity : AppCompatActivity() {
 
@@ -17,7 +15,7 @@ class CreateCardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_card)
 
         binding.buttonCreateCard.setOnClickListener {
-            if(binding.checkboxTermsAndConditions.isChecked) CreateCardData(
+            if(binding.checkboxTermsAndConditions.isChecked) CreateCardRequestModel(
                     name = getValue(binding.name),
                     surname = getValue(binding.surname),
                     address = getValue(binding.streetAddress)
