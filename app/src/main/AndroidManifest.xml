@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".CreateCardActivity"
+            android:exported="false" />
+        <activity
             android:name=".StartupActivity"
             android:exported="true">
             <intent-filter>

@@ -12,4 +12,7 @@
     <string name="CreateAccountActivityLabel">Create Account</string>
     <string name="welcome">Welcome</string>
     <string name="select_date_dialog_header">Select date</string>
+    <string name="accept_terms_and_conditions">I accept the terms of use</string>
+    <string name="create">Create</string>
+    <string name="address">Address</string>
 </resources>
