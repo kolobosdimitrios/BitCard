@@ -15,4 +15,6 @@
     <string name="accept_terms_and_conditions">I accept the terms of use</string>
     <string name="create">Create</string>
     <string name="address">Address</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="contact_info">Contact Info</string>
 </resources>

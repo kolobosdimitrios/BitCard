@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ShopDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateCardActivity"
             android:exported="false" />
         <activity
