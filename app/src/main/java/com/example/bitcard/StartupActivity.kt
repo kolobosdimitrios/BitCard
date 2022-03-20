@@ -17,7 +17,7 @@ class StartupActivity : AppCompatActivity() {
         setContentView(view)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding.createAccountButton.setOnClickListener {
-            this.startActivity(Intent(applicationContext, RegisterActivity::class.java))
+            this.startActivity(Intent(applicationContext, ShopDetailActivity::class.java))
             finish()
         }
 

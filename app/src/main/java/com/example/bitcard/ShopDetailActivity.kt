@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.SimpleRecycler
 import com.example.bitcard.adapters.TitleAndValueModel
+import com.example.bitcard.databinding.ActivityLoginBinding
 import com.example.bitcard.databinding.ActivityShopDetailBinding
-
+import com.example.bitcard.fragments.ShopLocationMapsFragment
 
 
 class ShopDetailActivity : AppCompatActivity() {
@@ -18,6 +19,8 @@ class ShopDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_detail)
+
+        binding = ActivityShopDetailBinding.inflate(layoutInflater)
 
         binding.contactInfoRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
         binding.contactInfoRecyclerView.setHasFixedSize(true)

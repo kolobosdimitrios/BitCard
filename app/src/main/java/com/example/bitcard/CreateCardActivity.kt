@@ -14,6 +14,8 @@ class CreateCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_card)
 
+        binding = ActivityCreateCardBinding.inflate(layoutInflater)
+
         binding.buttonCreateCard.setOnClickListener {
             if(binding.checkboxTermsAndConditions.isChecked) CreateCardRequestModel(
                     name = getValue(binding.name),
