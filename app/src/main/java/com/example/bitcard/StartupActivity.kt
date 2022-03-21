@@ -22,7 +22,7 @@ class StartupActivity : AppCompatActivity() {
         }
 
         binding.loginWithAccountButton.setOnClickListener{
-            this.startActivity(Intent(applicationContext, LoginActivity::class.java))
+            this.startActivity(Intent(applicationContext, ShopsActivity::class.java))
             finish()
         }
     }

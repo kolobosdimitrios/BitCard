@@ -18,4 +18,7 @@
     <string name="address">Διεύθηνση</string>
     <string name="opening_hours">Ωράριο Λειτουργίας</string>
     <string name="contact_info">Στοιχεία Επικοινωνίας</string>
+    <string name="open_google_maps">Άνοιγμα Χάρτες Google</string>
+    <string name="ShopsListFragmentTitle">ΛΙΣΤΑ</string>
+    <string name="ShopsMapsFragmentTitle">ΧΑΡΤΗΣ</string>
 </resources>
