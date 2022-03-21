@@ -20,4 +20,5 @@
     <string name="open_google_maps">Open Google Maps</string>
     <string name="ShopsListFragmentTitle">LIST</string>
     <string name="ShopsMapsFragmentTitle">MAP</string>
+    <string name="shops">Shops</string>
 </resources>
