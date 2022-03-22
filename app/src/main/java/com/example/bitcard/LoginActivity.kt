@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         binding.username.text.clear()
         val password = binding.password.text.toString().trim()
         binding.password.text.clear()
-        Toast.makeText(this, "Not working", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this, MainScreenActivity::class.java))
 
     }
     override fun onBackPressed() {

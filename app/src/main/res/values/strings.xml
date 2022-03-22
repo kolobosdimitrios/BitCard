@@ -21,4 +21,6 @@
     <string name="ShopsListFragmentTitle">LIST</string>
     <string name="ShopsMapsFragmentTitle">MAP</string>
     <string name="shops">Shops</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

@@ -22,4 +22,6 @@
     <string name="ShopsListFragmentTitle">ΛΙΣΤΑ</string>
     <string name="ShopsMapsFragmentTitle">ΧΑΡΤΗΣ</string>
     <string name="shops">Καταστήματα</string>
+    <string name="open">Άνοιγμα</string>
+    <string name="close">Κλείσιμο</string>
 </resources>

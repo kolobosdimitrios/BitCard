@@ -20,14 +20,18 @@
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_create_card.xml" value="0.46979166666666666" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_login.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_main.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_main_screen.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_main_screen_w_nav_drawer.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_register.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_shop_detail.xml" value="0.5107252298263534" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_shops.xml" value="0.25" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/activity_startup.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/app_bar.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/content_main_screen.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/fragment_shop_location_maps.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/fragment_shops_list.xml" value="0.5026041666666666" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/fragment_shops_map.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/main_screen_menu.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/short_shop_info_tile_layout.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/kolob/AndroidStudioProjects/BitCard/app/src/main/res/layout/title_and_value_tile.xml" value="0.5208333333333334" />
       </map>
