@@ -1,17 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Hello!!"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:padding="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/ic_person_focused"
+                    android:background="@drawable/rounded_shape_background_drawable"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/profile_picture_large"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxEms="150"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryDarkColor"
+                    android:id="@+id/username_menu"
+                    android:text="Profile Name, 23"/>
+
+            </LinearLayout>
+
+         <!--   <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:backgroundTint="@color/secondaryDarkColor"
+                android:background="@drawable/rounded_shape_background_drawable"
+                android:layout_marginVertical="15dp"/>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:src="@drawable/ic_baseline_shopping_cart_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    />
+
+                <TextView
+                    android:id="@+id/shop_list_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Shops List"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_baseline_payments_24"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Purchase History"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/purchase_history_option"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_baseline_settings_24"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Settings"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/settings_option"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_baseline_logout_24"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/logout_option"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

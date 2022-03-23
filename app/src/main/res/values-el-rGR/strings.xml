@@ -24,4 +24,5 @@
     <string name="shops">Καταστήματα</string>
     <string name="open">Άνοιγμα</string>
     <string name="close">Κλείσιμο</string>
+    <string name="MainScreenActivityTitle">Κύρια Οθόνη</string>
 </resources>

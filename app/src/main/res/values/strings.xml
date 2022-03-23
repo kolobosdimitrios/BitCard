@@ -23,4 +23,7 @@
     <string name="shops">Shops</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="MainScreenActivityTitle">Main Screen</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="settings">Settings</string>
 </resources>
