@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Shops List"
+                    android:text="@string/shops_list"
                     android:textSize="16sp" />
 
 
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Purchase History"
+                    android:text="@string/purchase_history"
                     android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/purchase_history_option"/>
@@ -118,7 +118,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
+                    android:text="@string/settings"
                     android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/settings_option"/>
@@ -144,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
+                    android:text="@string/logout"
                     android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/logout_option"/>

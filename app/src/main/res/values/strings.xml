@@ -26,4 +26,7 @@
     <string name="MainScreenActivityTitle">Main Screen</string>
     <string name="profile_picture">Profile picture</string>
     <string name="settings">Settings</string>
+    <string name="shops_list">Shops List</string>
+    <string name="purchase_history">Purchase History</string>
+    <string name="logout">Logout</string>
 </resources>

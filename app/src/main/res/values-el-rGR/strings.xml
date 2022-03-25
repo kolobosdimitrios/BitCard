@@ -25,4 +25,9 @@
     <string name="open">Άνοιγμα</string>
     <string name="close">Κλείσιμο</string>
     <string name="MainScreenActivityTitle">Κύρια Οθόνη</string>
+    <string name="profile_picture">Εικόνα Προφίλ</string>
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="shops_list">Λίστα Καταστημάτων</string>
+    <string name="purchase_history">Ιστορικό Αγορών</string>
+    <string name="logout">Έξοδος</string>
 </resources>
