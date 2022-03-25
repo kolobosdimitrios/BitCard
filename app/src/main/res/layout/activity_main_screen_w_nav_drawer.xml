@@ -22,7 +22,9 @@
         android:layout_gravity="start"
         android:id="@+id/navigationView">
 
-        <include layout="@layout/main_screen_menu"/>
+        <include
+            android:id="@+id/menu"
+            layout="@layout/main_screen_menu"/>
 
     </com.google.android.material.navigation.NavigationView>
 

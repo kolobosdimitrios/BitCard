@@ -2,7 +2,6 @@ package com.example.bitcard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.compose.ui.text.toUpperCase
 import com.example.bitcard.adapters.ViewPagerAdapter
 import com.example.bitcard.databinding.ActivityShopsBinding
 import com.example.bitcard.fragments.ShopsListFragment
