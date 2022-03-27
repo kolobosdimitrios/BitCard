@@ -30,4 +30,6 @@
     <string name="shops_list">Λίστα Καταστημάτων</string>
     <string name="purchase_history">Ιστορικό Αγορών</string>
     <string name="logout">Έξοδος</string>
+    <string name="about">Σχετικά</string>
+    <string name="ProfileInfoActivity">Πληροφορίες προφίλ</string>
 </resources>

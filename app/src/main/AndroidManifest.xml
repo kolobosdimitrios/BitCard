@@ -10,17 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:label="@string/purchase_history"
+            android:name=".ProfileInfoActivity"
+            android:label="@string/ProfileInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".PurchaseHistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/purchase_history" />
         <activity
-            android:label="@string/settings"
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/settings" />
         <activity
-            android:label="@string/MainScreenActivityTitle"
             android:name=".MainScreenActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/MainScreenActivityTitle" />
         <activity
             android:name=".ShopsActivity"
             android:exported="false" />

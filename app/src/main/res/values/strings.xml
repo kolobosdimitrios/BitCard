@@ -29,4 +29,6 @@
     <string name="shops_list">Shops List</string>
     <string name="purchase_history">Purchase History</string>
     <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="ProfileInfoActivity">Profile Info</string>
 </resources>
