@@ -44,6 +44,10 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(Intent(this, ShopsActivity::class.java))
         }
 
+        binding.mainScreenLayout.profilePicture.setOnClickListener {
+            startActivity(Intent(this, ProfileInfoActivity::class.java))
+        }
+
 
     }
 }
