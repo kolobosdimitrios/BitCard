@@ -6,81 +6,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainScreenToolbar"
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="0dp"
+        android:scrollbarSize="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/mainScreenToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/profile_picture"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/rounded_shape_background_drawable"
-        android:backgroundTint="@color/gray"
-        android:src="@drawable/ic_person_focused"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainScreenToolbar"
-        android:contentDescription="@string/profile_picture" />
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rounded_shape_background_drawable"
+                android:backgroundTint="@color/gray"
+                android:contentDescription="@string/profile_picture"
+                android:src="@drawable/ic_person_focused" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:text="Profile Name, 23"
-        android:textColor="@color/primaryColor"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/profile_picture"
-        app:layout_constraintStart_toStartOf="@+id/profile_picture"
-        app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="15dp"
+                android:text="Profile Name, 23"
+                android:textColor="@color/primaryColor"
+                android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/cardImageView"
-        android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+            <ImageView
+                android:id="@+id/cardImageView"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="50dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:background="@color/gray" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.cardview.widget.CardView
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="15dp">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:maxEms="100"
-                    android:text="POINTS"
+                    android:text="@string/points"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <TextView
@@ -95,27 +114,24 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:maxEms="100"
-                    android:text="NEXT REWARD"
+                    android:text="@string/next_reward"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <TextView
@@ -130,27 +146,24 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:maxEms="100"
-                    android:text="COUPONS"
+                    android:text="@string/coupons"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <TextView
@@ -166,11 +179,10 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-
+        </LinearLayout>
 
 
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
