@@ -31,4 +31,7 @@
     <string name="logout">Logout</string>
     <string name="about">About</string>
     <string name="ProfileInfoActivity">Profile Info</string>
+    <string name="points">points</string>
+    <string name="next_reward">next reward</string>
+    <string name="coupons">coupons</string>
 </resources>

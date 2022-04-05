@@ -32,4 +32,7 @@
     <string name="logout">Έξοδος</string>
     <string name="about">Σχετικά</string>
     <string name="ProfileInfoActivity">Πληροφορίες προφίλ</string>
+    <string name="points">πόντοι</string>
+    <string name="next_reward">επόμενη επιβράβευση</string>
+    <string name="coupons">κουπόνια</string>
 </resources>
