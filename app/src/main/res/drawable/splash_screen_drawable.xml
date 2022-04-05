@@ -2,6 +2,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/secondaryTextColor"/>
-<!--    <item android:drawable="@drawable/ic_shared_preferences" android:gravity="center"/>-->
 
 </layer-list>

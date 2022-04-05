@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/splashScreenTheme">
+        android:theme="@style/Theme.BitCard">
         <activity
             android:name=".ProfileInfoActivity"
             android:label="@string/ProfileInfoActivity"
@@ -50,6 +50,7 @@
             android:name=".CreateCardActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/splashScreenTheme"
             android:name=".StartupActivity"
             android:exported="true">
             <intent-filter>

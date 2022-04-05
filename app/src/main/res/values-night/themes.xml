@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.BitCard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.BitCard" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
@@ -10,9 +10,20 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="android:textColorSecondary">@color/primaryTextColor</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+
+        <item name="colorAccent">?attr/colorPrimary</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSecondaryVariant</item>
+<!--        <item name="fontFamily">@font/roboto_regular</item>-->
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="cardBackgroundColor">@color/gray</item>
+
+        <!--Edit text style -->
         <item name="editTextStyle">@style/EditText</item>
+
+
     </style>
 
 

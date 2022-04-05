@@ -10,8 +10,8 @@ private lateinit var binding: ActivityStartupBinding
 
 class StartupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BitCard)
+        super.onCreate(savedInstanceState)
         binding = ActivityStartupBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
