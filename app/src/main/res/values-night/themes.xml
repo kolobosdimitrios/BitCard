@@ -9,7 +9,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-        <item name="android:textColorSecondary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/gray</item>
 
         <item name="colorAccent">?attr/colorPrimary</item>
 

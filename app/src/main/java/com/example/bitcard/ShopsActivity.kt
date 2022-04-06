@@ -14,14 +14,13 @@ class ShopsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityShopsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding = ActivityShopsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager,lifecycle)
         viewPagerAdapter.addFragment(ShopsListFragment())

@@ -35,4 +35,7 @@
     <string name="points">πόντοι</string>
     <string name="next_reward">επόμενη επιβράβευση</string>
     <string name="coupons">κουπόνια</string>
+    <string name="ShopDetailActivityLabel">Πληροφορίες Καταστήματος</string>
+    <string name="CreateCardActivityLabel">Δημιουργία Κάρτας</string>
+    <string name="ShopsActivityLabel">Καταστήματα</string>
 </resources>

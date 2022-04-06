@@ -34,4 +34,7 @@
     <string name="points">points</string>
     <string name="next_reward">next reward</string>
     <string name="coupons">coupons</string>
+    <string name="ShopDetailActivityLabel">Shop Info</string>
+    <string name="CreateCardActivityLabel">Create Card</string>
+    <string name="ShopsActivityLabel">Shops</string>
 </resources>

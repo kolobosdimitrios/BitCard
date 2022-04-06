@@ -26,6 +26,7 @@
             android:exported="false"
             android:label="@string/MainScreenActivityTitle" />
         <activity
+            android:label="@string/ShopsActivityLabel"
             android:name=".ShopsActivity"
             android:exported="false" />
         <!--
@@ -44,9 +45,11 @@
             android:value="YOUR_API_KEY" />
 
         <activity
+            android:label="@string/ShopDetailActivityLabel"
             android:name=".ShopDetailActivity"
             android:exported="false" />
         <activity
+            android:label="@string/CreateCardActivityLabel"
             android:name=".CreateCardActivity"
             android:exported="false" />
         <activity
