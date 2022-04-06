@@ -16,9 +16,14 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        binding.date.setOnFocusChangeListener(this)
+        setContentView(binding.root)
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.date.onFocusChangeListener = this
     }
 
     private fun selectDate(){
