@@ -46,6 +46,11 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, StartupActivity::class.java))
