@@ -22,7 +22,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -45,6 +44,21 @@
                 android:layout_marginEnd="64dp"
                 android:background="@drawable/edit_text_selector"
                 android:hint="@string/name"
+                android:importantForAutofill="no"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primaryTextColor" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
+                android:background="@drawable/edit_text_selector"
+                android:hint="@string/email"
                 android:importantForAutofill="no"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -118,10 +132,23 @@
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="64dp"
+                android:background="@drawable/edit_text_selector"
+                android:hint="@string/date_of_birth"
+                android:inputType="date"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primaryTextColor" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/edit_text_selector"
-
-                android:hint="@string/date_of_birth"
+                android:hint="@string/address"
                 android:inputType="date"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"

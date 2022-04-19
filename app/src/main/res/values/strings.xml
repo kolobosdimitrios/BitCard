@@ -37,4 +37,5 @@
     <string name="ShopDetailActivityLabel">Shop Info</string>
     <string name="CreateCardActivityLabel">Create Card</string>
     <string name="ShopsActivityLabel">Shops</string>
+    <string name="email" translatable="false">E-mail</string>
 </resources>
