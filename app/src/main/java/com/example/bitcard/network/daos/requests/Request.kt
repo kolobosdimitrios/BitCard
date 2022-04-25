@@ -5,5 +5,5 @@ import org.json.JSONObject
 
 interface Request {
 
-    fun toJsonFormat(keys: List<KeyObject>) : JSONObject
+    fun toJsonFormat() : JSONObject
 }
