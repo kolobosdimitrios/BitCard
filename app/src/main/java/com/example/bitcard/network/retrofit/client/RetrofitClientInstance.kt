@@ -1,20 +1,19 @@
 package com.example.bitcard.network.retrofit.client
 
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-abstract class RetrofitClientInstance {
+object RetrofitHelper {
 
-    private var retrofit: Retrofit? = null
+    private var okHttpClient = OkHttpClient.Builder().build()
 
-    open fun getRetrofitInstance(): Retrofit? {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl("http:0.0.0.0:80/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-        return retrofit
+    fun getRetrofitInstance(): Retrofit {
+       return Retrofit.Builder().baseUrl("http://192.168.1.7:80/")
+           .addConverterFactory(GsonConverterFactory.create())
+           .client(okHttpClient)
+           .build()
     }
 }
