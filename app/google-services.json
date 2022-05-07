@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "550501288464",
+    "project_id": "bitcard-fa75a",
+    "storage_bucket": "bitcard-fa75a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550501288464:android:8012553313578c50a9d895",
+        "android_client_info": {
+          "package_name": "com.example.bitcard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550501288464-vee2ark343p26l1g4fdre5q0ahlts1hc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDvWsEIcClBaUZU3cxHNw3Mb9SiEdYwpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550501288464-vee2ark343p26l1g4fdre5q0ahlts1hc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
