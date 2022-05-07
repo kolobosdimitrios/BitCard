@@ -1,15 +1,13 @@
 package com.example.bitcard
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.SimpleRecycler
 import com.example.bitcard.adapters.TitleAndValueModel
-import com.example.bitcard.databinding.ActivityLoginBinding
 import com.example.bitcard.databinding.ActivityShopDetailBinding
-import com.example.bitcard.fragments.ShopLocationMapsFragment
 
 
 class ShopDetailActivity : AppCompatActivity() {

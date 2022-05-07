@@ -53,27 +53,15 @@
             android:name=".ShopDetailActivity"
             android:exported="false" />
         <activity
-            android:label="@string/CreateCardActivityLabel"
-            android:name=".CreateCardActivity"
-            android:exported="false" />
-        <activity
-            android:theme="@style/splashScreenTheme"
-            android:name=".StartupActivity"
-            android:exported="true">
+            android:name=".LoginRegisterActivity"
+            android:exported="true"
+            android:label="@string/LoginActivityLabel" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false"
-            android:label="@string/CreateAccountActivityLabel" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:label="@string/LoginActivityLabel" />
     </application>
 
 </manifest>
