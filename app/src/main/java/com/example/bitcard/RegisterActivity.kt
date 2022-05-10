@@ -18,6 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.util.*
 
 class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
@@ -126,7 +127,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
     }
 
     private fun getDateStringFormatted(millis: Long): String {
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         return simpleDateFormat.format(millis)
     }
 }
