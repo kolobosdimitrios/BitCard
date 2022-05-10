@@ -38,4 +38,8 @@
     <string name="CreateCardActivityLabel">Create Card</string>
     <string name="ShopsActivityLabel">Shops</string>
     <string name="email" translatable="false">E-mail</string>
+    <string name="register">Register</string>
+    <string name="email_empty">Email cannot be empty!</string>
+    <string name="password_empty">Password cannot be empty!</string>
+    <string name="password_must_have_6_plus_digits">Password needs to have at least 6 characters!</string>
 </resources>

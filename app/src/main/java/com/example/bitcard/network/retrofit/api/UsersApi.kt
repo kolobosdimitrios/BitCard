@@ -12,7 +12,7 @@ import retrofit2.http.POST
 interface UsersApi {
 
     @Headers("Content-Type: application/json")
-    @POST("users")
+    @POST("users/create")
     fun register(@Body requestData: RegisterModel) : Call<SimpleResponse>
 
 }

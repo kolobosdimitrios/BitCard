@@ -15,7 +15,7 @@ class ViewPagerAdapter(
     fragmentManager, lifecycle
 ){
 
-    val fragments = ArrayList<Fragment>()
+    private val fragments = ArrayList<Fragment>()
 
 
     override fun getItemCount(): Int {

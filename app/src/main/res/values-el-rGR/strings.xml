@@ -38,4 +38,8 @@
     <string name="ShopDetailActivityLabel">Πληροφορίες Καταστήματος</string>
     <string name="CreateCardActivityLabel">Δημιουργία Κάρτας</string>
     <string name="ShopsActivityLabel">Καταστήματα</string>
+    <string name="register">Εγγραφή</string>
+    <string name="password_empty">Ο κωδικός πρόσβασης δεν μπορεί να είναι κενός!</string>
+    <string name="password_must_have_6_plus_digits">Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 6 χαρακτήρες!</string>
+    <string name="email_empty">Το email δεν μπορεί να είναι κενό!</string>
 </resources>

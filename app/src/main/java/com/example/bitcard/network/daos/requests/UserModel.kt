@@ -5,17 +5,15 @@ import com.google.gson.annotations.SerializedName
 /**
  * POST
  */
-data class UserModel(
+class UserModel(
     @SerializedName("name")
     val name: String,
     @SerializedName("surname")
     val surname: String,
     @SerializedName("username")
     val username: String,
-    @SerializedName("password")
-    val password: String,
-    @SerializedName("password_confirmation")
-    val passwordConfirm: String,
+    @SerializedName("user_id")
+    var userId: String,
     @SerializedName("address")
     val address: String,
     @SerializedName("email")

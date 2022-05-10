@@ -11,7 +11,7 @@ object RetrofitHelper {
     private var okHttpClient = OkHttpClient.Builder().build()
 
     fun getRetrofitInstance(): Retrofit {
-       return Retrofit.Builder().baseUrl("http://192.168.1.7:80/")
+       return Retrofit.Builder().baseUrl("http://192.168.1.7:80/api/v1/")
            .addConverterFactory(GsonConverterFactory.create())
            .client(okHttpClient)
            .build()

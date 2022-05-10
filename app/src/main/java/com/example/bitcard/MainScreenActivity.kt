@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.example.bitcard.databinding.ActivityMainScreenBinding
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -48,6 +48,13 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileInfoActivity::class.java))
         }
 
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        if(firebaseUser == null){
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            finish()
+        }else{
+            binding.mainScreenLayout.username.text = firebaseUser.email
+        }
 
     }
 }
