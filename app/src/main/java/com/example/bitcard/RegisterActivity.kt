@@ -43,9 +43,9 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
         auth.createUserWithEmailAndPassword(binding.email.text.toString().trim(), binding.password.text.toString().trim())
             .addOnCompleteListener { result ->
-                Log.i("Login action", "Started")
+                Log.i("Register action", "Started")
                 if (result.isSuccessful) {
-                    Log.i("User login", "successful")
+                    Log.i("User register", "successful")
                     result.result.user?.uid?.let {
                         Log.i("User ID", it)
                         val registerUserModel = UserModel(
@@ -63,11 +63,9 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
 
                 } else if (result.isCanceled) {
-                    Toast.makeText(applicationContext, "User registered", Toast.LENGTH_LONG).show()
-                    Log.e("Login action", "Cancelled")
+                    Log.e("Register action", "Cancelled")
                 }
             }.addOnFailureListener {
-                Toast.makeText(applicationContext, "User not registered", Toast.LENGTH_LONG).show()
                 it.printStackTrace()
             }
 
@@ -84,6 +82,19 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                 call: Call<SimpleResponse>,
                 response: Response<SimpleResponse>
             ) {
+                if(response.isSuccessful) {
+                    val simpleResponse = response.body()
+                    simpleResponse.let {
+                        if(it != null){
+                            if(it.status_code == SimpleResponse.STATUS_OK.toLong()){
+                                //TODO : Successful registration in backend to!
+                                val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+
                 Toast.makeText(applicationContext, "User created", Toast.LENGTH_LONG).show()
             }
 
