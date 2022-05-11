@@ -12,13 +12,15 @@ class MainScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainScreenWNavDrawerBinding
     private lateinit var menuBind : MainScreenMenuBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainScreenWNavDrawerBinding.inflate(layoutInflater)
         menuBind = MainScreenMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.auth = FirebaseAuth.getInstance()
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
         val drawerToggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -48,12 +50,23 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileInfoActivity::class.java))
         }
 
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        binding.menu.logoutOption.setOnClickListener {
+            auth.signOut()
+            auth.addAuthStateListener {
+                if(it.currentUser == null) {
+                    startActivity(Intent(applicationContext, LoginActivity::class.java))
+                    finish()
+                }
+            }
+        }
+
+
         if(firebaseUser == null){
             startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
         }else{
             binding.mainScreenLayout.username.text = firebaseUser.email
+
         }
 
     }
