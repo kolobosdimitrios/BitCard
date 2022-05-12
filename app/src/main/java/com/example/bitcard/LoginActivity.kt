@@ -28,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.loginBtn.setOnClickListener { onLoginButtonClick() }
     }
 
@@ -93,6 +95,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 

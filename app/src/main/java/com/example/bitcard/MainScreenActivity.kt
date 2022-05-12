@@ -3,10 +3,20 @@ package com.example.bitcard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.example.bitcard.network.daos.requests.UserIdModel
+import com.example.bitcard.network.daos.requests.UserModel
+import com.example.bitcard.network.daos.responses.GetUserResponse
+import com.example.bitcard.network.daos.responses.SimpleResponse
+import com.example.bitcard.network.retrofit.api.UsersApi
+import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -65,9 +75,51 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
         }else{
-            binding.mainScreenLayout.username.text = firebaseUser.email
+            getUserData(firebaseUser.uid)
 
         }
+
+    }
+
+    private fun getUserData(userId: String){
+
+        val userIdModel = UserIdModel(userId)
+
+        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+
+        usersApi.get(userIdModel.userId).enqueue(object : Callback<GetUserResponse>{
+
+            override fun onResponse(
+                call: Call<GetUserResponse>,
+                response: Response<GetUserResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val simpleResponse = response.body()
+                    simpleResponse.let {
+                        if(it != null){
+                            if(it.status_code == SimpleResponse.STATUS_OK.toLong()){
+                                //render
+                                renderLayoutWithUserData(it.data)
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<GetUserResponse>, t: Throwable) {
+                Log.e("CALL FAILED", call.toString())
+            }
+        })
+
+    }
+
+    private fun renderLayoutWithUserData(user: UserModel){
+
+        val nameSurname = String.format(resources.getString(R.string.space_between), user.name, user.surname)
+
+        binding.mainScreenLayout.username.text = nameSurname
+        binding.menu.usernameMenu.text = nameSurname
 
     }
 }
