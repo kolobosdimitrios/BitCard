@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
         return true
     }
 
