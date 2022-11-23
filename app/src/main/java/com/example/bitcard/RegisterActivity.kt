@@ -34,12 +34,49 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         auth = FirebaseAuth.getInstance()
         binding.date.onFocusChangeListener = this
-        binding.registerBtn.setOnClickListener { registerUser() }
+        binding.registerBtn.setOnClickListener {
+            if(valuesCorrect()) registerUser()
+        }
+
+    }
+
+    private fun valuesCorrect(): Boolean{
+        val username = binding.username.text.toString().trim()
+        val password =  binding.password.text.toString().trim()
+        val passwordConfirmation = binding.verifyPassword.text.toString().trim()
+        val name = binding.name.text.toString().trim()
+        val surname = binding.surname.text.toString().trim()
+        val email = binding.email.text.toString().trim()
+        val dateOfBirth = binding.date.text.toString().trim()
+        val address = binding.address.text.toString().trim()
+
+        if(name.isEmpty()) { binding.name.error = getString(R.string.name_cannot_be_empty); return false;}
+        if(surname.isEmpty()) { binding.surname.error = getString(R.string.surname_cannot_be_empty); return false;}
+        if(email.isEmpty()) { binding.username.error = getString(R.string.email_cannot_be_empty); return false;}
+        if(username.isEmpty()) { binding.username.error = getString(R.string.username_cannot_be_empty); return false;}
+        if(password.isEmpty()) { binding.password.error = getString(R.string.password_cannot_be_empty); return false; }
+        if(passwordConfirmation.isEmpty()) { binding.verifyPassword.error = getString(R.string.password_confirmation_cannot_be_empty); return false;}
+        if(dateOfBirth.isEmpty()) { binding.date.error = getString(R.string.date_of_birth_cannot_be_empty); return false;}
+        if(address.isEmpty()) { binding.address.error = getString(R.string.address_cannot_be_empty); return false;}
+
+        if(password.length <= 6){
+            binding.password.error = getString(R.string.password_must_have_6_plus_digits)
+            binding.password.text.clear()
+            binding.verifyPassword.text.clear()
+            return false
+        }
+
+        if(password != passwordConfirmation){
+            binding.password.text.clear()
+            binding.verifyPassword.text.clear()
+            binding.verifyPassword.error = getString(R.string.wrong_password_confirmation)
+            return false
+        }
+        return true
 
     }
 
     private fun registerUser(){
-
 
         auth.createUserWithEmailAndPassword(binding.email.text.toString().trim(), binding.password.text.toString().trim())
             .addOnCompleteListener { result ->

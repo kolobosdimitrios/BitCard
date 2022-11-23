@@ -44,8 +44,6 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password.text.toString().trim()
         if (checkValues(email = email, password = password)) {
             loginUser(email = email, password = password)
-        } else {
-            Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
         }
 
     }
@@ -76,10 +74,6 @@ class LoginActivity : AppCompatActivity() {
             }
             password.isNullOrBlank() -> {
                 binding.password.error = getString(R.string.password_empty)
-                false
-            }
-            password.length < 6 ->{
-                binding.password.error = getString(R.string.password_must_have_6_plus_digits)
                 false
             }
             else -> true
