@@ -1,6 +1,7 @@
 package com.example.bitcard
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.network.daos.requests.UserIdModel
@@ -33,6 +34,11 @@ class ProfileInfoActivity : AppCompatActivity() {
         if(firebaseUser != null){
             getUserData(firebaseUser.uid)
         }
+
+        binding.changePasswordTextview.setOnClickListener {
+            //TODO implement password change from firebase authentication API
+            Toast.makeText(this, "Password change to be implemented!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -61,8 +67,8 @@ class ProfileInfoActivity : AppCompatActivity() {
                                 binding.emailTextView.text = it.data.email
                                 binding.streetAddressTextView.text = it.data.address
                                 binding.birthdayTextView.text = it.data.dateOfBirth
-                                binding.username.text = it.data.username
-
+                                binding.fullnameTextView.text = it.data.name + " " +it.data.surname
+                                binding.usernameTextView.text = it.data.username
                             }
                         }
                     }

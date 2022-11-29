@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/fullnameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -50,7 +50,7 @@
         android:text="@string/about"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/fullnameTextView" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -67,6 +67,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:padding="5dp">
+
+                <ImageView
+                    android:src="@drawable/ic_person_focused"
+                    android:id="@+id/usernameImageView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/usernameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_toEndOf="@id/usernameImageView"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/email"
@@ -89,19 +117,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="15dp"
-                    android:layout_toStartOf="@id/email_edit"
                     android:layout_toEndOf="@id/emailImageView"
                     android:background="@null"
                     android:padding="5dp"
                     android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/email_edit"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_edit_24" />
 
 
             </RelativeLayout>
@@ -127,19 +146,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="15dp"
-                    android:layout_toStartOf="@id/birthday_edit"
                     android:layout_toEndOf="@id/birthdayImageView"
                     android:background="@null"
                     android:padding="5dp"
                     android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/birthday_edit"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_edit_24" />
 
             </RelativeLayout>
 
@@ -163,20 +173,25 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="15dp"
-                    android:layout_toStartOf="@id/streetAddress_edit"
                     android:layout_toEndOf="@id/streetAddressImageView"
                     android:background="@null"
                     android:padding="5dp"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/streetAddress_edit"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_edit_24" />
             </RelativeLayout>
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                android:background="@drawable/button_outline_background"
+                android:padding="15dp"
+                android:id="@+id/change_password_textview"/>
+
+
 
         </LinearLayout>
 
