@@ -31,7 +31,7 @@ class MainScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
         this.auth = FirebaseAuth.getInstance()
         val firebaseUser = FirebaseAuth.getInstance().currentUser
-        val drawerToggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
+        val drawerToggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
             binding.mainScreenLayout.mainScreenToolbar,
@@ -115,6 +115,8 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun renderLayoutWithUserData(user: UserModel){
+
+        Log.e("user data", user.toString())
 
         val nameSurname = String.format(resources.getString(R.string.space_between), user.name, user.surname)
 

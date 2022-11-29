@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ContentDescription"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,7 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="Profile Name, 23"
         android:textColor="@color/primaryColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/profile_picture"
@@ -83,8 +83,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true" />
 
-                <EditText
-                    android:id="@+id/emailEditText"
+                <TextView
+                    android:id="@+id/emailTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -92,8 +92,6 @@
                     android:layout_toStartOf="@id/email_edit"
                     android:layout_toEndOf="@id/emailImageView"
                     android:background="@null"
-                    android:text="test@mailler.com"
-                    android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:textSize="14sp" />
 
@@ -105,45 +103,6 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_baseline_edit_24" />
 
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/phoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:padding="5dp">
-
-                <ImageView
-                    android:src="@drawable/ic_baseline_phone_24"
-                    android:id="@+id/phoneImageView"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true" />
-
-                <EditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_toStartOf="@id/phone_edit"
-                    android:layout_toEndOf="@id/phoneImageView"
-                    android:background="@null"
-                    android:text="+306949677882"
-                    android:inputType="phone"
-                    android:padding="5dp"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/phone_edit"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_edit_24" />
 
             </RelativeLayout>
 
@@ -162,8 +121,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true" />
 
-                <EditText
-                    android:id="@+id/birthdayEditText"
+                <TextView
+                    android:id="@+id/birthdayTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -171,8 +130,6 @@
                     android:layout_toStartOf="@id/birthday_edit"
                     android:layout_toEndOf="@id/birthdayImageView"
                     android:background="@null"
-                    android:text="20/10/1998"
-                    android:inputType="date"
                     android:padding="5dp"
                     android:textSize="14sp" />
 
@@ -200,8 +157,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true" />
 
-                <EditText
-                    android:id="@+id/streetAddressEditText"
+                <TextView
+                    android:id="@+id/streetAddressTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -209,8 +166,6 @@
                     android:layout_toStartOf="@id/streetAddress_edit"
                     android:layout_toEndOf="@id/streetAddressImageView"
                     android:background="@null"
-                    android:text="Αν. Στάμου 4, 19018"
-                    android:inputType="date"
                     android:padding="5dp"
                     android:textSize="14sp" />
 

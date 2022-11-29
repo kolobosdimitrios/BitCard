@@ -24,4 +24,10 @@ class UserModel(
     override fun getRequestData(): UserModel {
         return this
     }
+
+    override fun toString(): String {
+        return "UserModel(name='$name', surname='$surname', username='$username', userId='$userId', address='$address', email='$email', dateOfBirth='$dateOfBirth')"
+    }
+
+
 }
