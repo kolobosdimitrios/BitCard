@@ -45,12 +45,11 @@
     <string name="space_between" translatable="false">%1$s %2$s</string>
     <string name="username_cannot_be_empty">Username cannot be empty!</string>
     <string name="password_cannot_be_empty">Password cannot be empty!</string>
-    <string name="password_confirmation_cannot_be_empty">Password Confirmation cannot be empty!</string>
     <string name="name_cannot_be_empty">Name cannot be empty!</string>
     <string name="surname_cannot_be_empty">Surname cannot be empty!</string>
     <string name="email_cannot_be_empty">Email cannot be empty!</string>
     <string name="date_of_birth_cannot_be_empty">Date of birth cannot be empty!</string>
     <string name="address_cannot_be_empty">Address cannot be empty!</string>
-    <string name="wrong_password_confirmation">Confirmation password is incorrect!</string>
+    <string name="wrong_password_confirmation">Wrong confirmation password!</string>
     <string name="change_password">Change password</string>
 </resources>

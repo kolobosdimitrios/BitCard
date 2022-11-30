@@ -42,4 +42,13 @@
     <string name="password_empty">Ο κωδικός πρόσβασης δεν μπορεί να είναι κενός!</string>
     <string name="password_must_have_6_plus_digits">Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 6 χαρακτήρες!</string>
     <string name="email_empty">Το email δεν μπορεί να είναι κενό!</string>
+    <string name="password_cannot_be_empty">Ο κωδικός δεν μπορεί να είναι κενός!</string>
+    <string name="name_cannot_be_empty">Το όνομα δεν μπορεί να είναι κενό!</string>
+    <string name="surname_cannot_be_empty">Το επώνυμο δεν μπορεί να είναι κενό!</string>
+    <string name="email_cannot_be_empty">Η διεύθηνση ηλ. ταχυδρομείου δεν μπορεί να είναι κενή!</string>
+    <string name="date_of_birth_cannot_be_empty">Η ημερομηνία γέννησης δεν μπορεί να είναι κενή!</string>
+    <string name="address_cannot_be_empty">Η διεύθηνση δεν μπορεί να είναι κενή!</string>
+    <string name="wrong_password_confirmation">Λάθος επιβεβαίωση κωδικού πρόσβασης!</string>
+    <string name="change_password">Αλλαγή κωδικού πρόσβασης</string>
+    <string name="username_cannot_be_empty">Το όνομα χρήστη δεν μπορεί να είναι κενό!</string>
 </resources>
