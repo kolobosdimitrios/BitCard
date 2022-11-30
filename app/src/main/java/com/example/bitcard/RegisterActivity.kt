@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
         if(email.isEmpty()) { binding.username.error = getString(R.string.email_cannot_be_empty); return false;}
         if(username.isEmpty()) { binding.username.error = getString(R.string.username_cannot_be_empty); return false;}
         if(password.isEmpty()) { binding.password.error = getString(R.string.password_cannot_be_empty); return false; }
-        if(passwordConfirmation.isEmpty()) { binding.verifyPassword.error = getString(R.string.password_confirmation_cannot_be_empty); return false;}
+        if(passwordConfirmation.isEmpty()) { binding.verifyPassword.error = getString(R.string.password_cannot_be_empty); return false;}
         if(dateOfBirth.isEmpty()) { binding.date.error = getString(R.string.date_of_birth_cannot_be_empty); return false;}
         if(address.isEmpty()) { binding.address.error = getString(R.string.address_cannot_be_empty); return false;}
 

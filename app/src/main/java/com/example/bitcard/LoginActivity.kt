@@ -1,18 +1,12 @@
 package com.example.bitcard
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.Toast
-import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
-import androidx.compose.ui.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,12 +25,6 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.loginBtn.setOnClickListener { onLoginButtonClick() }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val firebaseUser = auth.currentUser
-        updateUi(firebaseUser)
     }
 
     private fun onLoginButtonClick() {
@@ -82,11 +70,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun setError(@StringRes value: Int, editText: EditText) {
-
-
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java))
@@ -97,10 +80,5 @@ class LoginActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-    private fun updateUi(user: FirebaseUser?) {
-
-    }
-
 
 }
