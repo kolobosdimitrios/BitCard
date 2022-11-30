@@ -51,4 +51,6 @@
     <string name="wrong_password_confirmation">Λάθος επιβεβαίωση κωδικού πρόσβασης!</string>
     <string name="change_password">Αλλαγή κωδικού πρόσβασης</string>
     <string name="username_cannot_be_empty">Το όνομα χρήστη δεν μπορεί να είναι κενό!</string>
+    <string name="proceed">Συνέχεια</string>
+    <string name="new_password">Νέος Κωδικός</string>
 </resources>

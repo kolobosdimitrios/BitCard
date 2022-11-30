@@ -1,7 +1,7 @@
 package com.example.bitcard
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.network.daos.requests.UserIdModel
@@ -36,8 +36,8 @@ class ProfileInfoActivity : AppCompatActivity() {
         }
 
         binding.changePasswordTextview.setOnClickListener {
-            //TODO implement password change from firebase authentication API
-            Toast.makeText(this, "Password change to be implemented!", Toast.LENGTH_SHORT).show()
+            //TODO start activity for result
+            startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
     }
 
@@ -80,4 +80,6 @@ class ProfileInfoActivity : AppCompatActivity() {
             }
         })
     }
+
+
 }

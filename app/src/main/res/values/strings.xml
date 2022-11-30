@@ -52,4 +52,6 @@
     <string name="address_cannot_be_empty">Address cannot be empty!</string>
     <string name="wrong_password_confirmation">Wrong confirmation password!</string>
     <string name="change_password">Change password</string>
+    <string name="proceed">Proceed</string>
+    <string name="new_password">New Password</string>
 </resources>

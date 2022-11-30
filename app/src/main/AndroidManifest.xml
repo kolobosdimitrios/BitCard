@@ -14,9 +14,16 @@
         android:theme="@style/Theme.BitCard"
         android:usesCleartextTraffic="true">
         <activity
-            android:label="@string/MainScreenActivityTitle"
+            android:name=".ChangePasswordActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:label="@string/MainScreenActivityTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +35,9 @@
             android:exported="false"
             android:label="@string/LoginActivityLabel" />
         <activity
-            android:label="@string/register"
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/register" />
         <activity
             android:name=".ProfileInfoActivity"
             android:exported="false"
@@ -70,7 +77,6 @@
             android:name=".ShopDetailActivity"
             android:exported="false"
             android:label="@string/ShopDetailActivityLabel" />
-
     </application>
 
 </manifest>
