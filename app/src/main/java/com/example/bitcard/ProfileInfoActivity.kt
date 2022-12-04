@@ -2,6 +2,10 @@ package com.example.bitcard
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.network.daos.requests.UserIdModel
@@ -17,9 +21,14 @@ import retrofit2.Response
 class ProfileInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileInfoBinding
-
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        launcher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            result -> handleResult(result)
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityProfileInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,10 +45,12 @@ class ProfileInfoActivity : AppCompatActivity() {
         }
 
         binding.changePasswordTextview.setOnClickListener {
-            //TODO start activity for result
-            startActivity(Intent(this, ChangePasswordActivity::class.java))
+            val intent = Intent(this, ChangePasswordActivity::class.java)
+            launcher.launch(intent)
         }
     }
+
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -81,5 +92,16 @@ class ProfileInfoActivity : AppCompatActivity() {
         })
     }
 
-
+    private fun handleResult(result: ActivityResult?){
+        if(result != null){
+            when (result.resultCode) {
+                ChangePasswordActivity.RESULT_PASSWORD_CHANGED -> {
+                    Toast.makeText(this, "Password changed!", Toast.LENGTH_SHORT).show()
+                }
+                ChangePasswordActivity.RESULT_PASSWORD_NOT_CHANGED -> {
+                    Toast.makeText(this, "Password not changed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 }

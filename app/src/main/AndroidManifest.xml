@@ -15,7 +15,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ChangePasswordActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/change_password">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

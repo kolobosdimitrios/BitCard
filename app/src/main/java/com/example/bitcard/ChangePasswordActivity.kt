@@ -9,12 +9,23 @@ import com.google.firebase.auth.FirebaseAuth
 
 class ChangePasswordActivity : AppCompatActivity() {
 
+    companion object{
+        val RESULT_PASSWORD_CHANGED = 1000
+        val RESULT_PASSWORD_NOT_CHANGED = 1001
+    }
+
     private lateinit var binding: ActivityChangePasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         binding.proceedBtn.setOnClickListener {
             val oldPassword = binding.password.text.toString()
@@ -35,8 +46,10 @@ class ChangePasswordActivity : AppCompatActivity() {
                                     firebaseUser.updatePassword(newPassword).addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                            Log.i("Password", "Updated")
+                                            returnWithResult(RESULT_PASSWORD_CHANGED)
                                         } else {
                                             Log.d("Password", "Cannot be updated!")
+                                            returnWithResult(RESULT_PASSWORD_NOT_CHANGED)
                                         }
                                     }
                             }
@@ -44,5 +57,15 @@ class ChangePasswordActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    private fun returnWithResult(result: Int){
+        setResult(result)
+        finish()
     }
 }
