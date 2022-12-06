@@ -1,5 +1,6 @@
 package com.example.bitcard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.bitcard.databinding.ActivitySettingsBinding
@@ -17,6 +18,12 @@ class SettingsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.changeThemeBtn.setOnClickListener {
+            val intent = Intent(applicationContext, SelectThemeActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
