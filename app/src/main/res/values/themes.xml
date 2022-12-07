@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.BitCard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -22,6 +22,7 @@
 
         <!--Edit text style -->
         <item name="editTextStyle">@style/EditText</item>
+
 
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>

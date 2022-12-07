@@ -21,7 +21,16 @@
     <style name="noneButton" parent="Widget.AppCompat.Button.Borderless">
 
         <item name="color">@android:color/transparent</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
 
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+    </style>
+
+    <style name="BottomSheetModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_bg</item>
     </style>
 
 </resources>

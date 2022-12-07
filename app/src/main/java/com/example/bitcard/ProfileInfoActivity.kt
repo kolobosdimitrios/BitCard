@@ -2,12 +2,15 @@ package com.example.bitcard
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
+import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
 import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
@@ -103,5 +106,25 @@ class ProfileInfoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun onProfilePictureClick(view: View){
+        val selectImageBottomSheetDialogFragment = SelectImageBottomSheetDialogFragment()
+        selectImageBottomSheetDialogFragment.setOnResultListener(object : SelectImageBottomSheetDialogFragment.OnResultListener {
+            override fun onResult(result: Int) {
+                when (result){
+                    SelectImageBottomSheetDialogFragment.Result.RESULT_CAMERA -> {
+                        Log.i("selectImageBottomSheetDialogFragment", "camera selected!")
+                    }
+
+                    SelectImageBottomSheetDialogFragment.Result.RESULT_GALLERY -> {
+                        Log.i("selectImageBottomSheetDialogFragment", "gallery selected!")
+                    }
+                }
+            }
+
+        })
+
+        selectImageBottomSheetDialogFragment.show(supportFragmentManager, "Select image source modal fragment")
     }
 }
