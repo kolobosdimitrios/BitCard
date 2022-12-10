@@ -50,16 +50,17 @@ class ActivityResultGenerified<Input, Result>(
     }
 
     private var activityResultLauncher: ActivityResultLauncher<Input>
-    private var onActivityResult: OnActivityResult<Result>
+    private var onActivityResult: OnActivityResult<Result>?
 
     init {
-        this.onActivityResult = onActivityResult!!
+        this.onActivityResult = onActivityResult
+
         this.activityResultLauncher = caller.registerForActivityResult(
             contract
         ) { result: Result -> this.callOnActivityResult(result) }
     }
 
-    private fun launch(input: Input, onActivityResult: OnActivityResult<Result>?) {
+    fun launch(input: Input, onActivityResult: OnActivityResult<Result>?) {
         if (onActivityResult != null) {
             this.onActivityResult = onActivityResult
         }
@@ -71,6 +72,6 @@ class ActivityResultGenerified<Input, Result>(
     }
 
     private fun callOnActivityResult(result: Result){
-        onActivityResult.onActivityResult(result = result)
+        onActivityResult?.onActivityResult(result = result)
     }
 }
