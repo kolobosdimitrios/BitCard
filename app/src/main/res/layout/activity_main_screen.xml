@@ -26,14 +26,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
+                android:padding="5dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/primaryColor"
+                app:strokeWidth="3dp"
                 android:id="@+id/profile_picture"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/rounded_shape_background_drawable"
-                android:backgroundTint="@color/gray"
                 android:contentDescription="@string/profile_picture"
                 android:src="@drawable/ic_person_focused" />
 
@@ -43,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="15dp"
-                android:text="Profile Name, 23"
                 android:textColor="@color/primaryColor"
                 android:textStyle="bold" />
 
