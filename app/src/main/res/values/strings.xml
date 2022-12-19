@@ -59,4 +59,5 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="follow_system">System\'s default</string>
+    <string name="remember_me">Remember me</string>
 </resources>

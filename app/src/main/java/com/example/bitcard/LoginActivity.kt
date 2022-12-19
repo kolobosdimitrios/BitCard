@@ -3,8 +3,11 @@ package com.example.bitcard
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityLoginBinding
+import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -12,6 +15,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.loginBtn.setOnClickListener { onLoginButtonClick() }
     }
+
+
 
     private fun onLoginButtonClick() {
         val email = binding.email.text.toString().trim()
@@ -44,6 +50,20 @@ class LoginActivity : AppCompatActivity() {
                 if (result.isSuccessful) {
                     Log.i("User login", "successful")
                     result.result.user?.uid?.let { Log.i("User ID", it) }
+                    if(SharedPreferencesHelpers.readBoolean(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me")) {
+                        SharedPreferencesHelpers.write(
+                            applicationContext,
+                            SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                            key = "email",
+                            value = email
+                        )
+                        SharedPreferencesHelpers.write(
+                            applicationContext,
+                            SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                            key = "password",
+                            value = password
+                        )
+                    }
                     val intent = Intent(applicationContext, MainScreenActivity::class.java)
                     startActivity(intent)
                 } else if (result.isCanceled) {
@@ -79,6 +99,18 @@ class LoginActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    fun onCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.rememberMe -> {
+                    SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me", value = checked)
+                }
+            }
+        }
     }
 
 }

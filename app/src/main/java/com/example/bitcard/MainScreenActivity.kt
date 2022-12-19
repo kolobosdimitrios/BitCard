@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
@@ -62,22 +63,15 @@ class MainScreenActivity : AppCompatActivity() {
 
         binding.menu.logoutOption.setOnClickListener {
             auth.signOut()
-            auth.addAuthStateListener {
-                if(it.currentUser == null) {
-                    startActivity(Intent(applicationContext, LoginActivity::class.java))
-                    finish()
-                }
-            }
-        }
-
-
-        if(firebaseUser == null){
-            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
+            startActivity(Intent(applicationContext, MainActivity::class.java))
             finish()
-        }else{
-            getUserData(firebaseUser.uid)
-
         }
+
+        firebaseUser?.let {
+            getUserData(firebaseUser.uid)
+        }
+
 
     }
 
@@ -123,5 +117,9 @@ class MainScreenActivity : AppCompatActivity() {
         binding.mainScreenLayout.username.text = nameSurname
         binding.menu.usernameMenu.text = nameSurname
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

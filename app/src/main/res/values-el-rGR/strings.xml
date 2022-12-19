@@ -58,4 +58,5 @@
     <string name="dark">Σκοτεινό</string>
     <string name="light">Φωτεινό</string>
     <string name="follow_system">Προεπιλογή Συστήματος</string>
+    <string name="remember_me">Να με θυμάσαι</string>
 </resources>
