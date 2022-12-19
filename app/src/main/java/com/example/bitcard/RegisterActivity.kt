@@ -123,7 +123,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                     val simpleResponse = response.body()
                     simpleResponse.let {
                         if(it != null){
-                            if(it.status_code == SimpleResponse.STATUS_OK.toLong()){
+                            if(it.status_code == SimpleResponse.STATUS_OK){
                                 //TODO : Successful registration in backend to!
                                 val intent = Intent(applicationContext, MainScreenActivity::class.java)
                                 startActivity(intent)

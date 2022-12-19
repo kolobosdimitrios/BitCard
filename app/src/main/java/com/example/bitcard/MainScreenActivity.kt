@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
@@ -14,6 +15,7 @@ import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.UsersApi
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,10 +64,10 @@ class MainScreenActivity : AppCompatActivity() {
         }
 
         binding.menu.logoutOption.setOnClickListener {
-            auth.signOut()
-            SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-            finish()
+            auth.uid?.let {
+                callLogout(it)
+            }
+
         }
 
         firebaseUser?.let {
@@ -119,7 +121,38 @@ class MainScreenActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun callLogout(userId: String){
+        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+
+        usersApi.destroyUser(userId).enqueue( object : Callback<SimpleResponse>{
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val simpleResponse = response.body()
+                    if(simpleResponse != null) {
+                        when(simpleResponse.status_code){
+                            SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
+                                Toast.makeText(applicationContext, R.string.logout_success, Snackbar.LENGTH_SHORT).show()
+                                auth.signOut()
+                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
+                                startActivity(Intent(applicationContext, MainActivity::class.java))
+                                finish()
+                            }
+                            SimpleResponse.STATUS_ERROR -> {
+                                Toast.makeText(applicationContext, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                Snackbar.make(binding.root, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
+            }
+
+        })
     }
+
 }

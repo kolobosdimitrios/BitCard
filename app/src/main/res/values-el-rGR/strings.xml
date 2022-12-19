@@ -59,4 +59,6 @@
     <string name="light">Φωτεινό</string>
     <string name="follow_system">Προεπιλογή Συστήματος</string>
     <string name="remember_me">Να με θυμάσαι</string>
+    <string name="logout_success">Επιτυχία αποσύνδεσης!</string>
+    <string name="logout_error">Αδυναμία αποσύνδεσης!</string>
 </resources>

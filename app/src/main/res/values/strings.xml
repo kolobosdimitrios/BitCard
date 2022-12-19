@@ -60,4 +60,6 @@
     <string name="light">Light</string>
     <string name="follow_system">System\'s default</string>
     <string name="remember_me">Remember me</string>
+    <string name="logout_error">Unable to perform logout!</string>
+    <string name="logout_success">Logout successfully!</string>
 </resources>
