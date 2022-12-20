@@ -3,6 +3,7 @@ package com.example.bitcard.network.retrofit.api
 import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
+import com.example.bitcard.network.daos.responses.TokenResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -18,5 +19,8 @@ interface UsersApi {
 
     @GET("users/logout/")
     fun destroyUser(@Query("user_id") uid: String) : Call<SimpleResponse>
+
+    @GET("tokens/create/")
+    fun getToken(@Query("user_id") uid: String) : Call<TokenResponse>
 
 }
