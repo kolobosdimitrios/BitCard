@@ -13,6 +13,7 @@ import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
+import com.example.bitcard.network.daos.responses.TokenResponse
 import com.example.bitcard.network.retrofit.api.UsersApi
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.android.material.snackbar.Snackbar
@@ -75,6 +76,7 @@ class MainScreenActivity : AppCompatActivity() {
         }
 
 
+
     }
 
     private fun getUserData(userId: String){
@@ -95,7 +97,22 @@ class MainScreenActivity : AppCompatActivity() {
                         if(it != null){
                             if(it.status_code == SimpleResponse.STATUS_OK.toLong()){
                                 //render
-                                renderLayoutWithUserData(it.data)
+                                if(it.data.id != null) {
+                                    SharedPreferencesHelpers.write(
+                                        applicationContext,
+                                        SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                                        "user_id",
+                                        it.data.id
+                                    )
+                                }
+                                runOnUiThread {
+
+                                    renderLayoutWithUserData(it.data)
+                                    it.data.id?.let{ id ->
+
+                                        getToken(id)
+                                    }
+                                }
 
                             }
                         }
@@ -150,6 +167,32 @@ class MainScreenActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
                 Snackbar.make(binding.root, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun getToken(userId : Long){
+        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+        usersApi.getToken(userId).enqueue(object : Callback<TokenResponse> {
+            override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
+                if(response.isSuccessful){
+                    val tokenResponse = response.body()
+                    if(tokenResponse != null){
+                        when(tokenResponse.status_code){
+                            SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
+                                Snackbar.make(binding.root, tokenResponse.data.token, Snackbar.LENGTH_INDEFINITE).show()
+                            }
+                            SimpleResponse.STATUS_ERROR -> {
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
+                TODO("Not yet implemented")
             }
 
         })

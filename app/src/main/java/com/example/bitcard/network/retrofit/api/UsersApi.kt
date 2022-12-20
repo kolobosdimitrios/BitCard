@@ -20,7 +20,8 @@ interface UsersApi {
     @GET("users/logout/")
     fun destroyUser(@Query("user_id") uid: String) : Call<SimpleResponse>
 
+    @Headers("Content-Type: application/json")
     @GET("tokens/create/")
-    fun getToken(@Query("user_id") uid: String) : Call<TokenResponse>
+    fun getToken(@Query("user_id") uid: Long) : Call<TokenResponse>
 
 }

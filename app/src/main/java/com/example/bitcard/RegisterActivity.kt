@@ -92,7 +92,8 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                             email = binding.email.text.toString(),
                             userId = it,
                             dateOfBirth = binding.date.text.toString(),
-                            address = binding.address.text.toString()
+                            address = binding.address.text.toString(),
+                            id = null
                         )
 
                         sendCreateUserRequest(registerUserModel)
