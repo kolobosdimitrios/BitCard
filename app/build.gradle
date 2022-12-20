@@ -100,4 +100,7 @@ dependencies {
 
     // optional - Multiprocess support
     implementation "androidx.work:work-multiprocess:$work_version"
+
+    //draw qr codes
+    implementation 'com.google.zxing:core:3.4.0'
 }

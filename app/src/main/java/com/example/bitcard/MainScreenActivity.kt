@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.example.bitcard.globals.QR
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.requests.UserModel
@@ -181,7 +183,9 @@ class MainScreenActivity : AppCompatActivity() {
                     if(tokenResponse != null){
                         when(tokenResponse.status_code){
                             SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
-                                Snackbar.make(binding.root, tokenResponse.data.token, Snackbar.LENGTH_INDEFINITE).show()
+                                runOnUiThread {
+                                    drawQr(binding.mainScreenLayout.cardImageView, tokenResponse.data.token)
+                                }
                             }
                             SimpleResponse.STATUS_ERROR -> {
 
@@ -196,6 +200,11 @@ class MainScreenActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun drawQr(imageView : ImageView, content: String){
+        val bmp = QR.generate(content)
+        imageView.setImageBitmap(bmp)
     }
 
 }
