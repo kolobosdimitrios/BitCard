@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * POST
  */
 class UserModel(
-    val id: Long,
+    val id: Long?,
     @SerializedName("name")
     val name: String,
     @SerializedName("surname")

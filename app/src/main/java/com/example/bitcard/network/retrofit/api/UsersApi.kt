@@ -14,14 +14,14 @@ interface UsersApi {
     @POST("users/")
     fun register(@Body requestData: RegisterModel) : Call<GetUserResponse>
 
-    @GET("users/")
-    fun get(userID : Long) : Call<GetUserResponse>
+    @GET("users/{id}")
+    fun get(@Path("id")userID : Long) : Call<GetUserResponse>
 
     @POST("users/login/")
     fun login(@Query("user_key")user_key: String): Call<GetUserResponse>
 
     @POST("users/logout/")
-    fun logout(@Query("user_key") id: Long) : Call<SimpleResponse>
+    fun logout(@Query("user_id") id: Long) : Call<SimpleResponse>
 
     @Headers("Content-Type: application/json")
     @GET("tokens/create/")

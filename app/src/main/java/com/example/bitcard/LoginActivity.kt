@@ -68,7 +68,8 @@ class LoginActivity : AppCompatActivity() {
                                         if(response.body()!!.status_code == SimpleResponse.STATUS_OK){
                                             Log.i("user", response.body()!!.data.toString())
                                             SharedPreferencesHelpers.create(applicationContext, SharedPreferencesHelpers.USER_DATA)
-                                            SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", response.body()!!.data.id)
+                                            val id = response.body()!!.data.id
+                                            if(id != null) SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", id)
                                         }
                                     }
                                 }

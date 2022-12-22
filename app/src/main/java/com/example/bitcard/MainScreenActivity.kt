@@ -60,19 +60,17 @@ class MainScreenActivity : AppCompatActivity() {
         binding.mainScreenLayout.profilePicture.setOnClickListener {
             startActivity(Intent(this, ProfileInfoActivity::class.java))
         }
-
+        val userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
         binding.menu.logoutOption.setOnClickListener {
-            val id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
-            getUserData(userId = id)
 
+            callLogout(userId)
         }
+
+        getUserData(userId)
 
     }
 
     private fun getUserData(userId: Long){
-
-//        val userIdModel = UserIdModel(userId)
-
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
         usersApi.get(userId).enqueue(object : Callback<GetUserResponse>{
@@ -87,14 +85,6 @@ class MainScreenActivity : AppCompatActivity() {
                         if(it != null){
                             if(it.status_code == SimpleResponse.STATUS_OK){
                                 //render
-                                if(it.data.id != null) {
-                                    SharedPreferencesHelpers.write(
-                                        applicationContext,
-                                        SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
-                                        "user_id",
-                                        it.data.id
-                                    )
-                                }
                                 runOnUiThread {
 
                                     renderLayoutWithUserData(it.data)
