@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
+import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
@@ -35,7 +36,6 @@ class ProfileInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileInfoBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
-    private lateinit var firebaseUser: FirebaseUser
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
         if (isSuccess) {
@@ -69,14 +69,12 @@ class ProfileInfoActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser!!
-
-        getUserData(firebaseUser.uid)
-
         binding.changePasswordTextview.setOnClickListener {
             val intent = Intent(this, ChangePasswordActivity::class.java)
             launcher.launch(intent)
         }
+
+        getUserData(SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"))
     }
 
 
@@ -86,13 +84,11 @@ class ProfileInfoActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getUserData(userId: String){
-
-        val userIdModel = UserIdModel(userId)
+    private fun getUserData(userId: Long){
 
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.login(userIdModel.userId).enqueue(object : Callback<GetUserResponse> {
+        usersApi.get(userId).enqueue(object : Callback<GetUserResponse> {
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
