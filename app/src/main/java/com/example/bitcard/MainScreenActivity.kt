@@ -119,7 +119,7 @@ class MainScreenActivity : AppCompatActivity() {
     private fun callLogout(userId: Long){
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.logout(userId).enqueue( object : Callback<SimpleResponse>{
+        usersApi.logout().enqueue( object : Callback<SimpleResponse>{
             override fun onResponse(
                 call: Call<SimpleResponse>,
                 response: Response<SimpleResponse>

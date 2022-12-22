@@ -21,7 +21,7 @@ interface UsersApi {
     fun login(@Query("user_key")user_key: String): Call<GetUserResponse>
 
     @POST("users/logout/")
-    fun logout(@Query("user_id") id: Long) : Call<SimpleResponse>
+    fun logout(/*@Query("user_id") id: Long*/) : Call<SimpleResponse>
 
     @Headers("Content-Type: application/json")
     @GET("tokens/create/")
