@@ -11,7 +11,6 @@ import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
 import com.example.bitcard.globals.QR
 import com.example.bitcard.globals.SharedPreferencesHelpers
-import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
@@ -19,7 +18,6 @@ import com.example.bitcard.network.daos.responses.TokenResponse
 import com.example.bitcard.network.retrofit.api.UsersApi
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,15 +26,12 @@ class MainScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainScreenWNavDrawerBinding
     private lateinit var menuBind : MainScreenMenuBinding
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainScreenWNavDrawerBinding.inflate(layoutInflater)
         menuBind = MainScreenMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        this.auth = FirebaseAuth.getInstance()
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
         val drawerToggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -67,27 +62,20 @@ class MainScreenActivity : AppCompatActivity() {
         }
 
         binding.menu.logoutOption.setOnClickListener {
-            auth.uid?.let {
-                callLogout(it)
-            }
+            val id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
+            getUserData(userId = id)
 
         }
-
-        firebaseUser?.let {
-            getUserData(firebaseUser.uid)
-        }
-
-
 
     }
 
-    private fun getUserData(userId: String){
+    private fun getUserData(userId: Long){
 
-        val userIdModel = UserIdModel(userId)
+//        val userIdModel = UserIdModel(userId)
 
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.get(userIdModel.userId).enqueue(object : Callback<GetUserResponse>{
+        usersApi.get(userId).enqueue(object : Callback<GetUserResponse>{
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
@@ -97,7 +85,7 @@ class MainScreenActivity : AppCompatActivity() {
                     val simpleResponse = response.body()
                     simpleResponse.let {
                         if(it != null){
-                            if(it.status_code == SimpleResponse.STATUS_OK.toLong()){
+                            if(it.status_code == SimpleResponse.STATUS_OK){
                                 //render
                                 if(it.data.id != null) {
                                     SharedPreferencesHelpers.write(
@@ -110,10 +98,8 @@ class MainScreenActivity : AppCompatActivity() {
                                 runOnUiThread {
 
                                     renderLayoutWithUserData(it.data)
-                                    it.data.id?.let{ id ->
+//                                    getToken(it.data.id)
 
-                                        getToken(id)
-                                    }
                                 }
 
                             }
@@ -140,10 +126,10 @@ class MainScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun callLogout(userId: String){
+    private fun callLogout(userId: Long){
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.destroyUser(userId).enqueue( object : Callback<SimpleResponse>{
+        usersApi.logout(userId).enqueue( object : Callback<SimpleResponse>{
             override fun onResponse(
                 call: Call<SimpleResponse>,
                 response: Response<SimpleResponse>
@@ -154,8 +140,8 @@ class MainScreenActivity : AppCompatActivity() {
                         when(simpleResponse.status_code){
                             SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
                                 Toast.makeText(applicationContext, R.string.logout_success, Snackbar.LENGTH_SHORT).show()
-                                auth.signOut()
                                 SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
+                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_DATA) //remove user_data
                                 startActivity(Intent(applicationContext, MainActivity::class.java))
                                 finish()
                             }

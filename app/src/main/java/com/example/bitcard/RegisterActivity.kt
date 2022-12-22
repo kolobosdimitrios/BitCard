@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityRegisterBinding
 import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.UserModel
+import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.UsersApi
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
@@ -115,17 +116,18 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.register(register).enqueue(object : Callback<SimpleResponse> {
+        usersApi.register(register).enqueue(object : Callback<GetUserResponse> {
             override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
+                call: Call<GetUserResponse>,
+                response: Response<GetUserResponse>
             ) {
                 if(response.isSuccessful) {
                     val simpleResponse = response.body()
                     simpleResponse.let {
                         if(it != null){
                             if(it.status_code == SimpleResponse.STATUS_OK){
-                                //TODO : Successful registration in backend to!
+
+                                Log.i("user created", it.data.toString())
                                 val intent = Intent(applicationContext, MainScreenActivity::class.java)
                                 startActivity(intent)
                             }
@@ -136,7 +138,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                 Toast.makeText(applicationContext, "User created", Toast.LENGTH_LONG).show()
             }
 
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetUserResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "User not created", Toast.LENGTH_LONG).show()
             }
 

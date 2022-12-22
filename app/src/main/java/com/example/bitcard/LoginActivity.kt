@@ -8,14 +8,21 @@ import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityLoginBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
+import com.example.bitcard.network.daos.responses.GetUserResponse
+import com.example.bitcard.network.daos.responses.SimpleResponse
+import com.example.bitcard.network.retrofit.api.UsersApi
+import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
-
+    private val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,23 +56,46 @@ class LoginActivity : AppCompatActivity() {
                 Log.i("Login action", "Started")
                 if (result.isSuccessful) {
                     Log.i("User login", "successful")
-                    result.result.user?.uid?.let { Log.i("User ID", it) }
-                    if(SharedPreferencesHelpers.readBoolean(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me")) {
-                        SharedPreferencesHelpers.write(
-                            applicationContext,
-                            SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
-                            key = "email",
-                            value = email
-                        )
-                        SharedPreferencesHelpers.write(
-                            applicationContext,
-                            SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
-                            key = "password",
-                            value = password
-                        )
+                    result.result.user?.uid?.let { user ->
+                        Log.i("User ID", user)
+                        runOnUiThread {
+                            usersApi.login(user).enqueue(object : Callback<GetUserResponse>{
+                                override fun onResponse(
+                                    call: Call<GetUserResponse>,
+                                    response: Response<GetUserResponse>
+                                ) {
+                                    if(response.body() != null && response.isSuccessful){
+                                        if(response.body()!!.status_code == SimpleResponse.STATUS_OK){
+                                            Log.i("user", response.body()!!.data.toString())
+                                            SharedPreferencesHelpers.create(applicationContext, SharedPreferencesHelpers.USER_DATA)
+                                            SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", response.body()!!.data.id)
+                                        }
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<GetUserResponse>, t: Throwable) {
+                                    TODO("Not yet implemented")
+                                }
+
+                            })
+                            if(SharedPreferencesHelpers.readBoolean(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me")) {
+                                SharedPreferencesHelpers.write(
+                                    applicationContext,
+                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                                    key = "email",
+                                    value = email
+                                )
+                                SharedPreferencesHelpers.write(
+                                    applicationContext,
+                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                                    key = "password",
+                                    value = password
+                                )
+                            }
+                            val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
-                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
-                    startActivity(intent)
                 } else if (result.isCanceled) {
                     Log.e("Login action", "Cancelled")
                 }

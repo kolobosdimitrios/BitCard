@@ -7,6 +7,7 @@ class SharedPreferencesHelpers {
 
     companion object{
 
+        const val USER_DATA = "user_data"
         const val USER_CREDENTIALS_NAME = "user_credentials"
 
         fun clear(context: Context, name: String){

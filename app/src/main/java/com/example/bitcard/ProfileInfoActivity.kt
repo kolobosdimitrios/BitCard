@@ -92,7 +92,7 @@ class ProfileInfoActivity : AppCompatActivity() {
 
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
 
-        usersApi.get(userIdModel.userId).enqueue(object : Callback<GetUserResponse> {
+        usersApi.login(userIdModel.userId).enqueue(object : Callback<GetUserResponse> {
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
@@ -102,7 +102,7 @@ class ProfileInfoActivity : AppCompatActivity() {
                     val simpleResponse = response.body()
                     simpleResponse.let {
                         if (it != null) {
-                            if (it.status_code == SimpleResponse.STATUS_OK.toLong()) {
+                            if (it.status_code == SimpleResponse.STATUS_OK) {
                                 //render
                                 binding.emailTextView.text = it.data.email
                                 binding.streetAddressTextView.text = it.data.address

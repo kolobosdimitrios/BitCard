@@ -11,17 +11,20 @@ import retrofit2.http.*
 interface UsersApi {
 
     @Headers("Content-Type: application/json")
-    @POST("users/create")
-    fun register(@Body requestData: RegisterModel) : Call<SimpleResponse>
+    @POST("users/")
+    fun register(@Body requestData: RegisterModel) : Call<GetUserResponse>
 
-    @GET("users/login/")
-    fun get(@Query("user_id") uid: String): Call<GetUserResponse>
+    @GET("users/")
+    fun get(userID : Long) : Call<GetUserResponse>
 
-    @GET("users/logout/")
-    fun destroyUser(@Query("user_id") uid: String) : Call<SimpleResponse>
+    @POST("users/login/")
+    fun login(@Query("user_key")user_key: String): Call<GetUserResponse>
+
+    @POST("users/logout/")
+    fun logout(@Query("user_key") id: Long) : Call<SimpleResponse>
 
     @Headers("Content-Type: application/json")
     @GET("tokens/create/")
-    fun getToken(@Query("user_id") uid: Long) : Call<TokenResponse>
+    fun getToken(@Query("user_key") uid: Long) : Call<TokenResponse>
 
 }
