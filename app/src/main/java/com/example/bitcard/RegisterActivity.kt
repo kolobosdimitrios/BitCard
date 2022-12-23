@@ -11,7 +11,7 @@ import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
-import com.example.bitcard.network.retrofit.api.UsersApi
+import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
@@ -114,9 +114,9 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
     private fun sendCreateUserRequest(user: UserModel){
         val register = RegisterModel(user)
 
-        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        usersApi.register(register).enqueue(object : Callback<GetUserResponse> {
+        bitcardApiV1.register(register).enqueue(object : Callback<GetUserResponse> {
             override fun onResponse(
                 call: Call<GetUserResponse>,
                 response: Response<GetUserResponse>

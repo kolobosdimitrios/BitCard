@@ -18,14 +18,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
 import com.example.bitcard.globals.SharedPreferencesHelpers
-import com.example.bitcard.network.daos.requests.UserIdModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
-import com.example.bitcard.network.retrofit.api.UsersApi
+import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.example.bitcard.result_launchers.PermissionResultGenerified
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -86,9 +83,9 @@ class ProfileInfoActivity : AppCompatActivity() {
 
     private fun getUserData(userId: Long){
 
-        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        usersApi.get(userId).enqueue(object : Callback<GetUserResponse> {
+        bitcardApiV1.get(userId).enqueue(object : Callback<GetUserResponse> {
 
             override fun onResponse(
                 call: Call<GetUserResponse>,

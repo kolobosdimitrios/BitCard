@@ -15,7 +15,7 @@ import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.daos.responses.TokenResponse
-import com.example.bitcard.network.retrofit.api.UsersApi
+import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -74,9 +74,9 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun getUserData(userId: Long){
-        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        usersApi.get(userId).enqueue(object : Callback<GetUserResponse>{
+        bitcardApiV1.get(userId).enqueue(object : Callback<GetUserResponse>{
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
@@ -120,9 +120,9 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun callLogout(userId: Long){
-        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        usersApi.logout().enqueue( object : Callback<SimpleResponse>{
+        bitcardApiV1.logout().enqueue( object : Callback<SimpleResponse>{
             override fun onResponse(
                 call: Call<SimpleResponse>,
                 response: Response<SimpleResponse>
@@ -154,8 +154,8 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun getToken(userId : Long, userKey: String){
-        val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
-        usersApi.getToken(userId, userKey).enqueue(object : Callback<TokenResponse> {
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+        bitcardApiV1.getToken(userId, userKey).enqueue(object : Callback<TokenResponse> {
             override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
                 if(response.isSuccessful){
                     val tokenResponse = response.body()

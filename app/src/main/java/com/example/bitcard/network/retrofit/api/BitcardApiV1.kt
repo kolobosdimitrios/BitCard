@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 
-interface UsersApi {
+interface BitcardApiV1 {
 
     @Headers("Content-Type: application/json")
     @POST("users/")
