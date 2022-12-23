@@ -70,6 +70,22 @@ class LoginActivity : AppCompatActivity() {
                                             SharedPreferencesHelpers.create(applicationContext, SharedPreferencesHelpers.USER_DATA)
                                             val id = response.body()!!.data.id
                                             if(id != null) SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", id)
+                                            if(SharedPreferencesHelpers.readBoolean(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me")) {
+                                                SharedPreferencesHelpers.write(
+                                                    applicationContext,
+                                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                                                    key = "email",
+                                                    value = email
+                                                )
+                                                SharedPreferencesHelpers.write(
+                                                    applicationContext,
+                                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
+                                                    key = "password",
+                                                    value = password
+                                                )
+                                            }
+                                            val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                                            startActivity(intent)
                                         }
                                     }
                                 }
@@ -79,22 +95,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
 
                             })
-                            if(SharedPreferencesHelpers.readBoolean(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME, "remember_me")) {
-                                SharedPreferencesHelpers.write(
-                                    applicationContext,
-                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
-                                    key = "email",
-                                    value = email
-                                )
-                                SharedPreferencesHelpers.write(
-                                    applicationContext,
-                                    SharedPreferencesHelpers.USER_CREDENTIALS_NAME,
-                                    key = "password",
-                                    value = password
-                                )
-                            }
-                            val intent = Intent(applicationContext, MainScreenActivity::class.java)
-                            startActivity(intent)
+
                         }
                     }
                 } else if (result.isCanceled) {

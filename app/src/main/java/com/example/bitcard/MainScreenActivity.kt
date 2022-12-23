@@ -40,10 +40,10 @@ class MainScreenActivity : AppCompatActivity() {
             R.string.close
         )
 
+
         binding.drawerLayout.addDrawerListener(drawerToggle)
 
         drawerToggle.syncState()
-
 
         binding.menu.purchaseHistoryOption.setOnClickListener{
             startActivity(Intent(this, PurchaseHistoryActivity::class.java))
@@ -60,14 +60,17 @@ class MainScreenActivity : AppCompatActivity() {
         binding.mainScreenLayout.profilePicture.setOnClickListener {
             startActivity(Intent(this, ProfileInfoActivity::class.java))
         }
-        val userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
-        binding.menu.logoutOption.setOnClickListener {
 
-            callLogout(userId)
+        binding.menu.logoutOption.setOnClickListener {
+            callLogout(getUserId())
         }
 
-        getUserData(userId)
 
+    }
+
+    override fun onResume() {
+        super.onStart()
+        getUserData(userId = getUserId())
     }
 
     private fun getUserData(userId: Long){
@@ -88,7 +91,7 @@ class MainScreenActivity : AppCompatActivity() {
                                 runOnUiThread {
 
                                     renderLayoutWithUserData(it.data)
-//                                    getToken(it.data.id)
+                                    getToken(it.data.id!!, it.data.userId)
 
                                 }
 
@@ -150,9 +153,9 @@ class MainScreenActivity : AppCompatActivity() {
         })
     }
 
-    private fun getToken(userId : Long){
+    private fun getToken(userId : Long, userKey: String){
         val usersApi = RetrofitHelper.getRetrofitInstance().create(UsersApi::class.java)
-        usersApi.getToken(userId).enqueue(object : Callback<TokenResponse> {
+        usersApi.getToken(userId, userKey).enqueue(object : Callback<TokenResponse> {
             override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
                 if(response.isSuccessful){
                     val tokenResponse = response.body()
@@ -181,6 +184,10 @@ class MainScreenActivity : AppCompatActivity() {
     fun drawQr(imageView : ImageView, content: String){
         val bmp = QR.generate(content)
         imageView.setImageBitmap(bmp)
+    }
+
+    private fun getUserId() : Long {
+        return SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
     }
 
 }
