@@ -164,6 +164,7 @@ class MainScreenActivity : AppCompatActivity() {
                             SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
                                 runOnUiThread {
                                     drawQr(binding.mainScreenLayout.cardImageView, tokenResponse.data.token)
+                                    SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "token_id", tokenResponse.data.id)
                                 }
                             }
                             SimpleResponse.STATUS_ERROR -> {
