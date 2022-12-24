@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/pointsTextView"
                 android:padding="10dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="start"/>
 
             <TextView
                 android:textColor="@color/primaryDarkColor"
@@ -41,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/valueTextView"
                 android:padding="10dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="start"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dateTextView"
-                android:layout_gravity="end"/>
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 
