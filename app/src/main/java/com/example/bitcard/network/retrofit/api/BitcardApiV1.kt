@@ -31,4 +31,7 @@ interface BitcardApiV1 {
     @GET("users/{user_id}/tokens/{token_id}/purchases")
     fun getTokensPurchases(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long) : Call<PurchasesListResponse>
 
+    @GET("users/{user_id}/tokens/{token_id}/purchases/{purchase_id}/products")
+    fun getPurchaseProducts(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long, @Path("purchase_id") purchase_id: Long) : Call<ProductListResponse>
+
 }
