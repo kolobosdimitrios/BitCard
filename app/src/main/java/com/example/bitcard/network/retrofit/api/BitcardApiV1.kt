@@ -28,7 +28,7 @@ interface BitcardApiV1 {
     @GET("users/{id}/tokens/get/")
     fun getToken(@Path("id")userID : Long, @Query("user_key") userKey: String) : Call<TokenResponse>
 
-    @GET("users/{id}/tokens/get/")
+    @GET("users/{id}/tokens/")
     fun getUserTokens(@Path("id")userID : Long) : Call<TokenListResponse>
 
 }
