@@ -4,7 +4,7 @@ import com.example.bitcard.network.daos.requests.Token
 
 
 class TokenListResponse(
-    private val tokens: List<Token>
+    val tokens: List<Token>
 ) {
 
     fun isEmpty() : Boolean = tokens.isEmpty()
