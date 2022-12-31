@@ -91,7 +91,7 @@ class MainScreenActivity : AppCompatActivity() {
                                 runOnUiThread {
 
                                     renderLayoutWithUserData(it.data)
-                                    getToken(it.data.id!!, it.data.userId)
+                                    getToken(userId = userId)
 
                                 }
 
@@ -153,9 +153,9 @@ class MainScreenActivity : AppCompatActivity() {
         })
     }
 
-    private fun getToken(userId : Long, userKey: String){
+    private fun getToken(userId : Long){
         val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-        bitcardApiV1.getToken(userId, userKey).enqueue(object : Callback<TokenResponse> {
+        bitcardApiV1.getToken(userId).enqueue(object : Callback<TokenResponse> {
             override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
                 if(response.isSuccessful){
                     val tokenResponse = response.body()
@@ -176,7 +176,6 @@ class MainScreenActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

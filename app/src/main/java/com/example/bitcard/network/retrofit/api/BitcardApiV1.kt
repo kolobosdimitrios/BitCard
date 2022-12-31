@@ -22,8 +22,8 @@ interface BitcardApiV1 {
     fun logout(/*@Query("user_id") id: Long*/) : Call<SimpleResponse>
 
     @Headers("Content-Type: application/json")
-    @GET("users/{id}/tokens/get/")
-    fun getToken(@Path("id")userID : Long, @Query("user_key") userKey: String) : Call<TokenResponse>
+    @GET("users/{id}/tokens_get")
+    fun getToken(@Path("id")userID : Long) : Call<TokenResponse>
 
     @GET("users/{id}/tokens/")
     fun getUserTokens(@Path("id")userID : Long) : Call<TokenListResponse>
