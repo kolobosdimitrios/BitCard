@@ -8,18 +8,24 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcard.R
 
-class SimpleRecycler(
+open class SimpleRecycler(
     private val context : Context,
     private val onTileClickedListener: OnTileClickedListener<TitleAndValueModel>? = null,
     private val models: ArrayList<TitleAndValueModel> = ArrayList()
 ) : RecyclerView.Adapter<SimpleRecycler.SimpleViewHolder>() {
 
-    fun update(models: ArrayList<TitleAndValueModel>){
+    open fun update(models: ArrayList<TitleAndValueModel>){
 
         models.clear()
         models.addAll(models)
         notifyItemInserted(0)
 
+    }
+
+    open fun add(model: TitleAndValueModel){
+
+        models.add(model)
+        notifyItemInserted(models.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
@@ -49,8 +55,8 @@ class SimpleRecycler(
 
 
         fun bind(model: TitleAndValueModel){
-            val titleTextView : TextView = itemView.findViewById(0)
-            val valueTextView : TextView = itemView.findViewById(0)
+            val titleTextView : TextView = itemView.findViewById(R.id.title)
+            val valueTextView : TextView = itemView.findViewById(R.id.value)
             titleTextView.text = model.title
             valueTextView.text = model.value
             itemView.setOnClickListener {
