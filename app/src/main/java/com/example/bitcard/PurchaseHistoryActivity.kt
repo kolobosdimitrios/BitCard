@@ -1,5 +1,6 @@
 package com.example.bitcard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -124,7 +125,12 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Title
 
     override fun onClick(adapterPosition: Int, model: TitleAndValueModel) {
 
-        Toast.makeText(applicationContext, "You clicked : " + model.title, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, PurchaseInfoActivity::class.java)
+        intent.putExtra("purchase_id", model.title.toLong())
+
+        startActivity(intent)
+
+//        Toast.makeText(applicationContext, "You clicked : " + model.title, Toast.LENGTH_SHORT).show()
 
     }
 

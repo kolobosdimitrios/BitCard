@@ -3,6 +3,7 @@ package com.example.bitcard.network.retrofit.api
 import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.*
+import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.daos.responses.models.Purchase
 import retrofit2.Call
 import retrofit2.http.*
@@ -34,6 +35,6 @@ interface BitcardApiV1 {
     fun getTokensPurchases(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long) : Call<List<Purchase>>
 
     @GET("users/{user_id}/tokens/{token_id}/purchases/{purchase_id}/products")
-    fun getPurchaseProducts(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long, @Path("purchase_id") purchase_id: Long) : Call<ProductListResponse>
+    fun getPurchaseProducts(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long, @Path("purchase_id") purchase_id: Long) : Call<List<Product>>
 
 }
