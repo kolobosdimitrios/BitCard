@@ -1,18 +1,16 @@
 package com.example.bitcard
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
-import com.example.bitcard.adapters.SimpleRecycler
-import com.example.bitcard.adapters.TitleAndValueModel
+import com.example.bitcard.adapters.PurchaseRecyclerModel
+import com.example.bitcard.adapters.PurchasesRecycler
 import com.example.bitcard.databinding.ActivityPurchaseHistoryBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.Token
-import com.example.bitcard.network.daos.responses.PurchasesListResponse
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
@@ -20,13 +18,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<TitleAndValueModel> {
+class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<PurchaseRecyclerModel> {
 
     private lateinit var binding : ActivityPurchaseHistoryBinding
 
     private var usersApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-    private lateinit var adapter : SimpleRecycler
+    private lateinit var adapter : PurchasesRecycler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Title
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        adapter = SimpleRecycler(
+        adapter = PurchasesRecycler(
             applicationContext,
             this,
             ArrayList()
@@ -52,6 +50,8 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Title
 
     override fun onResume() {
         super.onResume()
+        adapter.clear()
+        adapter.notifyDataSetChanged()
         getUsersTokensHistory(
             SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
         )
@@ -97,9 +97,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Title
                 if(response.isSuccessful){
                     val body = response.body()
                     if(body != null) {
-                        for (p in body) {
-                            addPurchaseToAdapter(p)
-                        }
+                        addPurchaseToAdapter(body)
                     }
                 }
             }
@@ -112,26 +110,23 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Title
 
     }
 
-    private fun addPurchaseToAdapter(purchase: Purchase){
+    private fun addPurchaseToAdapter(purchases: List<Purchase>){
         runOnUiThread{
             //TODO : add the purchase instance to recycler view!!
-            val tmp = TitleAndValueModel(
-                title = purchase.id.toString(),
-                value = purchase.created_at
-            )
-            adapter.add(tmp)
+            if(purchases.isNotEmpty()) {
+                val model = PurchaseRecyclerModel(
+                    purchases
+                )
+
+                adapter.add(model)
+            }
+
         }
     }
 
-    override fun onClick(adapterPosition: Int, model: TitleAndValueModel) {
-
+    override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
         val intent = Intent(this, PurchaseInfoActivity::class.java)
-        intent.putExtra("purchase_id", model.title.toLong())
-
+        intent.putExtra("purchase_ids", model.getProductsIds().toLongArray())
         startActivity(intent)
-
-//        Toast.makeText(applicationContext, "You clicked : " + model.title, Toast.LENGTH_SHORT).show()
-
     }
-
 }

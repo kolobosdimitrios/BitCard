@@ -22,6 +22,8 @@ open class SimpleRecycler(
 
     }
 
+    fun clear() = models.clear()
+
     open fun add(model: TitleAndValueModel){
 
         models.add(model)

@@ -2,6 +2,7 @@ package com.example.bitcard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.bitcard.databinding.ActivityPurchaseInfoBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.responses.models.Product
@@ -32,9 +33,8 @@ class PurchaseInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        getPurchasesInfo(
-            purchaseId = getPurchaseId()
-        )
+        getPurchaseIds()?.forEach { getPurchasesInfo(it) }
+
     }
 
     private fun getPurchasesInfo(purchaseId: Long){
@@ -49,8 +49,11 @@ class PurchaseInfoActivity : AppCompatActivity() {
         ).enqueue(object : Callback<List<Product>>{
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
                 if(response.isSuccessful){
-                    binding
-                        .plaintextView.text = response.body()?.get(0).toString()
+                    Log.i("Purchase id", purchaseId.toString())
+                    response.body()?.forEach {
+                        Log.i("product", it.toString())
+                    }
+                    Log.i("End", "-----------------------------------------")
                 }
             }
 
@@ -67,8 +70,8 @@ class PurchaseInfoActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getPurchaseId(): Long {
+    private fun getPurchaseIds(): LongArray? {
 
-        return intent.getLongExtra("purchase_id", Long.MIN_VALUE)
+        return intent.getLongArrayExtra("purchase_ids")
     }
 }
