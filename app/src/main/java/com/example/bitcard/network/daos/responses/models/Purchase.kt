@@ -4,7 +4,7 @@ class Purchase(
     val id: Long,
     val created_at: String,
     val updated_at: String,
-    val tokensId: Long,
-    val productsId: Long
+    val tokens_id: Long,
+    val products_id: Long
 ) {
 }

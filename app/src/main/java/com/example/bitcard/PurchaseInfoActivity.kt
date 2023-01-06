@@ -1,8 +1,10 @@
 package com.example.bitcard
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bitcard.adapters.OnTileClickedListener
+import com.example.bitcard.adapters.ProductsRecyclerViewAdapter
 import com.example.bitcard.databinding.ActivityPurchaseInfoBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.responses.models.Product
@@ -11,11 +13,11 @@ import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
-class PurchaseInfoActivity : AppCompatActivity() {
+class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product> {
 
     private lateinit var binding: ActivityPurchaseInfoBinding
+    private lateinit var adapter: ProductsRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +29,21 @@ class PurchaseInfoActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        adapter = ProductsRecyclerViewAdapter(
+            this,
+            onTileClickedListener = this
+        )
 
+        binding.productsRecycler.layoutManager = LinearLayoutManager(this)
+        binding.productsRecycler.setHasFixedSize(false)
+        binding.productsRecycler.adapter = adapter
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+        adapter.clear()
         getPurchaseIds()?.forEach { getPurchasesInfo(it) }
-
     }
 
     private fun getPurchasesInfo(purchaseId: Long){
@@ -43,17 +52,14 @@ class PurchaseInfoActivity : AppCompatActivity() {
 
         api.getPurchaseProducts(
             user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-//            token_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "token_id"),
-            1,
+            getTokenId(),
             purchase_id = purchaseId
         ).enqueue(object : Callback<List<Product>>{
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
                 if(response.isSuccessful){
-                    Log.i("Purchase id", purchaseId.toString())
                     response.body()?.forEach {
-                        Log.i("product", it.toString())
+                        adapter.add(it)
                     }
-                    Log.i("End", "-----------------------------------------")
                 }
             }
 
@@ -73,5 +79,14 @@ class PurchaseInfoActivity : AppCompatActivity() {
     private fun getPurchaseIds(): LongArray? {
 
         return intent.getLongArrayExtra("purchase_ids")
+    }
+
+    private fun getTokenId() : Long {
+
+        return intent.getLongExtra("token_id", Long.MIN_VALUE)
+    }
+
+    override fun onClick(adapterPosition: Int, model: Product) {
+
     }
 }

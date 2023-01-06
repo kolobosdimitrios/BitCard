@@ -127,6 +127,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
     override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
         val intent = Intent(this, PurchaseInfoActivity::class.java)
         intent.putExtra("purchase_ids", model.getProductsIds().toLongArray())
+        intent.putExtra("token_id", model.getTokenId())
         startActivity(intent)
     }
 }

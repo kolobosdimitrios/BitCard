@@ -17,4 +17,9 @@ class PurchaseRecyclerModel(
         return ids
     }
 
+    fun getTokenId() : Long {
+
+        return purchases[0].tokens_id
+    }
+
 }
