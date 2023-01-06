@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.PurchaseRecyclerModel
-import com.example.bitcard.adapters.PurchasesRecycler
+import com.example.bitcard.adapters.PurchasesRecyclerViewAdapter
 import com.example.bitcard.databinding.ActivityPurchaseHistoryBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.Token
@@ -24,7 +24,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
 
     private var usersApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-    private lateinit var adapter : PurchasesRecycler
+    private lateinit var adapter : PurchasesRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        adapter = PurchasesRecycler(
+        adapter = PurchasesRecyclerViewAdapter(
             applicationContext,
             this,
             ArrayList()

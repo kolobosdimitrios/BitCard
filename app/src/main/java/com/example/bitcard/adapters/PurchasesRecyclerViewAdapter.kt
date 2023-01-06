@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcard.R
 
-class PurchasesRecycler(
+class PurchasesRecyclerViewAdapter(
     private val context: Context,
     private val onTileClickedListener: OnTileClickedListener<PurchaseRecyclerModel>,
     private val purchaseRecyclerModels : ArrayList<PurchaseRecyclerModel> = ArrayList()
-) : RecyclerView.Adapter<PurchasesRecycler.ViewHolder>() {
+) : RecyclerView.Adapter<PurchasesRecyclerViewAdapter.ViewHolder>() {
 
     fun clear(){
         purchaseRecyclerModels.clear()
