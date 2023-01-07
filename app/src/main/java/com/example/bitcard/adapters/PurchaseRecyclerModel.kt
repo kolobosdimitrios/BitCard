@@ -1,12 +1,13 @@
 package com.example.bitcard.adapters
 
+import com.example.bitcard.globals.Time
 import com.example.bitcard.network.daos.responses.models.Purchase
 
 class PurchaseRecyclerModel(
     private val purchases: List<Purchase>
 ) {
 
-    fun getTitle() = purchases[0].created_at
+    fun getTitle() = Time.format( purchases[0].created_at )
 
     fun getProductsIds() : Array<Long>{
 
