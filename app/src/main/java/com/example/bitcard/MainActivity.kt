@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                     result.result.user?.uid?.let { Log.i("User ID", it) }
                     val intent = Intent(applicationContext, MainScreenActivity::class.java)
                     startActivity(intent)
+                    this.finish()
                 } else if (result.isCanceled) {
                     Log.e("Login action", "Cancelled")
                 }
