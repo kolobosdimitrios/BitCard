@@ -37,7 +37,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         adapter = PurchasesRecyclerViewAdapter(
-            applicationContext,
+            this,
             this,
             ArrayList()
         )

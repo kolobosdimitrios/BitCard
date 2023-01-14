@@ -2,55 +2,70 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_marginHorizontal="5dp"
     android:layout_marginBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_gravity="center_vertical"
-        android:id="@+id/product_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_baseline_shopping_cart_24"
-        android:contentDescription="An image for the product" />
-
     <LinearLayout
-        android:padding="5dp"
-        android:layout_weight="0.9"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginHorizontal="5dp"
         android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:padding="2.5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/product_name"/>
-
-
-        <TextView
-            android:padding="2.5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/product_description"
-            />
-
-
-        <TextView
-            android:padding="2.5dp"
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/product_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/product_price"/>
+            android:layout_weight="0.1"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_baseline_shopping_cart_24"
+            android:contentDescription="@string/products_image" />
+
+        <LinearLayout
+            android:padding="5dp"
+            android:layout_weight="0.9"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="2.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/product_name"/>
+
+
+            <TextView
+                android:padding="2.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/product_description"
+                />
+
+
+            <TextView
+                android:padding="2.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/product_price"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primaryDarkColor"/>
 
 </LinearLayout>
 

@@ -25,12 +25,6 @@ class PurchasesRecyclerViewAdapter(
         notifyItemInserted(purchaseRecyclerModels.size - 1)
     }
 
-    fun update(purchaseRecyclerModels: ArrayList<PurchaseRecyclerModel>){
-        this.purchaseRecyclerModels.clear()
-        this.purchaseRecyclerModels.addAll(purchaseRecyclerModels)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             itemView = LayoutInflater.from(context).inflate(R.layout.purchase_recycler_view_layout, parent, false),
@@ -52,8 +46,6 @@ class PurchasesRecyclerViewAdapter(
         ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(purchaseRecyclerModel: PurchaseRecyclerModel, position: Int) {
-
-            itemView.findViewById<TextView>(R.id.count_textView).text = position.toString()
             itemView.findViewById<TextView>(R.id.purchase_date).text = purchaseRecyclerModel.getTitle()
             itemView.setOnClickListener {
                 onTileClickedListener.onClick(position + 1, purchaseRecyclerModel)
