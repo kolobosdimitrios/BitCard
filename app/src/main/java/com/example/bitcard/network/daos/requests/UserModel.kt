@@ -20,7 +20,9 @@ class UserModel(
     @SerializedName("email")
     val email: String,
     @SerializedName("date_of_birth")
-    val dateOfBirth: String
+    val dateOfBirth: String,
+    @SerializedName("image")
+    var image: String?
 ) : Request<UserModel> {
     override fun getRequestData(): UserModel {
         return this

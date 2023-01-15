@@ -3,8 +3,11 @@ package com.example.bitcard
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -18,6 +21,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
 import com.example.bitcard.globals.SharedPreferencesHelpers
+import com.example.bitcard.network.daos.requests.RegisterModel
+import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
@@ -26,12 +31,15 @@ import com.example.bitcard.result_launchers.PermissionResultGenerified
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 class ProfileInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileInfoBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
+    private lateinit var userModel: UserModel
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
@@ -45,7 +53,6 @@ class ProfileInfoActivity : AppCompatActivity() {
     private val selectImageFromGalleryResult =  registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             binding.profilePicture.setImageURI(it)
-
         }
     }
 
@@ -71,7 +78,9 @@ class ProfileInfoActivity : AppCompatActivity() {
             launcher.launch(intent)
         }
 
-        getUserData(SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"))
+        getUserData(
+            SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
+        )
     }
 
 
@@ -97,6 +106,7 @@ class ProfileInfoActivity : AppCompatActivity() {
                         if (it != null) {
                             if (it.status_code == SimpleResponse.STATUS_OK) {
                                 //render
+                                userModel = it.data
                                 binding.emailTextView.text = it.data.email
                                 binding.streetAddressTextView.text = it.data.address
                                 binding.birthdayTextView.text = it.data.dateOfBirth
@@ -212,6 +222,49 @@ class ProfileInfoActivity : AppCompatActivity() {
         }
 
         return FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", tmpFile)
+    }
+
+    private fun uploadUserImage(user_id: Long, file: File){
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+
+        val imageB64 = encodeImageToBase64(file)
+
+        userModel.image = imageB64
+
+        val registerModel= RegisterModel(userModel)
+        bitcardApiV1.updateUsersProfilePicture(user_id = user_id, registerModel = registerModel).enqueue(object : Callback<SimpleResponse>{
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                if(response.isSuccessful) {
+                    Log.i("response", "successful")
+                    response.body()?.toString()?.let { Log.i("response data", it) }
+                }
+            }
+
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                t.localizedMessage?.let { Log.e("Image upload failed", it) }
+            }
+
+        })
+    }
+
+    private fun getImagePath(uri: Uri) : String?{
+
+        return uri.path
+    }
+
+    private fun getImageFileFromUriPath(uri_path: String) : File {
+        return File(uri_path)
+    }
+
+    private fun encodeImageToBase64(file: File): String {
+        val bm = BitmapFactory.decodeFile(file.path)
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos) // bm is the bitmap object
+        val byteArrayImage: ByteArray = baos.toByteArray()
+        return Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
     }
 
 

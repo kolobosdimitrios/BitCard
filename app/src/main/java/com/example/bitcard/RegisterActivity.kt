@@ -94,7 +94,8 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                             userId = it,
                             dateOfBirth = binding.date.text.toString(),
                             address = binding.address.text.toString(),
-                            id = null
+                            id = null,
+                            image = null
                         )
 
                         sendCreateUserRequest(registerUserModel)
@@ -152,9 +153,6 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {
-            //TODO get timestamp
-
-
             binding.date.setText(getDateStringFormatted(it))
         }
         datePicker.show(supportFragmentManager, null)
