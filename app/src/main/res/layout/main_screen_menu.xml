@@ -23,15 +23,16 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:padding="5dp"
-                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                    app:strokeColor="@color/primaryColor"
-                    app:strokeWidth="3dp"
+                    android:id="@+id/profile_picture_large"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_person_focused"
-                    android:id="@+id/profile_picture_large"
-                    android:layout_gravity="center" />
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                    app:strokeColor="@color/primaryColor"
+                    app:strokeWidth="3dp" />
 
                 <TextView
                     android:gravity="center"

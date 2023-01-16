@@ -1,12 +1,15 @@
 package com.example.bitcard
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
 import com.example.bitcard.globals.QR
@@ -21,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -116,7 +120,18 @@ class MainScreenActivity : AppCompatActivity() {
 
         binding.mainScreenLayout.username.text = nameSurname
         binding.menu.usernameMenu.text = nameSurname
+        user.image?.let {
+            val bmp = decodeImageToBitmap(it)
+            binding.menu.profilePictureLarge.setImageBitmap(bmp)
+            binding.mainScreenLayout.profilePicture.setImageBitmap(bmp)
+        }
 
+
+    }
+
+    private fun decodeImageToBitmap(encodedImage: String): Bitmap {
+        val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 
     private fun callLogout(userId: Long){

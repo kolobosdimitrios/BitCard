@@ -46,6 +46,12 @@ class ProfileInfoActivity : AppCompatActivity() {
         if (isSuccess) {
             latestTmpUri?.let { uri ->
                 binding.profilePicture.setImageURI(uri)
+                val imageStream = contentResolver.openInputStream(uri)
+                val selectedImageBitmap = BitmapFactory.decodeStream(imageStream)
+                uploadUserImage(
+                    user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                    selectedImageBitmap
+                )
             }
         }
     }
@@ -112,6 +118,11 @@ class ProfileInfoActivity : AppCompatActivity() {
                                 binding.birthdayTextView.text = it.data.dateOfBirth
                                 binding.fullnameTextView.text = it.data.name + " " +it.data.surname
                                 binding.usernameTextView.text = it.data.username
+                                it.data.image?.let { encodedImage ->
+                                    binding.profilePicture.setImageBitmap(
+                                        decodeImageToBitmap(encodedImage)
+                                    )
+                                }
                             }
                         }
                     }
@@ -224,14 +235,15 @@ class ProfileInfoActivity : AppCompatActivity() {
         return FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", tmpFile)
     }
 
-    private fun uploadUserImage(user_id: Long, file: File){
+    private fun uploadUserImage(user_id: Long, image: Bitmap){
         val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        val imageB64 = encodeImageToBase64(file)
+        val imageB64 = encodeBitmapToBase64(image)
 
         userModel.image = imageB64
 
         val registerModel= RegisterModel(userModel)
+
         bitcardApiV1.updateUsersProfilePicture(user_id = user_id, registerModel = registerModel).enqueue(object : Callback<SimpleResponse>{
             override fun onResponse(
                 call: Call<SimpleResponse>,
@@ -259,10 +271,14 @@ class ProfileInfoActivity : AppCompatActivity() {
         return File(uri_path)
     }
 
-    private fun encodeImageToBase64(file: File): String {
-        val bm = BitmapFactory.decodeFile(file.path)
+    private fun decodeImageToBitmap(encodedImage: String): Bitmap {
+        val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+    }
+
+    private fun encodeBitmapToBase64(bmp: Bitmap): String {
         val baos = ByteArrayOutputStream()
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos) // bm is the bitmap object
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos) // bm is the bitmap object
         val byteArrayImage: ByteArray = baos.toByteArray()
         return Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
     }
