@@ -59,6 +59,12 @@ class ProfileInfoActivity : AppCompatActivity() {
     private val selectImageFromGalleryResult =  registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             binding.profilePicture.setImageURI(it)
+            val imageStream = contentResolver.openInputStream(uri)
+            val selectedImageBitmap = BitmapFactory.decodeStream(imageStream)
+            uploadUserImage(
+                user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                selectedImageBitmap
+            )
         }
     }
 
