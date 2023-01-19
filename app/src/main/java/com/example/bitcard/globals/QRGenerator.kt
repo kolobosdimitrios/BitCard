@@ -13,7 +13,7 @@ class QR {
 
     companion object Generator{
 
-        fun generate(content: String) : Bitmap{
+        fun generate(content: String, color1: Int, color2: Int) : Bitmap{
             val writer = QRCodeWriter()
             val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512)
             val width = bitMatrix.width
@@ -21,11 +21,14 @@ class QR {
             val bitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
             for (x in 0 until width) {
                 for (y in 0 until height) {
-                    bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
+
+                    bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) color1 else color2)
+
                 }
             }
             return bitmap
         }
+
 
     }
 }

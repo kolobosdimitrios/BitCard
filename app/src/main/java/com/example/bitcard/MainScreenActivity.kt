@@ -1,11 +1,15 @@
 package com.example.bitcard
 
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -197,8 +201,39 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     fun drawQr(imageView : ImageView, content: String){
-        val bmp = QR.generate(content)
+        val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), fetchPrimaryColor())
         imageView.setImageBitmap(bmp)
+
+       /* val nightModeFlags: Int = this.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> { *//*dark*//*
+                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_dark))
+                imageView.setImageBitmap(bmp)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> { *//*light*//*
+                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_light))
+                imageView.setImageBitmap(bmp)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_light))
+                imageView.setImageBitmap(bmp)
+            }
+        }*/
+
+    }
+
+    private fun fetchPrimaryColor(): Int {
+        val a = TypedValue()
+        theme.resolveAttribute(android.R.attr.windowBackground, a, true)
+        val color : Int = if (a.isColorType) {
+            // windowBackground is a color
+            a.data
+        }else{
+            Color.MAGENTA
+        }
+
+        return color
     }
 
     private fun getUserId() : Long {
