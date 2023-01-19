@@ -5,26 +5,26 @@ import com.google.gson.annotations.SerializedName
 /**
  * POST
  */
-class UserModel(
-    val id: Long?,
+class UserDataSenderObj(
+    var id: Long? = null,
     @SerializedName("name")
-    val name: String,
+    var name: String? = null,
     @SerializedName("surname")
-    val surname: String,
+    var surname: String? = null,
     @SerializedName("username")
-    val username: String,
+    var username: String? = null,
     @SerializedName("user_key")
-    var userId: String,
+    var userId: String? = null,
     @SerializedName("address")
-    val address: String,
+    var address: String? = null,
     @SerializedName("email")
-    val email: String,
+    var email: String? = null,
     @SerializedName("date_of_birth")
-    val dateOfBirth: String,
+    var dateOfBirth: String? = null,
     @SerializedName("image")
-    var image: String?
-) : Request<UserModel> {
-    override fun getRequestData(): UserModel {
+    var image: String? = null
+) : Request<UserDataSenderObj> {
+    override fun getRequestData(): UserDataSenderObj {
         return this
     }
 

@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class RegisterModel(
     @SerializedName("user")
-    val userModel: UserModel
+    val userModel: UserDataSenderObj
 )

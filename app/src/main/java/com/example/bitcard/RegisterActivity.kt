@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityRegisterBinding
 import com.example.bitcard.network.daos.requests.RegisterModel
-import com.example.bitcard.network.daos.requests.UserModel
+import com.example.bitcard.network.daos.requests.UserDataSenderObj
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
@@ -86,7 +86,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                     Log.i("User register", "successful")
                     result.result.user?.uid?.let {
                         Log.i("User ID", it)
-                        val registerUserModel = UserModel(
+                        val registerUserModel = UserDataSenderObj(
                             name = binding.name.text.toString(),
                             surname = binding.surname.text.toString(),
                             username = binding.username.text.toString(),
@@ -112,7 +112,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
     }
 
-    private fun sendCreateUserRequest(user: UserModel){
+    private fun sendCreateUserRequest(user: UserDataSenderObj){
         val register = RegisterModel(user)
 
         val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)

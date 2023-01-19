@@ -19,10 +19,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
+import com.example.bitcard.db.entities.User
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.RegisterModel
-import com.example.bitcard.network.daos.requests.UserModel
+import com.example.bitcard.network.daos.requests.UserDataSenderObj
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
@@ -39,7 +40,7 @@ class ProfileInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileInfoBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
-    private lateinit var userModel: UserModel
+    private lateinit var user: User
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
@@ -118,7 +119,7 @@ class ProfileInfoActivity : AppCompatActivity() {
                         if (it != null) {
                             if (it.status_code == SimpleResponse.STATUS_OK) {
                                 //render
-                                userModel = it.data
+                                user = it.data
                                 binding.emailTextView.text = it.data.email
                                 binding.streetAddressTextView.text = it.data.address
                                 binding.birthdayTextView.text = it.data.dateOfBirth
@@ -159,13 +160,13 @@ class ProfileInfoActivity : AppCompatActivity() {
         selectImageBottomSheetDialogFragment.setOnResultListener(object : SelectImageBottomSheetDialogFragment.OnResultListener {
             override fun onResult(result: Int) {
                 when (result){
-                    SelectImageBottomSheetDialogFragment.Result.RESULT_CAMERA -> {
+                    SelectImageBottomSheetDialogFragment.RESULT_CAMERA -> {
                         Log.i("selectImageBottomSheetDialogFragment", "camera selected!")
                         takeImage()
                         selectImageBottomSheetDialogFragment.dismiss()
                     }
 
-                    SelectImageBottomSheetDialogFragment.Result.RESULT_GALLERY -> {
+                    SelectImageBottomSheetDialogFragment.RESULT_GALLERY -> {
                         Log.i("selectImageBottomSheetDialogFragment", "gallery selected!")
                         chooseImage()
                         selectImageBottomSheetDialogFragment.dismiss()
@@ -246,9 +247,11 @@ class ProfileInfoActivity : AppCompatActivity() {
 
         val imageB64 = encodeBitmapToBase64(image)
 
-        userModel.image = imageB64
+        user.image = imageB64
 
-        val registerModel= RegisterModel(userModel)
+        val registerModel= RegisterModel(UserDataSenderObj(
+            image = imageB64
+        ))
 
         bitcardApiV1.updateUsersProfilePicture(user_id = user_id, registerModel = registerModel).enqueue(object : Callback<SimpleResponse>{
             override fun onResponse(
@@ -266,15 +269,6 @@ class ProfileInfoActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private fun getImagePath(uri: Uri) : String?{
-
-        return uri.path
-    }
-
-    private fun getImageFileFromUriPath(uri_path: String) : File {
-        return File(uri_path)
     }
 
     private fun decodeImageToBitmap(encodedImage: String): Bitmap {

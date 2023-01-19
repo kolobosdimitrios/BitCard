@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -16,9 +15,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.example.bitcard.db.entities.User
 import com.example.bitcard.globals.QR
 import com.example.bitcard.globals.SharedPreferencesHelpers
-import com.example.bitcard.network.daos.requests.UserModel
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.daos.responses.TokenResponse
@@ -116,7 +115,7 @@ class MainScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun renderLayoutWithUserData(user: UserModel){
+    private fun renderLayoutWithUserData(user: User){
 
         Log.e("user data", user.toString())
 
