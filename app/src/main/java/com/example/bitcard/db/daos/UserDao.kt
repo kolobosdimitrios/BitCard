@@ -1,5 +1,6 @@
 package com.example.bitcard.db.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.bitcard.db.entities.User
 
@@ -10,12 +11,15 @@ interface UserDao{
     fun getAll(): List<User>
 
     @Query("SELECT * FROM users WHERE users.id = :user_id")
-    fun getUser(user_id: Long) : User?
+    fun getUser(user_id: Long) : LiveData<User?>
 
-    @Insert
+    @Query("SELECT * FROM users WHERE users.id = :user_id")
+    fun get(user_id: Long) : User?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg users: User)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
 
     @Delete

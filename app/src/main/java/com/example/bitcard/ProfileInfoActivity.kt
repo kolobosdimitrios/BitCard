@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityProfileInfoBinding
+import com.example.bitcard.db.database.MainDatabase
 import com.example.bitcard.db.entities.User
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
 import com.example.bitcard.globals.SharedPreferencesHelpers
@@ -29,6 +30,9 @@ import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.example.bitcard.result_launchers.PermissionResultGenerified
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,8 +44,8 @@ class ProfileInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileInfoBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
-    private lateinit var user: User
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
+    private val database by lazy { MainDatabase.getInstance(this).userDao() }
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
         if (isSuccess) {
@@ -63,6 +67,10 @@ class ProfileInfoActivity : AppCompatActivity() {
             val imageStream = contentResolver.openInputStream(uri)
             val selectedImageBitmap = BitmapFactory.decodeStream(imageStream)
             uploadUserImage(
+                user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                selectedImageBitmap
+            )
+            saveUserImage(
                 user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
                 selectedImageBitmap
             )
@@ -103,7 +111,17 @@ class ProfileInfoActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getUserData(userId: Long){
+    private fun getUserData(user_id: Long){
+       database.getUser(user_id).observe(this) {
+           if(it != null && it.userId.isNotEmpty()) {
+               render(it)
+           }else{
+               getUserDataFromHTTP(userId = user_id)
+           }
+       }
+    }
+
+    private fun getUserDataFromHTTP(userId: Long){
 
         val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
@@ -118,17 +136,9 @@ class ProfileInfoActivity : AppCompatActivity() {
                     simpleResponse.let {
                         if (it != null) {
                             if (it.status_code == SimpleResponse.STATUS_OK) {
-                                //render
-                                user = it.data
-                                binding.emailTextView.text = it.data.email
-                                binding.streetAddressTextView.text = it.data.address
-                                binding.birthdayTextView.text = it.data.dateOfBirth
-                                binding.fullnameTextView.text = it.data.name + " " +it.data.surname
-                                binding.usernameTextView.text = it.data.username
-                                it.data.image?.let { encodedImage ->
-                                    binding.profilePicture.setImageBitmap(
-                                        decodeImageToBitmap(encodedImage)
-                                    )
+                                //save user to database
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    database.insert(it.data)
                                 }
                             }
                         }
@@ -140,6 +150,19 @@ class ProfileInfoActivity : AppCompatActivity() {
                 TODO("Handle errors in http call")
             }
         })
+    }
+
+    private fun render(user: User){
+        binding.emailTextView.text = user.email
+        binding.streetAddressTextView.text = user.address
+        binding.birthdayTextView.text = user.dateOfBirth
+        binding.fullnameTextView.text = user.name + " " + user.surname
+        binding.usernameTextView.text = user.username
+        user.image?.let { encodedImage ->
+            binding.profilePicture.setImageBitmap(
+                decodeImageToBitmap(encodedImage)
+            )
+        }
     }
 
     private fun handleResult(result: ActivityResult?){
@@ -247,8 +270,6 @@ class ProfileInfoActivity : AppCompatActivity() {
 
         val imageB64 = encodeBitmapToBase64(image)
 
-        user.image = imageB64
-
         val registerModel= RegisterModel(UserDataSenderObj(
             image = imageB64
         ))
@@ -269,6 +290,17 @@ class ProfileInfoActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun saveUserImage(user_id: Long, image: Bitmap){
+        val imageB64 = encodeBitmapToBase64(image)
+        CoroutineScope(Dispatchers.IO).launch {
+            val tmpUser = database.get(user_id)
+            tmpUser?.let {
+                it.image = imageB64
+                database.insert(tmpUser)
+            }
+        }
     }
 
     private fun decodeImageToBitmap(encodedImage: String): Bitmap {
