@@ -57,6 +57,10 @@ class ProfileInfoActivity : AppCompatActivity() {
                     user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
                     selectedImageBitmap
                 )
+                saveUserImage(
+                    user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                    selectedImageBitmap
+                )
             }
         }
     }
@@ -310,7 +314,7 @@ class ProfileInfoActivity : AppCompatActivity() {
 
     private fun encodeBitmapToBase64(bmp: Bitmap): String {
         val baos = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos) // bm is the bitmap object
+        bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos) // bm is the bitmap object
         val byteArrayImage: ByteArray = baos.toByteArray()
         return Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
     }

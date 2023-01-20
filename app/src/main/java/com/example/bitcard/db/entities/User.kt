@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "users")
-class User(
+data class User(
     @PrimaryKey
     val id: Long,
     @ColumnInfo(name = "name")
@@ -25,7 +25,7 @@ class User(
     @ColumnInfo(name = "date_of_birth")
     @SerializedName("date_of_birth")
     val dateOfBirth: String,
-    @ColumnInfo(name = "image_blob_string")
+    @ColumnInfo(name = "image_blob_string", typeAffinity = ColumnInfo.BINARY)
     var image: String?
 ) {
 }

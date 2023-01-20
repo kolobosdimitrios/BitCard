@@ -223,24 +223,6 @@ class MainScreenActivity : AppCompatActivity() {
     fun drawQr(imageView : ImageView, content: String){
         val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), fetchPrimaryColor())
         imageView.setImageBitmap(bmp)
-
-       /* val nightModeFlags: Int = this.resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-        when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> { *//*dark*//*
-                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_dark))
-                imageView.setImageBitmap(bmp)
-            }
-            Configuration.UI_MODE_NIGHT_NO -> { *//*light*//*
-                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_light))
-                imageView.setImageBitmap(bmp)
-            }
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                val bmp = QR.generate(content, getColor(R.color.primaryDarkColor), getColor(R.color.background_light))
-                imageView.setImageBitmap(bmp)
-            }
-        }*/
-
     }
 
     private fun fetchPrimaryColor(): Int {
