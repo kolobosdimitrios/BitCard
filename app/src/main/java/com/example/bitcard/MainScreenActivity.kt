@@ -167,6 +167,14 @@ class MainScreenActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext, R.string.logout_success, Snackbar.LENGTH_SHORT).show()
                                 SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
                                 SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_DATA) //remove user_data
+                                /*
+                                Delete user from database
+                                 */
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    database.deleteWithId(
+                                        id= userId
+                                    )
+                                }
                                 startActivity(Intent(applicationContext, MainActivity::class.java))
                                 finish()
                             }

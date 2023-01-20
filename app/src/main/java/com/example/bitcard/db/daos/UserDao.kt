@@ -21,6 +21,9 @@ interface UserDao{
     @Delete
     fun delete(user: User)
 
+    @Query("DELETE FROM USERS WHERE id = :id")
+    fun deleteWithId(id: Long)
+
     @Update
     fun update(new_user: User)
 
