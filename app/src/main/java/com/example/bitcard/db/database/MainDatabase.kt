@@ -7,12 +7,13 @@ import androidx.room.RoomDatabase
 import com.example.bitcard.db.daos.UserDao
 import com.example.bitcard.db.entities.User
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun userDao() : UserDao
 
     companion object {
+        @Volatile
         private var instance: MainDatabase? = null
 
         fun getInstance(context: Context) : MainDatabase{

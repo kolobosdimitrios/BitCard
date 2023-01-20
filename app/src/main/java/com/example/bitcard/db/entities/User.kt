@@ -3,6 +3,7 @@ package com.example.bitcard.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "users")
 class User(
@@ -15,12 +16,14 @@ class User(
     @ColumnInfo(name = "username")
     val username: String,
     @ColumnInfo(name = "userId")
+    @SerializedName("user_key")
     var userId: String,
     @ColumnInfo(name = "address")
     val address: String,
     @ColumnInfo(name = "email")
     val email: String,
     @ColumnInfo(name = "date_of_birth")
+    @SerializedName("date_of_birth")
     val dateOfBirth: String,
     @ColumnInfo(name = "image_blob_string")
     var image: String?

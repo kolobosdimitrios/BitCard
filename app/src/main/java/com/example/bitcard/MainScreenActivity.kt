@@ -13,8 +13,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
+import com.example.bitcard.db.database.MainDatabase
 import com.example.bitcard.db.entities.User
 import com.example.bitcard.globals.QR
 import com.example.bitcard.globals.SharedPreferencesHelpers
@@ -24,6 +26,9 @@ import com.example.bitcard.network.daos.responses.TokenResponse
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +38,7 @@ class MainScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainScreenWNavDrawerBinding
     private lateinit var menuBind : MainScreenMenuBinding
+    private val database by lazy { MainDatabase.getInstance(this).userDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,6 @@ class MainScreenActivity : AppCompatActivity() {
             R.string.open,
             R.string.close
         )
-
 
         binding.drawerLayout.addDrawerListener(drawerToggle)
 
@@ -96,9 +101,18 @@ class MainScreenActivity : AppCompatActivity() {
                             if(it.status_code == SimpleResponse.STATUS_OK){
                                 //render
                                 runOnUiThread {
-
                                     renderLayoutWithUserData(it.data)
                                     getToken(userId = userId)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        val curUser = database.getUser(it.data.id)
+                                        if(curUser == null) {
+                                            Log.i("user", "INSERTED")
+                                            database.insert(it.data)
+                                        }else{
+                                            Log.i("user", "UPDATED")
+                                            database.update(it.data)
+                                        }
+                                    }
 
                                 }
 

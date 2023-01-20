@@ -1,9 +1,6 @@
 package com.example.bitcard.db.daos
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.bitcard.db.entities.User
 
 @Dao
@@ -13,12 +10,21 @@ interface UserDao{
     fun getAll(): List<User>
 
     @Query("SELECT * FROM users WHERE users.id = :user_id")
-    fun getUser(user_id: Long)
+    fun getUser(user_id: Long) : User?
 
     @Insert
     fun insertAll(vararg users: User)
 
+    @Insert
+    fun insert(user: User)
+
     @Delete
     fun delete(user: User)
+
+    @Update
+    fun update(new_user: User)
+
+    @Update
+    fun updateAll(vararg new_users: User)
 
 }
