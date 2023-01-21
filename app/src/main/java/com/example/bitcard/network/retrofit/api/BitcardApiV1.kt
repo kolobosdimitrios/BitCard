@@ -5,6 +5,7 @@ import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.*
 import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.daos.responses.models.Purchase
+import com.example.bitcard.network.daos.responses.models.Shop
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -40,5 +41,11 @@ interface BitcardApiV1 {
 
     @PUT("users/{user_id}")
     fun updateUsersProfilePicture(@Path("user_id") user_id: Long, @Body registerModel: RegisterModel) : Call<SimpleResponse>
+
+    @GET("shops/")
+    fun getShops() : Call<List<Shop>>
+
+    @GET("shops/{shop_id}")
+    fun getShop(@Path("shop_id") shop_id: Long) : Call<Shop>
 
 }

@@ -6,12 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.R
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.ShopsListRecycler
 import com.example.bitcard.databinding.FragmentShopsListBinding
 import com.example.bitcard.network.daos.responses.models.Shop
+import com.example.bitcard.network.retrofit.api.BitcardApiV1
+import com.example.bitcard.network.retrofit.client.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +30,11 @@ private const val ARG_PARAM2 = "param2"
 class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
 
     private lateinit var binding: FragmentShopsListBinding
+    private lateinit var adapter: ShopsListRecycler
 
+    private val api by lazy {
+        RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,8 +55,32 @@ class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
         binding.shopsRecycler.layoutManager = LinearLayoutManager(context)
         binding.shopsRecycler.setHasFixedSize(true)
         //TODO set adapter
-        binding.shopsRecycler.adapter =
-            context?.let { ShopsListRecycler(context = it, onTileClickedListener = this) }
+        context?.let {
+            adapter = ShopsListRecycler(context = it, onTileClickedListener = this)
+            binding.shopsRecycler.adapter = adapter
+        }
+
+        getShops()
+    }
+
+    fun getShops(){
+        api.getShops().enqueue(object : Callback<List<Shop>>{
+            override fun onResponse(call: Call<List<Shop>>, response: Response<List<Shop>>) {
+                if(response.isSuccessful){
+                    val shopsList = response.body()
+                    shopsList?.let {
+                        if(it.isNotEmpty()){
+                            adapter.updateData(ArrayList(it))
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Shop>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     override fun onStart() {
