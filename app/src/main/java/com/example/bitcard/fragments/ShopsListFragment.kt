@@ -11,6 +11,7 @@ import com.example.bitcard.R
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.ShopsListRecycler
 import com.example.bitcard.databinding.FragmentShopsListBinding
+import com.example.bitcard.network.daos.responses.models.Shop
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +21,7 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A [Fragment] subclass. Displaying a RecyclerView with the shop listed.
  */
-class ShopsListFragment : Fragment(), OnTileClickedListener<ShopsListRecycler.ShopTileModel> {
+class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
 
     private lateinit var binding: FragmentShopsListBinding
 
@@ -90,7 +91,7 @@ class ShopsListFragment : Fragment(), OnTileClickedListener<ShopsListRecycler.Sh
             }
     }
 
-    override fun onClick(adapterPosition: Int, model: ShopsListRecycler.ShopTileModel) {
+    override fun onClick(adapterPosition: Int, model: Shop) {
         Log.i("Adapter position", adapterPosition.toString())
         Log.i("Model class", model.toString())
     }

@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcard.R
+import com.example.bitcard.network.daos.responses.models.Shop
 
 class ShopsListRecycler(
-    val onTileClickedListener: OnTileClickedListener<ShopTileModel>,
+    val onTileClickedListener: OnTileClickedListener<Shop>,
     val context: Context
 
 ): RecyclerView.Adapter<ShopsListRecycler.ShopViewHolder>() {
 
-    private val shopsList : ArrayList<ShopTileModel> = ArrayList()
+    private val shopsList : ArrayList<Shop> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopViewHolder {
         val v = LayoutInflater.from(context).inflate(R.layout.short_shop_info_tile_layout, parent, false)
@@ -22,14 +23,14 @@ class ShopsListRecycler(
     }
 
     override fun onBindViewHolder(holder: ShopViewHolder, position: Int) {
-        holder.bind(shopsList[holder.adapterPosition])
+        holder.bind(shopsList[holder.adapterPosition], onTileClickedListener, holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {
         return shopsList.size
     }
 
-    fun updateData(newShops: ArrayList<ShopTileModel>){
+    fun updateData(newShops: ArrayList<Shop>){
         shopsList.clear()
         notifyItemRemoved(0)
         shopsList.addAll(newShops)
@@ -38,21 +39,20 @@ class ShopsListRecycler(
 
     class ShopViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(shop : ShopTileModel){
+        fun bind(shop : Shop, onTileClickedListener: OnTileClickedListener<Shop>, adapterPosition: Int){
 
             val generalLocationTextView = itemView.findViewById<TextView>(R.id.general_location)
-            generalLocationTextView.text = shop.generalLocation
+            generalLocationTextView.text = shop.location_name
             val addressTextView = itemView.findViewById<TextView>(R.id.street_address)
-            addressTextView.text = shop.address
+            addressTextView.text = shop.location_address
             val currentDistanceTextView = itemView.findViewById<TextView>(R.id.current_distance)
-            currentDistanceTextView.text = shop.currentDistance
+            currentDistanceTextView.text = "1000m"
+            itemView.setOnClickListener {
+                onTileClickedListener.onClick(adapterPosition, shop)
+            }
         }
 
     }
 
-    data class ShopTileModel(
-        val generalLocation: String,
-        val address: String,
-        var currentDistance: String
-    )
+
 }
