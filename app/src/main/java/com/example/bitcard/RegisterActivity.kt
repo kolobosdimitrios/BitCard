@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityRegisterBinding
+import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.UserDataSenderObj
 import com.example.bitcard.network.daos.responses.GetUserResponse
@@ -95,7 +96,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                             dateOfBirth = binding.date.text.toString(),
                             address = binding.address.text.toString(),
                             id = null,
-                            image = null
+                            image = ""
                         )
 
                         sendCreateUserRequest(registerUserModel)
@@ -127,7 +128,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                     simpleResponse.let {
                         if(it != null){
                             if(it.status_code == SimpleResponse.STATUS_OK){
-
+                                SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", it.data.id)
                                 Log.i("user created", it.data.toString())
                                 val intent = Intent(applicationContext, MainScreenActivity::class.java)
                                 startActivity(intent)

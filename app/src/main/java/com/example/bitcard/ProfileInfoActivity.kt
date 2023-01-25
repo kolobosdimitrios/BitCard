@@ -163,9 +163,11 @@ class ProfileInfoActivity : AppCompatActivity() {
         binding.fullnameTextView.text = user.name + " " + user.surname
         binding.usernameTextView.text = user.username
         user.image?.let { encodedImage ->
-            binding.profilePicture.setImageBitmap(
-                decodeImageToBitmap(encodedImage)
-            )
+            if (encodedImage.trim().isNotEmpty()) {
+                binding.profilePicture.setImageBitmap(
+                    decodeImageToBitmap(encodedImage)
+                )
+            }
         }
     }
 

@@ -137,9 +137,11 @@ class MainScreenActivity : AppCompatActivity() {
         binding.mainScreenLayout.username.text = nameSurname
         binding.menu.usernameMenu.text = nameSurname
         user.image?.let {
-            val bmp = decodeImageToBitmap(it)
-            binding.menu.profilePictureLarge.setImageBitmap(bmp)
-            binding.mainScreenLayout.profilePicture.setImageBitmap(bmp)
+            if(it.trim().isNotEmpty()) {
+                val bmp = decodeImageToBitmap(it)
+                binding.menu.profilePictureLarge.setImageBitmap(bmp)
+                binding.mainScreenLayout.profilePicture.setImageBitmap(bmp)
+            }
         }
 
 
