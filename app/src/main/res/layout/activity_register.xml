@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RegisterActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,16 +24,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textSize="32sp"
-                android:textStyle="bold|italic" />
+                android:padding="5dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/primaryColor"
+                app:strokeWidth="1dp"
+                android:id="@+id/profile_picture"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/gray"
+                android:onClick="onProfilePictureClick"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_focused"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <!--invoke the background as the
-                custom_edit_text_cut-->
             <EditText
                 android:id="@+id/name"
                 style="@style/EditText"

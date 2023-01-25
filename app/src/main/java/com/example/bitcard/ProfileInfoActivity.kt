@@ -46,6 +46,7 @@ class ProfileInfoActivity : AppCompatActivity() {
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
     private val database by lazy { MainDatabase.getInstance(this).userDao() }
+    private var latestTmpUri: Uri? = null
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
         if (isSuccess) {
@@ -81,7 +82,6 @@ class ProfileInfoActivity : AppCompatActivity() {
         }
     }
 
-    private var latestTmpUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         launcher = registerForActivityResult(

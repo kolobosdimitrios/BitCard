@@ -32,7 +32,7 @@
                     android:src="@drawable/ic_person_focused"
                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                     app:strokeColor="@color/primaryColor"
-                    app:strokeWidth="3dp" />
+                    app:strokeWidth="1dp" />
 
                 <TextView
                     android:gravity="center"
