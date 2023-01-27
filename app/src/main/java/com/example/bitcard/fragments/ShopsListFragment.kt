@@ -1,11 +1,17 @@
 package com.example.bitcard.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.GnssAntennaInfo.SphericalCorrections
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.R
@@ -15,14 +21,14 @@ import com.example.bitcard.databinding.FragmentShopsListBinding
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A [Fragment] subclass. Displaying a RecyclerView with the shop listed.
@@ -31,6 +37,22 @@ class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
 
     private lateinit var binding: FragmentShopsListBinding
     private lateinit var adapter: ShopsListRecycler
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                getLocationUpdate()
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+            } else -> {
+            // No location access granted.
+        }
+        }
+    }
 
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
@@ -60,16 +82,51 @@ class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
             binding.shopsRecycler.adapter = adapter
         }
 
-        getShops()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        if (hasLocationPermissions()){
+            getLocationUpdate()
+        }else{
+            askLocationPermission()
+        }
+
     }
 
-    fun getShops(){
+    private fun getLocationUpdate(){
+        fusedLocationClient.getCurrentLocation(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            null
+        ).addOnSuccessListener {
+            val latitude = it.latitude
+            val longitude = it.longitude
+            Log.i("Location point is", "Latitude: $latitude Longitude: $longitude")
+            getShops(
+                latitude = latitude,
+                longitude = longitude
+            )
+        }.addOnFailureListener {
+
+        }
+    }
+
+    private fun getShops(latitude: Double, longitude: Double){
         api.getShops().enqueue(object : Callback<List<Shop>>{
             override fun onResponse(call: Call<List<Shop>>, response: Response<List<Shop>>) {
                 if(response.isSuccessful){
                     val shopsList = response.body()
                     shopsList?.let {
                         if(it.isNotEmpty()){
+                            it.forEach { shop ->
+                                val floats = FloatArray(1)
+                                Location.distanceBetween(
+                                    latitude,
+                                    longitude,
+                                    shop.location_latitude.toDouble(),
+                                    shop.location_longitude.toDouble(),
+                                    floats
+                                )
+                                shop.distanceFromUser = floats[0].toDouble()
+                            }
                             adapter.updateData(ArrayList(it))
                         }
                     }
@@ -83,46 +140,21 @@ class ShopsListFragment : Fragment(), OnTileClickedListener<Shop> {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun hasLocationPermissions() : Boolean {
+        val coarseResult = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        val fineResult = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+
+        return coarseResult == PackageManager.PERMISSION_GRANTED && fineResult == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShopsListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShopsListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun askLocationPermission(){
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
     override fun onClick(adapterPosition: Int, model: Shop) {

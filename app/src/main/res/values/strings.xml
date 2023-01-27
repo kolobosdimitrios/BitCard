@@ -65,4 +65,5 @@
     <string name="purchase_info">Purchase Info</string>
     <string name="value">Value</string>
     <string name="products_image">Product\'s image</string>
+    <string name="distance_unit_metric">km.</string>
 </resources>

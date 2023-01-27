@@ -64,4 +64,5 @@
     <string name="purchase_info">Πληροφορίες Αγοράς</string>
     <string name="value">Αξία</string>
     <string name="products_image">Εικόνα του προΪόντος</string>
+    <string name="distance_unit_metric">χλμ.</string>
 </resources>

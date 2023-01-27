@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcard.R
+import com.example.bitcard.globals.Distance
 import com.example.bitcard.network.daos.responses.models.Shop
 
 class ShopsListRecycler(
@@ -23,7 +24,7 @@ class ShopsListRecycler(
     }
 
     override fun onBindViewHolder(holder: ShopViewHolder, position: Int) {
-        holder.bind(shopsList[holder.adapterPosition], onTileClickedListener, holder.adapterPosition)
+        holder.bind(shopsList[holder.adapterPosition], onTileClickedListener, holder.adapterPosition, context)
     }
 
     override fun getItemCount(): Int {
@@ -39,14 +40,14 @@ class ShopsListRecycler(
 
     class ShopViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(shop : Shop, onTileClickedListener: OnTileClickedListener<Shop>, adapterPosition: Int){
+        fun bind(shop : Shop, onTileClickedListener: OnTileClickedListener<Shop>, adapterPosition: Int, context: Context){
 
             val generalLocationTextView = itemView.findViewById<TextView>(R.id.general_location)
             generalLocationTextView.text = shop.location_name
             val addressTextView = itemView.findViewById<TextView>(R.id.street_address)
             addressTextView.text = shop.location_address
             val currentDistanceTextView = itemView.findViewById<TextView>(R.id.current_distance)
-            currentDistanceTextView.text = "1000m"
+            currentDistanceTextView.text = Distance.toKms(shop.distanceFromUser).toString().plus(" ").plus(context.getString(R.string.distance_unit_metric))
             itemView.setOnClickListener {
                 onTileClickedListener.onClick(adapterPosition, shop)
             }
