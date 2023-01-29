@@ -84,8 +84,12 @@ class LoginActivity : AppCompatActivity() {
                                                     value = password
                                                 )
                                             }
-                                            val intent = Intent(applicationContext, MainScreenActivity::class.java)
-                                            startActivity(intent)
+                                            synchronized(this){
+                                                runOnUiThread{
+                                                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                                                    startActivity(intent)
+                                                }
+                                            }
                                         }
                                     }
                                 }
