@@ -6,32 +6,47 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import com.example.bitcard.adapters.ViewPagerAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bitcard.adapters.OnTileClickedListener
+import com.example.bitcard.adapters.ShopsListRecycler
 import com.example.bitcard.databinding.ActivityShopsBinding
-import com.example.bitcard.fragments.ShopsListFragment
-import com.example.bitcard.fragments.ShopsMapFragment
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
-import com.example.bitcard.view_models.ArrayListViewModel
+import com.example.bitcard.view_models.ItemViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShopsActivity : AppCompatActivity() {
+class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
 
     private lateinit var binding: ActivityShopsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val viewModel: ArrayListViewModel<Shop> by viewModels()
+    private lateinit var adapter: ShopsListRecycler
+    private val shopViewModel: ItemViewModel<Shop> by viewModels() {defaultViewModelProviderFactory}
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+    }
+
+    val bottomSheetBehaviorCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, state: Int) {
+
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+        }
+
     }
 
     private val locationPermissionRequest = registerForActivityResult(
@@ -58,22 +73,12 @@ class ShopsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager,lifecycle)
-        viewPagerAdapter.addFragment(ShopsListFragment())
-        viewPagerAdapter.addFragment(ShopsMapFragment())
-
-        binding.viewPager.adapter = viewPagerAdapter
-
-
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) {
-            tab, position ->
-            when (position) {
-                0 -> tab.text = getString(R.string.ShopsListFragmentTitle)
-                1 -> tab.text = getString(R.string.ShopsMapsFragmentTitle)
-            }
-        }.attach()
-
+        adapter = ShopsListRecycler(context = this, onTileClickedListener = this)
+        binding.shopsRecycler.layoutManager = LinearLayoutManager(this)
+        binding.shopsRecycler.setHasFixedSize(false)
+        binding.shopsRecycler.adapter = adapter
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.bottomSheetPersistent)
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetBehaviorCallback)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (hasLocationPermissions()){
@@ -81,6 +86,13 @@ class ShopsActivity : AppCompatActivity() {
         }else{
             askLocationPermission()
         }
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getShops()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -113,44 +125,45 @@ class ShopsActivity : AppCompatActivity() {
             val latitude = it.latitude
             val longitude = it.longitude
             Log.i("Location point is", "Latitude: $latitude Longitude: $longitude")
-            getShops(
-                latitude = latitude,
-                longitude = longitude
-            )
         }.addOnFailureListener {
 
         }
     }
-    private fun getShops(latitude: Double, longitude: Double){
+    private fun getShops(){
         api.getShops().enqueue(object : Callback<List<Shop>> {
             override fun onResponse(call: Call<List<Shop>>, response: Response<List<Shop>>) {
                 if(response.isSuccessful){
                     val shopsList = response.body()
                     shopsList?.let { shops ->
-                        if(shops.isNotEmpty()){
-                            shops.forEach { shop ->
-                                val floats = FloatArray(1)
-                                Location.distanceBetween(
-                                    latitude,
-                                    longitude,
-                                    shop.location_latitude.toDouble(),
-                                    shop.location_longitude.toDouble(),
-                                    floats
-                                )
-                                shop.distanceFromUser = floats[0].toDouble()
-                            }
-                            viewModel.selectItemsList(ArrayList(shops))
 
-                        }
+                        adapter.updateData(shops as ArrayList<Shop>)
+
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<Shop>>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
+    }
+
+    override fun onClick(adapterPosition: Int, model: Shop) {
+        shopViewModel.selectItem(model)
+        renderBottomSheet(model)
+        expandCollapseSheet()
+    }
+
+    private fun expandCollapseSheet() {
+        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    private fun renderBottomSheet(shop: Shop){
+        binding.bottomSheet.shopTitle.text = shop.shop_name
     }
 
 }

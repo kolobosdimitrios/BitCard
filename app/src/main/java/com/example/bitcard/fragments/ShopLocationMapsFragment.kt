@@ -3,10 +3,18 @@ package com.example.bitcard.fragments
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.bitcard.R
+import com.example.bitcard.network.daos.responses.models.Shop
+import com.example.bitcard.view_models.ItemViewModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +25,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class ShopLocationMapsFragment : Fragment() {
 
+
+    private val shopViewModel: ItemViewModel<Shop> by activityViewModels() {defaultViewModelProviderFactory}
+    private lateinit var googleMap : GoogleMap
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -27,9 +38,11 @@ class ShopLocationMapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        this.googleMap = googleMap
+        shopViewModel.selectedItem.observe(viewLifecycleOwner) {
+            renderMap(it)
+        }
+
     }
 
     override fun onCreateView(
@@ -44,5 +57,21 @@ class ShopLocationMapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+    }
+
+    private fun renderMap(shop: Shop){
+        this.googleMap.clear()
+        val latLng = LatLng(
+            shop.location_latitude.toDouble(),
+            shop.location_longitude.toDouble()
+        )
+        this.googleMap.addMarker(
+            MarkerOptions()
+                .position(
+                    latLng
+                )
+        )
+        Log.i("Marker created at", latLng.toString())
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
     }
 }

@@ -66,4 +66,6 @@
     <string name="value">Value</string>
     <string name="products_image">Product\'s image</string>
     <string name="distance_unit_metric">km.</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="dash">-</string>
 </resources>

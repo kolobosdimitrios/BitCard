@@ -42,6 +42,8 @@ class ShopsListRecycler(
 
         fun bind(shop : Shop, onTileClickedListener: OnTileClickedListener<Shop>, adapterPosition: Int, context: Context){
 
+            val shopTitleTextView = itemView.findViewById<TextView>(R.id.shop_title)
+            shopTitleTextView.text = shop.shop_name
             val generalLocationTextView = itemView.findViewById<TextView>(R.id.general_location)
             generalLocationTextView.text = shop.location_name
             val addressTextView = itemView.findViewById<TextView>(R.id.street_address)

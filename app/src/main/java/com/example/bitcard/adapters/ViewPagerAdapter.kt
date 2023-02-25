@@ -29,6 +29,12 @@ class ViewPagerAdapter(
 
     fun addFragment(fragment: Fragment){
         fragments.add(fragment)
+        notifyItemInserted(fragments.size - 1)
+    }
+
+    fun removeFragment(){
+        fragments.removeAt(fragments.size - 1)
+        notifyItemRemoved(fragments.size - 1)
     }
 
 }
