@@ -30,12 +30,23 @@
     </style>
 
     <style name="BottomSheetModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_bg</item>
+        <item name="shapeAppearance">@style/roundedBottomSheet</item>
+    </style>
+
+    <style name="roundedBottomSheet">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">65dp</item>
+        <item name="cornerRadius">100dp</item>
     </style>
 
 </resources>

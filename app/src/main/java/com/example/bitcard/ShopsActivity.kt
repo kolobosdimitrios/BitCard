@@ -78,8 +78,11 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
         binding.shopsRecycler.setHasFixedSize(false)
         binding.shopsRecycler.adapter = adapter
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.bottomSheetPersistent)
+        bottomSheetBehavior.isDraggable = false
+        collapseSheet()
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetBehaviorCallback)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        binding.bottomSheet.hideBottomSheet.setOnClickListener { collapseSheet() }
 
         if (hasLocationPermissions()){
             getLocationUpdate()
@@ -151,14 +154,18 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
     override fun onClick(adapterPosition: Int, model: Shop) {
         shopViewModel.selectItem(model)
         renderBottomSheet(model)
-        expandCollapseSheet()
+        expandSheet()
     }
 
-    private fun expandCollapseSheet() {
+    private fun expandSheet() {
         if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        } else {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    private fun collapseSheet(){
+        if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN){
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 

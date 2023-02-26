@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/bottom_sheet_persistent"
-    style="@style/BottomSheetModalStyle"
-    android:padding="15dp"
+<LinearLayout android:id="@+id/bottom_sheet_persistent"
+    style="@style/BottomSheetDialogStyle"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,8 +8,17 @@
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
     app:behavior_peekHeight="64dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    xmlns:tools="http://schemas.android.com/tools">
 
+
+        <ImageButton
+            android:id="@+id/hide_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_keyboard_double_arrow_down_24"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,12 +29,16 @@
             android:padding="15dp"
             />
 
+
+
+
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:name="com.example.bitcard.fragments.ShopLocationMapsFragment"
-            />
+            tools:layout="@layout/fragment_shop_location_maps" />
 
         <TextView
             android:layout_width="wrap_content"
