@@ -23,8 +23,12 @@
         <!--Edit text style -->
         <item name="editTextStyle">@style/EditText</item>
 
-
+<!--        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialogDark</item>-->
     </style>
+
+<!--    <style name="ThemeOverlay.App.BottomSheetDialogDark" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">-->
+<!--        <item name="bottomSheetStyle">@style/ModalBottomSheetDialogDark</item>-->
+<!--    </style>-->
 
 
 </resources>
