@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.bitcard.db.daos.UserDao
 import com.example.bitcard.db.entities.User
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 2, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun userDao() : UserDao
@@ -24,6 +24,7 @@ abstract class MainDatabase : RoomDatabase() {
                             context,
                             MainDatabase::class.java,
                             "main_database")
+                            .fallbackToDestructiveMigration()
                             .build()
                 }
             }

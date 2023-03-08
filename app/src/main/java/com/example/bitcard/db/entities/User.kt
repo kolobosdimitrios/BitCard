@@ -26,6 +26,9 @@ data class User(
     @SerializedName("date_of_birth")
     val dateOfBirth: String,
     @ColumnInfo(name = "image_blob_string", typeAffinity = ColumnInfo.BINARY)
-    var image: String?
+    var image: String?,
+    @ColumnInfo(name = "points")
+    @SerializedName("points")
+    var points: Int
 ) {
 }
