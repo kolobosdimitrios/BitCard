@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbarSize="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -70,23 +70,18 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:layout_margin="15dp"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <LinearLayout
@@ -188,7 +183,5 @@
 
         </LinearLayout>
 
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
