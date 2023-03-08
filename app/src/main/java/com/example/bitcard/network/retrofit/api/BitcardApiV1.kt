@@ -3,6 +3,7 @@ package com.example.bitcard.network.retrofit.api
 import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.*
+import com.example.bitcard.db.entities.Coupon
 import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.daos.responses.models.Shop
@@ -46,5 +47,10 @@ interface BitcardApiV1 {
 
     @GET("shops/{shop_id}")
     fun getShop(@Path("shop_id") shop_id: Long) : Call<Shop>
+
+    @GET("users/{user_id}/coupons")
+    fun getCoupons(@Path("user_id") user_id: Long) : Call<List<Coupon>>
+
+
 
 }

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.bitcard.databinding.ActivityMainScreenWNavDrawerBinding
 import com.example.bitcard.databinding.MainScreenMenuBinding
 import com.example.bitcard.db.database.MainDatabase
+import com.example.bitcard.db.entities.Coupon
 import com.example.bitcard.db.entities.User
 import com.example.bitcard.globals.QR
 import com.example.bitcard.globals.SharedPreferencesHelpers
@@ -37,7 +38,7 @@ class MainScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainScreenWNavDrawerBinding
     private lateinit var menuBind : MainScreenMenuBinding
-    private val database by lazy { MainDatabase.getInstance(this).userDao() }
+    private val database by lazy { MainDatabase.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,8 @@ class MainScreenActivity : AppCompatActivity() {
     override fun onResume() {
         super.onStart()
         getUserData(userId = getUserId())
+        getToken(userId = getUserId())
+        getUserCoupons(userId = getUserId())
     }
 
     private fun getUserData(userId: Long){
@@ -101,16 +104,10 @@ class MainScreenActivity : AppCompatActivity() {
                                 //render
                                 runOnUiThread {
                                     renderLayoutWithUserData(it.data)
-                                    getToken(userId = userId)
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        val curUser = database.getUser(it.data.id)
-                                        if(curUser == null) {
-                                            Log.i("user", "INSERTED")
-                                            database.insert(it.data)
-                                        }else{
-                                            Log.i("user", "UPDATED")
-                                            database.update(it.data)
-                                        }
+                                        Log.i("user", "UPDATED")
+                                        database.userDao().update(it.data)
+
                                     }
 
                                 }
@@ -128,6 +125,41 @@ class MainScreenActivity : AppCompatActivity() {
 
     }
 
+    private fun getUserCoupons(userId: Long){
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+
+        bitcardApiV1.getCoupons(userId).enqueue(object : Callback<List<Coupon>>{
+            override fun onResponse(call: Call<List<Coupon>>, response: Response<List<Coupon>>) {
+                if (response.isSuccessful){
+                    runOnUiThread {
+                        response.body()?.let {
+                            renderCouponsAndPoints(it)
+                            CoroutineScope(Dispatchers.IO).launch {
+
+                                    database.couponsDao().deleteAll()
+
+                                    database.couponsDao().insert(it.toTypedArray())
+
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Coupon>>, t: Throwable) {
+                Log.e("CALL FAILED", call.toString())
+            }
+
+        })
+    }
+
+    private fun renderCouponsAndPoints(coupons: List<Coupon>){
+
+        binding.mainScreenLayout.availableCouponsTextView.text = coupons.size.toString()
+
+    }
+
     private fun renderLayoutWithUserData(user: User){
 
         Log.e("user data", user.toString())
@@ -136,6 +168,8 @@ class MainScreenActivity : AppCompatActivity() {
 
         binding.mainScreenLayout.username.text = nameSurname
         binding.menu.usernameMenu.text = nameSurname
+        binding.mainScreenLayout.pointsTextView.text = user.points.toString()
+        binding.mainScreenLayout.nextRewardTextView.text = user.remainingPoints.toString()
         user.image?.let {
             if(it.trim().isNotEmpty()) {
                 val bmp = decodeImageToBitmap(it)
@@ -172,7 +206,7 @@ class MainScreenActivity : AppCompatActivity() {
                                 Delete user from database
                                  */
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    database.deleteWithId(
+                                    database.userDao().deleteWithId(
                                         id= userId
                                     )
                                 }

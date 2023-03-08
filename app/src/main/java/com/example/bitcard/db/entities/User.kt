@@ -29,6 +29,9 @@ data class User(
     var image: String?,
     @ColumnInfo(name = "points")
     @SerializedName("points")
-    var points: Int
+    val points: Int,
+    @ColumnInfo(name = "remaining_points")
+    @SerializedName("remaining_points")
+    val remainingPoints: Int
 ) {
 }
