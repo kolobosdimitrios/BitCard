@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 
 
 data class Shop(
-    var id: Long?,
+    var id: Long,
     val shop_name : String,
     val location_name : String,
     val location_latitude : Float,

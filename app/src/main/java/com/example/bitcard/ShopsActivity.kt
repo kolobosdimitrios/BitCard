@@ -32,21 +32,8 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
     private lateinit var binding: ActivityShopsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var adapter: ShopsListRecycler
-    private val shopViewModel: ItemViewModel<Shop> by viewModels() {defaultViewModelProviderFactory}
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-    }
-
-    val bottomSheetBehaviorCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onStateChanged(bottomSheet: View, state: Int) {
-
-        }
-
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-        }
-
     }
 
     private val locationPermissionRequest = registerForActivityResult(
@@ -60,7 +47,7 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
                 // Only approximate location access granted.
             } else -> {
             // No location access granted.
-        }
+            }
         }
     }
 
@@ -77,12 +64,8 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
         binding.shopsRecycler.layoutManager = LinearLayoutManager(this)
         binding.shopsRecycler.setHasFixedSize(false)
         binding.shopsRecycler.adapter = adapter
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.bottomSheetPersistent)
-        bottomSheetBehavior.isDraggable = false
-        collapseSheet()
-        bottomSheetBehavior.addBottomSheetCallback(bottomSheetBehaviorCallback)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        binding.bottomSheet.hideBottomSheet.setOnClickListener { collapseSheet() }
 
         if (hasLocationPermissions()){
             getLocationUpdate()
@@ -152,25 +135,15 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
     }
 
     override fun onClick(adapterPosition: Int, model: Shop) {
-        shopViewModel.selectItem(model)
-        renderBottomSheet(model)
-        expandSheet()
+        val intent = ShopInformationActivity.getIntent(
+            this,
+            model.id
+        )
+        startActivity(intent)
     }
 
-    private fun expandSheet() {
-        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-    }
 
-    private fun collapseSheet(){
-        if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN){
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-    }
 
-    private fun renderBottomSheet(shop: Shop){
-        binding.bottomSheet.shopTitle.text = shop.shop_name
-    }
+
 
 }
