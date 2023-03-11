@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.bitcard.databinding.ActivityShopInformationBinding
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
@@ -26,14 +27,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShopInformationActivity : AppCompatActivity(), OnMapReadyCallback {
+class ShopInformationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShopInformationBinding
-    private lateinit var googleMap: GoogleMap
+    private val shopViewModel: ItemViewModel<Shop> by viewModels() {defaultViewModelProviderFactory}
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
     }
-    private val shopViewModel: ItemViewModel<Shop> by viewModels() {defaultViewModelProviderFactory}
+
 
     companion object{
         fun getIntent(context: Context, shop_id: Long) : Intent{
@@ -88,57 +89,18 @@ class ShopInformationActivity : AppCompatActivity(), OnMapReadyCallback {
         shopViewModel.selectItem(shop)
     }
 
-    override fun onMapReady(gMap: GoogleMap) {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        this.googleMap = gMap
-        shopViewModel.selectedItem.observe(this) {
-            renderMapWith(it)
-        }
-    }
 
-    private fun renderMapWith(shop: Shop){
-        this.googleMap.clear()
-        val latLng = LatLng(
-            shop.location_latitude.toDouble(),
-            shop.location_longitude.toDouble()
-        )
-        this.googleMap.addMarker(
-            MarkerOptions()
-                .position(
-                    latLng
-                )
-        )
-        Log.i("Marker created at", latLng.toString())
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
 
-    inner class ShopLocationMapsFragment : Fragment() {
+    class ShopLocationMapsFragment : Fragment(), OnMapReadyCallback {
 
-
-        private lateinit var googleMap : GoogleMap
+        private val shopViewModel: ItemViewModel<Shop> by activityViewModels() {defaultViewModelProviderFactory}
 
 
         override fun onCreateView(
@@ -152,7 +114,49 @@ class ShopInformationActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-            mapFragment?.getMapAsync(this@ShopInformationActivity)
+            mapFragment?.getMapAsync(this)
+        }
+
+        override fun onMapReady(gMap: GoogleMap) {
+
+            /**
+             * Manipulates the map once available.
+             * This callback is triggered when the map is ready to be used.
+             * This is where we can add markers or lines, add listeners or move the camera.
+             * In this case, we just add a marker near Sydney, Australia.
+             * If Google Play services is not installed on the device, the user will be prompted to
+             * install it inside the SupportMapFragment. This method will only be triggered once the
+             * user has installed Google Play services and returned to the app.
+             */
+            /**
+             * Manipulates the map once available.
+             * This callback is triggered when the map is ready to be used.
+             * This is where we can add markers or lines, add listeners or move the camera.
+             * In this case, we just add a marker near Sydney, Australia.
+             * If Google Play services is not installed on the device, the user will be prompted to
+             * install it inside the SupportMapFragment. This method will only be triggered once the
+             * user has installed Google Play services and returned to the app.
+             */
+
+            shopViewModel.selectedItem.observe(this) {
+                renderMapWith(it, gMap)
+            }
+        }
+
+        private fun renderMapWith(shop: Shop, gMap: GoogleMap){
+            gMap.clear()
+            val latLng = LatLng(
+                shop.location_latitude.toDouble(),
+                shop.location_longitude.toDouble()
+            )
+            gMap.addMarker(
+                MarkerOptions()
+                    .position(
+                        latLng
+                    )
+            )
+            Log.i("Marker created at", latLng.toString())
+            gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         }
 
 
