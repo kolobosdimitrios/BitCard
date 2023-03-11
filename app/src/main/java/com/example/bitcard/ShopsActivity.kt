@@ -72,13 +72,13 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
         }else{
             askLocationPermission()
         }
-
+        getShops()
 
     }
 
     override fun onStart() {
         super.onStart()
-        getShops()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

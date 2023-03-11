@@ -76,15 +76,14 @@ class MainScreenActivity : AppCompatActivity() {
         binding.menu.logoutOption.setOnClickListener {
             callLogout(getUserId())
         }
-
-
+        getUserData(userId = getUserId())
+        getToken(userId = getUserId())
+        getUserCoupons(userId = getUserId())
     }
 
     override fun onResume() {
         super.onStart()
-        getUserData(userId = getUserId())
-        getToken(userId = getUserId())
-        getUserCoupons(userId = getUserId())
+
     }
 
     private fun getUserData(userId: Long){

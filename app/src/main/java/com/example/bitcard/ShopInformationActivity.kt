@@ -50,13 +50,14 @@ class ShopInformationActivity : AppCompatActivity(), OnMapReadyCallback {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        getShop(
+            shopId = getShopId()
+        )
     }
 
     override fun onStart() {
         super.onStart()
-        getShop(
-            shopId = getShopId()
-        )
+
     }
 
     private fun getShopId() : Long{

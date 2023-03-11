@@ -37,13 +37,12 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
         binding.productsRecycler.layoutManager = LinearLayoutManager(this)
         binding.productsRecycler.setHasFixedSize(false)
         binding.productsRecycler.adapter = adapter
-
+        getPurchaseIds()?.forEach { getPurchasesInfo(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.clear()
-        getPurchaseIds()?.forEach { getPurchasesInfo(it) }
+
     }
 
     private fun getPurchasesInfo(purchaseId: Long){

@@ -45,16 +45,18 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
         binding.purchaseHistoryRecyclerView.setHasFixedSize(true)
         binding.purchaseHistoryRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.purchaseHistoryRecyclerView.adapter = adapter
+//        adapter.clear()
+//        adapter.notifyDataSetChanged()
+        getUsersTokensHistory(
+            SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
+        )
 
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.clear()
-        adapter.notifyDataSetChanged()
-        getUsersTokensHistory(
-            SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
-        )
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
