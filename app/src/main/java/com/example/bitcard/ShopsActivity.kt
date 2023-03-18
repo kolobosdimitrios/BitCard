@@ -2,36 +2,35 @@ package com.example.bitcard
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bitcard.adapters.OnTileClickedListener
-import com.example.bitcard.adapters.ShopsListRecycler
+import com.example.bitcard.adapters.ViewPagerAdapter
 import com.example.bitcard.databinding.ActivityShopsBinding
+import com.example.bitcard.fragments.ShopInformationFragment
+import com.example.bitcard.fragments.ShopsListFragment
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
-import com.example.bitcard.view_models.ItemViewModel
+import com.example.bitcard.view_models.ShopViewModel
+import com.example.bitcard.view_models.ShopsViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
+class ShopsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShopsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var adapter: ShopsListRecycler
+    private val shopsViewModel: ShopsViewModel by viewModels() {defaultViewModelProviderFactory}
+    private val shopViewModel: ShopViewModel by viewModels() {defaultViewModelProviderFactory}
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
     }
@@ -60,24 +59,33 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        adapter = ShopsListRecycler(context = this, onTileClickedListener = this)
-        binding.shopsRecycler.layoutManager = LinearLayoutManager(this)
-        binding.shopsRecycler.setHasFixedSize(false)
-        binding.shopsRecycler.adapter = adapter
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        viewPagerAdapter = ViewPagerAdapter(
+            supportFragmentManager,
+            lifecycle
+        )
+
+        binding.viewPager.isUserInputEnabled = true //for now!!!!!
+        binding.viewPager.adapter = viewPagerAdapter
+
+        viewPagerAdapter.addFragment(ShopsListFragment())
+        viewPagerAdapter.addFragment(ShopInformationFragment())
+
 
         if (hasLocationPermissions()){
             getLocationUpdate()
         }else{
             askLocationPermission()
         }
+
         getShops()
-
-    }
-
-    override fun onStart() {
-        super.onStart()
+        shopViewModel.selectedItem.observe(this){
+            supportActionBar?.let {
+                bar -> bar.title = it.shop_name
+                binding.viewPager.currentItem = 1
+            }
+        }
 
     }
 
@@ -122,7 +130,7 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
                     val shopsList = response.body()
                     shopsList?.let { shops ->
 
-                        adapter.updateData(shops as ArrayList<Shop>)
+                        shopsViewModel.selectItemsList(ArrayList(shops))
 
                     }
                 }
@@ -134,13 +142,7 @@ class ShopsActivity : AppCompatActivity(), OnTileClickedListener<Shop> {
         })
     }
 
-    override fun onClick(adapterPosition: Int, model: Shop) {
-        val intent = ShopInformationActivity.getIntent(
-            this,
-            model.id
-        )
-        startActivity(intent)
-    }
+
 
 
 

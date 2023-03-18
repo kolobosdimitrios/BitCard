@@ -5,19 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    tools:context=".fragments.ShopInformationFragment"
     >
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 
     <androidx.fragment.app.FragmentContainerView
         android:padding="15dp"
         android:layout_margin="5dp"
         android:id="@+id/map_fragment"
-        android:name="com.example.bitcard.ShopInformationActivity$ShopLocationMapsFragment"
+        android:name="com.example.bitcard.fragments.ShopInformationFragment$ShopLocationMapsFragment"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         tools:layout="@layout/fragment_shop_location_maps" />

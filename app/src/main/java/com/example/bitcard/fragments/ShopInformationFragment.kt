@@ -1,106 +1,58 @@
-package com.example.bitcard
+package com.example.bitcard.fragments
 
-import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.bitcard.databinding.ActivityShopInformationBinding
+import com.example.bitcard.R
+import com.example.bitcard.databinding.FragmentShopInformationBinding
 import com.example.bitcard.network.daos.responses.models.Shop
-import com.example.bitcard.network.retrofit.api.BitcardApiV1
-import com.example.bitcard.network.retrofit.client.RetrofitHelper
-import com.example.bitcard.view_models.ItemViewModel
+import com.example.bitcard.view_models.GoogleMapsViewModel
+import com.example.bitcard.view_models.ShopViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class ShopInformationActivity : AppCompatActivity() {
+class ShopInformationFragment: Fragment() {
 
-    private lateinit var binding: ActivityShopInformationBinding
-    private val shopViewModel: ItemViewModel<Shop> by viewModels() {defaultViewModelProviderFactory}
-    private val api by lazy {
-        RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+    private val shopViewModel: ShopViewModel by activityViewModels() {defaultViewModelProviderFactory}
+    private val mapShopViewModel: GoogleMapsViewModel by activityViewModels() {defaultViewModelProviderFactory}
+    private lateinit var binding: FragmentShopInformationBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentShopInformationBinding.inflate(inflater)
+        return binding.root
     }
 
-
-    companion object{
-        fun getIntent(context: Context, shop_id: Long) : Intent{
-            val intent = Intent(context, ShopInformationActivity::class.java)
-            intent.putExtra("shop_id", shop_id)
-            return intent
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        shopViewModel.selectedItem.observe(
+            viewLifecycleOwner
+        ){
+            mapShopViewModel.selectItem(it)
+            renderUiWith(it)
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityShopInformationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        getShop(
-            shopId = getShopId()
-        )
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-    private fun getShopId() : Long{
-        return intent.getLongExtra("shop_id", -1)
-    }
-
-    private fun getShop(shopId: Long){
-
-        api.getShop(shopId).enqueue(object : Callback<Shop>{
-            override fun onResponse(call: Call<Shop>, response: Response<Shop>) {
-                if(response.isSuccessful){
-                    response.body()?.let {
-                        renderUiWith(it)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<Shop>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-
-    }
-
     private fun renderUiWith(shop: Shop){
-        binding.toolbar.title = shop.shop_name
-        shopViewModel.selectItem(shop)
+
     }
 
 
 
-
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
-
-    class ShopLocationMapsFragment : Fragment(), OnMapReadyCallback {
-
-        private val shopViewModel: ItemViewModel<Shop> by activityViewModels() {defaultViewModelProviderFactory}
+     class ShopLocationMapsFragment : Fragment(), OnMapReadyCallback {
+         private val mapShopViewModel: GoogleMapsViewModel by activityViewModels() {defaultViewModelProviderFactory}
 
 
         override fun onCreateView(
@@ -137,10 +89,10 @@ class ShopInformationActivity : AppCompatActivity() {
              * install it inside the SupportMapFragment. This method will only be triggered once the
              * user has installed Google Play services and returned to the app.
              */
-
-            shopViewModel.selectedItem.observe(this) {
+            mapShopViewModel.selectedItem.observe(viewLifecycleOwner){
                 renderMapWith(it, gMap)
             }
+
         }
 
         private fun renderMapWith(shop: Shop, gMap: GoogleMap){
@@ -162,5 +114,6 @@ class ShopInformationActivity : AppCompatActivity() {
 
     }
 
-}
 
+
+}
