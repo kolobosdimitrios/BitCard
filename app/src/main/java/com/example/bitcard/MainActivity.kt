@@ -23,13 +23,10 @@ class MainActivity : AppCompatActivity() {
                 loginUser(email, password)
             }
         }
-        setTheme(R.style.Theme_BitCard)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setContentView(binding.root)
 
         binding.createAccountButton.setOnClickListener {
             this.startActivity(Intent(applicationContext, RegisterActivity::class.java))
@@ -39,6 +36,23 @@ class MainActivity : AppCompatActivity() {
         binding.loginWithAccountButton.setOnClickListener{
             this.startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
+        }
+
+        val sharedPrefs = getSharedPreferences("app_settings", MODE_PRIVATE)
+
+
+        when (sharedPrefs.getString("theme", "system")) {
+            "dark" -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+
+            "light" -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+
+            "system" -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
         }
     }
 
