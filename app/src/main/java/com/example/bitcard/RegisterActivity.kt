@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.example.bitcard.databinding.ActivityRegisterBinding
 import com.example.bitcard.fragments.SelectImageBottomSheetDialogFragment
@@ -68,6 +69,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar = binding.toolbar

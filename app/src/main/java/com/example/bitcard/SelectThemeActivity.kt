@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.bitcard.databinding.ActivitySelectThemeBinding
 
 class SelectThemeActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class SelectThemeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        installSplashScreen()
         binding = ActivitySelectThemeBinding.inflate(layoutInflater)
 
         val toolbar =  binding.toolbar

@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.bitcard.adapters.ViewPagerAdapter
 import com.example.bitcard.databinding.ActivityShopsBinding
 import com.example.bitcard.fragments.ShopInformationFragment
@@ -52,6 +53,7 @@ class ShopsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityShopsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

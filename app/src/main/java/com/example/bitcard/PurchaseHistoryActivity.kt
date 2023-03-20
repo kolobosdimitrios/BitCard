@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.PurchaseRecyclerModel
@@ -28,6 +29,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityPurchaseHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

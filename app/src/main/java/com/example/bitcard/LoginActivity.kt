@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.bitcard.databinding.ActivityLoginBinding
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.responses.GetUserResponse
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         FirebaseApp.initializeApp(applicationContext)
         auth = FirebaseAuth.getInstance()
         binding = ActivityLoginBinding.inflate(layoutInflater)

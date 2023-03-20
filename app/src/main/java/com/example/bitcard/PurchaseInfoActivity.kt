@@ -2,6 +2,7 @@ package com.example.bitcard
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.ProductsRecyclerViewAdapter
@@ -21,6 +22,7 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityPurchaseInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

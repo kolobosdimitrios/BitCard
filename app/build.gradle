@@ -79,6 +79,10 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation("androidx.fragment:fragment-ktx:1.4.1")
 
+    def splashScreenVersion = "1.0.0"
+
+    implementation("androidx.core:core-splashscreen:$splashScreenVersion")
+
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
