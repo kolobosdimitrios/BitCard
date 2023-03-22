@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bitcard">
+    package="com.example.bitcard" >
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,11 +16,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSplash"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name=".MainActivityBottomNavigation"
+            android:exported="false"
+            android:label="@string/MainScreenActivityTitle" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".PurchaseInfoActivity"
             android:exported="false"
-            android:label="@string/purchase_info">
+            android:label="@string/purchase_info" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -27,7 +36,7 @@
         <activity
             android:name=".SelectThemeActivity"
             android:exported="false"
-            android:label="@string/select_theme">
+            android:label="@string/select_theme" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -35,7 +44,7 @@
         <activity
             android:name=".ChangePasswordActivity"
             android:exported="false"
-            android:label="@string/change_password">
+            android:label="@string/change_password" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -43,7 +52,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/MainScreenActivityTitle">
+            android:label="@string/MainScreenActivityTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -97,12 +106,11 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>
