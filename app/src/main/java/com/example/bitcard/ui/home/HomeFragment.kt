@@ -1,20 +1,19 @@
 package com.example.bitcard.ui.home
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.bitcard.ProfileInfoActivity
 import com.example.bitcard.R
 import com.example.bitcard.databinding.FragmentHomeBinding
 import com.example.bitcard.db.entities.Coupon
@@ -45,6 +44,12 @@ class HomeFragment : Fragment() {
         homeFragmentViewModel.selectedCoupons.observe(viewLifecycleOwner){
             coupons -> renderCouponsAndPoints(coupons)
         }
+
+
+        binder.profilePicture.setOnClickListener {
+            startActivity(Intent(requireContext(), ProfileInfoActivity::class.java))
+        }
+
         return binder.root
     }
 
@@ -60,7 +65,6 @@ class HomeFragment : Fragment() {
 
     private fun renderLayoutWithUserData(user: User){
 
-        Log.e("user data", user.toString())
 
         val nameSurname = String.format(resources.getString(R.string.space_between), user.name, user.surname)
 

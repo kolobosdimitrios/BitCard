@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 if (result.isSuccessful) {
                     Log.i("User login", "successful")
                     result.result.user?.uid?.let { Log.i("User ID", it) }
-                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                    val intent = Intent(applicationContext, MainActivityBottomNavigation::class.java)
                     startActivity(intent)
                     this.finish()
                 } else if (result.isCanceled) {

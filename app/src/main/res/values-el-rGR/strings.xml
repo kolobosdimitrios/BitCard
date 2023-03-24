@@ -68,4 +68,6 @@
     <string name="dash">-</string>
     <string name="phone_number">Τηλέφωνο Επικοινωνίας</string>
     <string name="title_home">Αρχική Οθόνη</string>
+    <string name="purchases_fragment_title">Αγορές</string>
+    <string name="card_qr_code">Κωδικός QR ψηφιακής κάρτας</string>
 </resources>

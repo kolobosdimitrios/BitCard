@@ -69,4 +69,6 @@
     <string name="phone_number">Phone Number</string>
     <string name="dash">-</string>
     <string name="title_home">Home</string>
+    <string name="purchases_fragment_title">Purchases</string>
+    <string name="card_qr_code">Digital card\'s QR code</string>
 </resources>

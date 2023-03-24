@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
                                             }
                                             synchronized(this){
                                                 runOnUiThread{
-                                                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                                                    val intent = Intent(applicationContext, MainActivityBottomNavigation::class.java)
                                                     startActivity(intent)
                                                 }
                                             }

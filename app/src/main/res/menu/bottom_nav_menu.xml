@@ -16,9 +16,5 @@
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="@string/purchase_history"/>
 
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/purchase_history"/>
 
 </menu>

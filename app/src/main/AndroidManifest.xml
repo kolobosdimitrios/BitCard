@@ -20,7 +20,7 @@
         <activity
             android:name=".MainActivityBottomNavigation"
             android:exported="false"
-            android:label="@string/MainScreenActivityTitle" >
+            android:label="@string/title_home" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

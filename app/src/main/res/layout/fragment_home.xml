@@ -7,29 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbarSize="1dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/mainScreenToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -56,6 +47,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:contentDescription="@string/card_qr_code"
                 android:id="@+id/cardImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +103,6 @@
                 android:layout_gravity="center"
                 android:maxEms="100"
                 android:padding="15dp"
-                android:text="120"
                 android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -141,7 +132,6 @@
                 android:layout_gravity="center"
                 android:maxEms="100"
                 android:padding="15dp"
-                android:text="30"
                 android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -173,7 +163,6 @@
                 android:layout_gravity="center"
                 android:maxEms="100"
                 android:padding="15dp"
-                android:text="5"
                 android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold" />
 
