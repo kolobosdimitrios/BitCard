@@ -1,6 +1,7 @@
 package com.example.bitcard.ui.shops
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -105,7 +106,22 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
     }
 
     override fun onClick(adapterPosition: Int, model: Shop) {
-        TODO("Render shops information layout (activity or another fragment)")
+        val intent = Intent(requireContext(), ShopInformationActivity::class.java)
+        val b = Bundle()
+        b.putString("shop_name", model.shop_name)
+        b.putString("location_name", model.location_name)
+        b.putString("created_at", model.created_at)
+        b.putString("updated_at", model.updated_at)
+        b.putString("description", model.description)
+        b.putString("location_address", model.location_address)
+        b.putFloat("location_longitude", model.location_longitude)
+        b.putFloat("location_latitude", model.location_latitude)
+        b.putLong("shop_id", model.id)
+        model.distanceFromUser?.let {
+            b.putDouble("distance_from_user", it)
+        }
+        intent.putExtras(b)
+        startActivity(intent)
     }
 
 }

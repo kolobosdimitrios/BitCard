@@ -45,8 +45,8 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
          setContentView(binding.root)
 
         setSupportActionBar(binding.mainScreenToolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         val homeFragment = HomeFragment()
         val shopsFragment = ShopsFragment()

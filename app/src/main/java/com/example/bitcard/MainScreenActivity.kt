@@ -67,9 +67,9 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
-        binding.menu.shopListOption.setOnClickListener {
-            startActivity(Intent(this, ShopsActivity::class.java))
-        }
+//        binding.menu.shopListOption.setOnClickListener {
+//            startActivity(Intent(this, ShopsActivity::class.java))
+//        }
 
         binding.mainScreenLayout.profilePicture.setOnClickListener {
             startActivity(Intent(this, ProfileInfoActivity::class.java))

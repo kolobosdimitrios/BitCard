@@ -70,4 +70,6 @@
     <string name="title_home">Αρχική Οθόνη</string>
     <string name="purchases_fragment_title">Αγορές</string>
     <string name="card_qr_code">Κωδικός QR ψηφιακής κάρτας</string>
+    <string name="add_to_favorites">Προσθήκη στα αγαπημένα</string>
+    <string name="added_to_favorites">Προστέθηκε στα αγαπημένα</string>
 </resources>
