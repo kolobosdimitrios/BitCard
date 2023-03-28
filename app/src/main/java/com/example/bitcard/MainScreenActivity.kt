@@ -178,8 +178,6 @@ class MainScreenActivity : AppCompatActivity() {
                 binding.mainScreenLayout.profilePicture.setImageBitmap(bmp)
             }
         }
-
-
     }
 
     private fun decodeImageToBitmap(encodedImage: String): Bitmap {
@@ -200,9 +198,7 @@ class MainScreenActivity : AppCompatActivity() {
                     if(simpleResponse != null) {
                         when(simpleResponse.status_code){
                             SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
-                                Toast.makeText(applicationContext, R.string.logout_success, Snackbar.LENGTH_SHORT).show()
-                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
-                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_DATA) //remove user_data
+
                                 /*
                                 Delete user from database
                                  */

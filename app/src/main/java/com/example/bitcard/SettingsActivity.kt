@@ -3,12 +3,26 @@ package com.example.bitcard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.bitcard.databinding.ActivitySettingsBinding
+import com.example.bitcard.db.database.MainDatabase
+import com.example.bitcard.globals.SharedPreferencesHelpers
+import com.example.bitcard.network.daos.responses.SimpleResponse
+import com.example.bitcard.network.retrofit.api.BitcardApiV1
+import com.example.bitcard.network.retrofit.client.RetrofitHelper
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
+    private val userDao by lazy { MainDatabase.getInstance(this).userDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +40,64 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.logoutOption.setOnClickListener {
+            callLogout(
+                SharedPreferencesHelpers.readLong(
+                    applicationContext,
+                    SharedPreferencesHelpers.USER_DATA, "id"
+                )
+            )
+        }
+
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    private fun callLogout(userId: Long){
+        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+
+        bitcardApiV1.logout().enqueue( object : Callback<SimpleResponse> {
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val simpleResponse = response.body()
+                    if(simpleResponse != null) {
+                        when(simpleResponse.status_code){
+                            SimpleResponse.STATUS_OK, SimpleResponse.STATUS_IGNORE -> {
+                                Toast.makeText(applicationContext, R.string.logout_success, Snackbar.LENGTH_SHORT).show()
+                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_CREDENTIALS_NAME) //remove credentials from shared preferences
+                                SharedPreferencesHelpers.clear(applicationContext, SharedPreferencesHelpers.USER_DATA) //remove user_data
+                                /*
+                                Delete user from database
+                                 */
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    userDao.deleteWithId(
+                                        id= userId
+                                    )
+                                }
+                                runOnUiThread {
+                                    finishAffinity()
+                                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                                }
+                            }
+                            SimpleResponse.STATUS_ERROR -> {
+                                Toast.makeText(applicationContext, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                Snackbar.make(binding.root, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
+            }
+
+        })
     }
 }

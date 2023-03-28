@@ -15,4 +15,5 @@
     <color name="background_dark">#303030</color>
     <color name="background_light">@color/design_default_color_background</color>
     <color name="yellow_star">#FFEB3B</color>
+    <color name="red">#F44336</color>
 </resources>

@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -46,7 +45,7 @@ class ProfileInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileInfoBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private val permissionResultGenerified = PermissionResultGenerified.registerForPermissionResult(this)
-    private val database by lazy { MainDatabase.getInstance(this).userDao() }
+    private val userDao by lazy { MainDatabase.getInstance(this).userDao() }
     private var latestTmpUri: Uri? = null
 
     private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
@@ -105,6 +104,10 @@ class ProfileInfoActivity : AppCompatActivity() {
             launcher.launch(intent)
         }
 
+        binding.profilePicture.setOnClickListener {
+            onProfilePictureClick()
+        }
+
         getUserData(
             SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id")
         )
@@ -118,7 +121,7 @@ class ProfileInfoActivity : AppCompatActivity() {
     }
 
     private fun getUserData(user_id: Long){
-       database.getUser(user_id).observe(this) {
+       userDao.getUser(user_id).observe(this) {
            if(it != null && it.userId.isNotEmpty()) {
                render(it)
            }else{
@@ -144,7 +147,7 @@ class ProfileInfoActivity : AppCompatActivity() {
                             if (it.status_code == SimpleResponse.STATUS_OK) {
                                 //save user to database
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    database.insert(it.data)
+                                    userDao.insert(it.data)
                                 }
                             }
                         }
@@ -186,7 +189,7 @@ class ProfileInfoActivity : AppCompatActivity() {
         }
     }
 
-    fun onProfilePictureClick(view: View){
+    fun onProfilePictureClick(){
         val selectImageBottomSheetDialogFragment = SelectImageBottomSheetDialogFragment()
         selectImageBottomSheetDialogFragment.setOnResultListener(object : SelectImageBottomSheetDialogFragment.OnResultListener {
             override fun onResult(result: Int) {
@@ -303,10 +306,10 @@ class ProfileInfoActivity : AppCompatActivity() {
     private fun saveUserImage(user_id: Long, image: Bitmap){
         val imageB64 = encodeBitmapToBase64(image)
         CoroutineScope(Dispatchers.IO).launch {
-            val tmpUser = database.get(user_id)
+            val tmpUser = userDao.get(user_id)
             tmpUser?.let {
                 it.image = imageB64
-                database.insert(tmpUser)
+                userDao.insert(tmpUser)
             }
         }
     }
@@ -322,7 +325,5 @@ class ProfileInfoActivity : AppCompatActivity() {
         val byteArrayImage: ByteArray = baos.toByteArray()
         return Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
     }
-
-
 
 }

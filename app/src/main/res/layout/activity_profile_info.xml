@@ -27,7 +27,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/gray"
-        android:onClick="onProfilePictureClick"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_person_focused"
         app:layout_constraintEnd_toEndOf="parent"
@@ -185,7 +184,8 @@
 
             </RelativeLayout>
 
-            <TextView
+            <Button
+                android:textAllCaps="false"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_marginHorizontal="15dp"
