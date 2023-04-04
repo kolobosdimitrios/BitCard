@@ -39,7 +39,18 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
         binding.productsRecycler.layoutManager = LinearLayoutManager(this)
         binding.productsRecycler.setHasFixedSize(false)
         binding.productsRecycler.adapter = adapter
-        getPurchaseIds()?.forEach { getPurchasesInfo(it) }
+        getPurchaseIds()?.let {
+            for (pId : Long in it){
+                getPurchasesInfo(
+                    pId,
+                    SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                    getTokenId()
+                )
+            }
+
+        }
+
+
     }
 
     override fun onResume() {
@@ -47,14 +58,14 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
 
     }
 
-    private fun getPurchasesInfo(purchaseId: Long){
+    private fun getPurchasesInfo(purchaseId: Long, userId: Long, tokenId: Long){
 
         val api = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
         api.getPurchaseProducts(
-            user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-            getTokenId(),
-            purchase_id = purchaseId
+            userId,
+            tokenId,
+            purchaseId
         ).enqueue(object : Callback<List<Product>>{
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
                 if(response.isSuccessful){

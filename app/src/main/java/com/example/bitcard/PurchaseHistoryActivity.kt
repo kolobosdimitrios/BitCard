@@ -1,6 +1,5 @@
 package com.example.bitcard
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -15,12 +14,11 @@ import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
-import com.example.bitcard.ui.purchases.PurchaseInfoActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purchase> {
+class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<PurchaseRecyclerModel> {
 
     private lateinit var binding : ActivityPurchaseHistoryBinding
 
@@ -102,7 +100,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
                 if(response.isSuccessful){
                     val body = response.body()
                     if(body != null) {
-                        addPurchaseToAdapter(body)
+                        addPurchaseToAdapter(PurchaseRecyclerModel(body))
                     }
                 }
             }
@@ -115,17 +113,14 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
 
     }
 
-    private fun addPurchaseToAdapter(purchases: List<Purchase>){
+    private fun addPurchaseToAdapter(purchases: PurchaseRecyclerModel){
         runOnUiThread{
             //TODO : add the purchase instance to recycler view!!
-            if(purchases.isNotEmpty()) {
-                adapter.add(purchases)
-            }
-
+            adapter.add(purchases)
         }
     }
 
-    override fun onClick(adapterPosition: Int, model: Purchase) {
+    override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
 
     }
 }

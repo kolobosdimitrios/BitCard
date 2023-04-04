@@ -13,10 +13,8 @@ import com.example.bitcard.adapters.PurchaseRecyclerModel
 import com.example.bitcard.adapters.PurchasesRecyclerViewAdapter
 import com.example.bitcard.databinding.ShopsFragmentBinding
 import com.example.bitcard.network.daos.responses.models.Purchase
-import com.example.bitcard.network.retrofit.api.BitcardApiV1
-import com.example.bitcard.network.retrofit.client.RetrofitHelper
 
-class PurchasesFragment : Fragment(), OnTileClickedListener<Purchase> {
+class PurchasesFragment : Fragment(), OnTileClickedListener<PurchaseRecyclerModel> {
 
     private lateinit var binder: ShopsFragmentBinding
     private lateinit var adapter : PurchasesRecyclerViewAdapter
@@ -47,26 +45,41 @@ class PurchasesFragment : Fragment(), OnTileClickedListener<Purchase> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        purchasesFragmentViewModel.selectedPurchases.observe(viewLifecycleOwner){
-            addPurchaseToAdapter(
-                it
-            )
-        }
-    }
-
-
-
-    private fun addPurchaseToAdapter(purchases: List<Purchase>){
-        requireActivity().runOnUiThread{
-            if(purchases.isNotEmpty()) {
-                adapter.add(purchases)
+        purchasesFragmentViewModel.selectedPurchases.observe(viewLifecycleOwner){ purchases ->
+            val hashMap = LinkedHashMap<Long, List<Purchase>>()
+            var tmpId = purchases[0].tokens_id
+            var tmpList = ArrayList<Purchase>()
+            for(p : Purchase in purchases){
+                if(tmpId == p.tokens_id){
+                    tmpList.add(p)
+                }else{
+                    hashMap[tmpId] = tmpList
+                    tmpList = ArrayList()
+                    tmpId = p.tokens_id
+                    tmpList.add(p)
+                }
             }
-            adapter.notifyDataSetChanged()
-
+            for (key : Long in hashMap.keys){
+                hashMap[key]?.let {
+                    addPurchaseToAdapter(
+                        PurchaseRecyclerModel(it))
+                }
+            }
         }
     }
 
-    override fun onClick(adapterPosition: Int, model: Purchase) {
 
+
+    private fun addPurchaseToAdapter(purchases: PurchaseRecyclerModel){
+        requireActivity().runOnUiThread{
+            adapter.add(purchases)
+        }
+    }
+
+    override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
+        val intent = Intent(requireContext(), PurchaseInfoActivity::class.java)
+        intent.putExtra("purchase_ids", model.getProductsIds().toLongArray())
+        intent.putExtra("token_id", model.getTokenId())
+        startActivity(intent)
     }
 }

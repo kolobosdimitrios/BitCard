@@ -12,19 +12,19 @@ import com.example.bitcard.network.daos.responses.models.Purchase
 
 class PurchasesRecyclerViewAdapter(
     private val context: Context,
-    private val onTileClickedListener: OnTileClickedListener<Purchase>,
-    private val purchases : ArrayList<Purchase> = ArrayList()
+    private val onTileClickedListener: OnTileClickedListener<PurchaseRecyclerModel>,
+    private val recyclerModels : ArrayList<PurchaseRecyclerModel> = ArrayList()
 ) : RecyclerView.Adapter<PurchasesRecyclerViewAdapter.ViewHolder>() {
 
     fun clear(){
-        purchases.clear()
+        recyclerModels.clear()
         notifyDataSetChanged()
     }
 
 
-    fun add(purchases: List<Purchase>){
-        this.purchases.addAll(purchases)
-        notifyItemInserted(purchases.size - 1)
+    fun add(purchases: PurchaseRecyclerModel){
+        this.recyclerModels.add(purchases)
+        notifyItemInserted(recyclerModels.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,22 +35,22 @@ class PurchasesRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(this.purchases[holder.adapterPosition], holder.adapterPosition)
+        holder.bind(this.recyclerModels[holder.adapterPosition], holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {
-        return purchases.size
+        return recyclerModels.size
     }
 
     class ViewHolder(
         itemView: View,
-        private val onTileClickedListener: OnTileClickedListener<Purchase>
+        private val onTileClickedListener: OnTileClickedListener<PurchaseRecyclerModel>
         ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(purchase: Purchase, position: Int) {
-            itemView.findViewById<TextView>(R.id.purchase_date).text = Time.format( purchase.created_at )
+        fun bind(recyclerModel: PurchaseRecyclerModel, position: Int) {
+            itemView.findViewById<TextView>(R.id.purchase_date).text = recyclerModel.getTitle()
             itemView.setOnClickListener {
-                onTileClickedListener.onClick(position + 1, purchase)
+                onTileClickedListener.onClick(position + 1, recyclerModel)
             }
         }
 
