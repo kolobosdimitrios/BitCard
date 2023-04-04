@@ -1,4 +1,4 @@
-package com.example.bitcard
+package com.example.bitcard.ui.purchases
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

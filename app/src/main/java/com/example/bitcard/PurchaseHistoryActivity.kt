@@ -15,11 +15,12 @@ import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
+import com.example.bitcard.ui.purchases.PurchaseInfoActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<PurchaseRecyclerModel> {
+class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purchase> {
 
     private lateinit var binding : ActivityPurchaseHistoryBinding
 
@@ -93,7 +94,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
 
     private fun getTokensPurchasesHistory(user_id : Long, token_id : Long){
 
-        usersApiV1.getTokensPurchases(user_id, token_id).enqueue( object : Callback<List<Purchase>>{
+        usersApiV1.getUsersPurchases(user_id).enqueue( object : Callback<List<Purchase>>{
             override fun onResponse(
                 call: Call<List<Purchase>>,
                 response: Response<List<Purchase>>
@@ -118,20 +119,13 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
         runOnUiThread{
             //TODO : add the purchase instance to recycler view!!
             if(purchases.isNotEmpty()) {
-                val model = PurchaseRecyclerModel(
-                    purchases
-                )
-
-                adapter.add(model)
+                adapter.add(purchases)
             }
 
         }
     }
 
-    override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
-        val intent = Intent(this, PurchaseInfoActivity::class.java)
-        intent.putExtra("purchase_ids", model.getProductsIds().toLongArray())
-        intent.putExtra("token_id", model.getTokenId())
-        startActivity(intent)
+    override fun onClick(adapterPosition: Int, model: Purchase) {
+
     }
 }

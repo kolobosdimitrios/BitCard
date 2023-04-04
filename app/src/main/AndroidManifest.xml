@@ -33,7 +33,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PurchaseInfoActivity"
+            android:name=".ui.purchases.PurchaseInfoActivity"
             android:exported="false"
             android:label="@string/purchase_info">
             <meta-data

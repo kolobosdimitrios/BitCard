@@ -7,22 +7,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcard.R
+import com.example.bitcard.globals.Time
+import com.example.bitcard.network.daos.responses.models.Purchase
 
 class PurchasesRecyclerViewAdapter(
     private val context: Context,
-    private val onTileClickedListener: OnTileClickedListener<PurchaseRecyclerModel>,
-    private val purchaseRecyclerModels : ArrayList<PurchaseRecyclerModel> = ArrayList()
+    private val onTileClickedListener: OnTileClickedListener<Purchase>,
+    private val purchases : ArrayList<Purchase> = ArrayList()
 ) : RecyclerView.Adapter<PurchasesRecyclerViewAdapter.ViewHolder>() {
 
     fun clear(){
-        purchaseRecyclerModels.clear()
+        purchases.clear()
         notifyDataSetChanged()
     }
 
 
-    fun add(purchaseRecyclerModel: PurchaseRecyclerModel){
-        purchaseRecyclerModels.add(purchaseRecyclerModel)
-        notifyItemInserted(purchaseRecyclerModels.size - 1)
+    fun add(purchases: List<Purchase>){
+        this.purchases.addAll(purchases)
+        notifyItemInserted(purchases.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,22 +35,22 @@ class PurchasesRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(purchaseRecyclerModels[holder.adapterPosition], holder.adapterPosition)
+        holder.bind(this.purchases[holder.adapterPosition], holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {
-        return purchaseRecyclerModels.size
+        return purchases.size
     }
 
     class ViewHolder(
         itemView: View,
-        private val onTileClickedListener: OnTileClickedListener<PurchaseRecyclerModel>
+        private val onTileClickedListener: OnTileClickedListener<Purchase>
         ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(purchaseRecyclerModel: PurchaseRecyclerModel, position: Int) {
-            itemView.findViewById<TextView>(R.id.purchase_date).text = purchaseRecyclerModel.getTitle()
+        fun bind(purchase: Purchase, position: Int) {
+            itemView.findViewById<TextView>(R.id.purchase_date).text = Time.format( purchase.created_at )
             itemView.setOnClickListener {
-                onTileClickedListener.onClick(position + 1, purchaseRecyclerModel)
+                onTileClickedListener.onClick(position + 1, purchase)
             }
         }
 

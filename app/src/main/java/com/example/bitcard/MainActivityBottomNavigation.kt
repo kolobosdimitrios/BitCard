@@ -12,15 +12,18 @@ import androidx.fragment.app.Fragment
 import com.example.bitcard.databinding.ActivityMainBottomNavigationBinding
 import com.example.bitcard.db.entities.Coupon
 import com.example.bitcard.globals.SharedPreferencesHelpers
+import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.daos.responses.TokenResponse
+import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.example.bitcard.ui.home.HomeFragment
 import com.example.bitcard.ui.home.HomeFragmentViewModel
 import com.example.bitcard.ui.purchases.PurchasesFragment
+import com.example.bitcard.ui.purchases.PurchasesFragmentViewModel
 import com.example.bitcard.ui.shops.ShopsFragment
 import com.example.bitcard.ui.shops.ShopsFragmentsViewModel
 import retrofit2.Call
@@ -33,6 +36,8 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels() {defaultViewModelProviderFactory}
     private val shopsFragmentViewModel : ShopsFragmentsViewModel by viewModels() {defaultViewModelProviderFactory}
+    private val purchasesFragmentViewModel : PurchasesFragmentViewModel by viewModels() {defaultViewModelProviderFactory}
+    private val purchases = ArrayList<Purchase>()
 
     private val api by lazy {
         RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
@@ -75,6 +80,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
         fetchUserData(getUserId())
         fetchShopsListData()
+        getTokensPurchasesHistory(getUserId())
 
     }
 
@@ -216,6 +222,33 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
         })
     }
+
+    private fun getTokensPurchasesHistory(user_id : Long){
+
+        api.getUsersPurchases(user_id).enqueue( object :
+            Callback<List<Purchase>> {
+            override fun onResponse(
+                call: Call<List<Purchase>>,
+                response: Response<List<Purchase>>
+            ) {
+                if(response.isSuccessful){
+                    val body = response.body()
+                    if(body != null) {
+                        purchasesFragmentViewModel.setSelectedPurchases(
+                            body
+                        )
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Purchase>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
