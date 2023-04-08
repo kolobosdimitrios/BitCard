@@ -174,7 +174,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
                             if(it.status_code == SimpleResponse.STATUS_OK){
                                 SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "id", it.data.id)
                                 Log.i("user created", it.data.toString())
-                                val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                                val intent = Intent(applicationContext, MainActivityBottomNavigation::class.java)
                                 startActivity(intent)
                             }
                         }
