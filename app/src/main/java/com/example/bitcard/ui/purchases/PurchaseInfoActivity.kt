@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.ProductsRecyclerViewAdapter
 import com.example.bitcard.databinding.ActivityPurchaseInfoBinding
-import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
@@ -39,16 +38,8 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
         binding.productsRecycler.layoutManager = LinearLayoutManager(this)
         binding.productsRecycler.setHasFixedSize(false)
         binding.productsRecycler.adapter = adapter
-        getPurchaseIds()?.let {
-            for (pId : Long in it){
-                getPurchasesInfo(
-                    pId,
-                    SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-                    getTokenId()
-                )
-            }
-
-        }
+        val purchaseId = getPurchaseId()
+        fetchData(purchaseId)
 
 
     }
@@ -58,13 +49,11 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
 
     }
 
-    private fun getPurchasesInfo(purchaseId: Long, userId: Long, tokenId: Long){
+    private fun fetchData(purchaseId: Long){
 
         val api = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
         api.getPurchaseProducts(
-            userId,
-            tokenId,
             purchaseId
         ).enqueue(object : Callback<List<Product>>{
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
@@ -88,9 +77,9 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
         return true
     }
 
-    private fun getPurchaseIds(): LongArray? {
+    private fun getPurchaseId(): Long {
 
-        return intent.getLongArrayExtra("purchase_ids")
+        return intent.getLongExtra("purchase_id", Long.MIN_VALUE)
     }
 
     private fun getTokenId() : Long {

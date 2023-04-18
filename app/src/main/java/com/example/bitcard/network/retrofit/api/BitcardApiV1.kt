@@ -36,8 +36,8 @@ interface BitcardApiV1 {
     @GET("users/{user_id}/index_users_purchases")
     fun getUsersPurchases(@Path("user_id") user_id : Long) : Call<List<Purchase>>
 
-    @GET("users/{user_id}/token/{token_id}/purchases/{purchase_id}/index_user_products")
-    fun getPurchaseProducts(@Path("user_id") user_id : Long, @Path("token_id") token_id: Long, @Path("purchase_id") purchase_id: Long) : Call<List<Product>>
+    @GET("purchases/{purchase_id}/purchase_products")
+    fun getPurchaseProducts(@Path("purchase_id") purchase_id: Long) : Call<List<Product>>
 
     @PUT("users/{user_id}")
     fun updateUsersProfilePicture(@Path("user_id") user_id: Long, @Body registerModel: RegisterModel) : Call<SimpleResponse>

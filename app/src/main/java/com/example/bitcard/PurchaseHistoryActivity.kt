@@ -18,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<PurchaseRecyclerModel> {
+class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purchase> {
 
     private lateinit var binding : ActivityPurchaseHistoryBinding
 
@@ -99,9 +99,7 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
             ) {
                 if(response.isSuccessful){
                     val body = response.body()
-                    if(body != null) {
-                        addPurchaseToAdapter(PurchaseRecyclerModel(body))
-                    }
+
                 }
             }
 
@@ -113,14 +111,9 @@ class PurchaseHistoryActivity : AppCompatActivity(), OnTileClickedListener<Purch
 
     }
 
-    private fun addPurchaseToAdapter(purchases: PurchaseRecyclerModel){
-        runOnUiThread{
-            //TODO : add the purchase instance to recycler view!!
-            adapter.add(purchases)
-        }
-    }
 
-    override fun onClick(adapterPosition: Int, model: PurchaseRecyclerModel) {
+
+    override fun onClick(adapterPosition: Int, model: Purchase) {
 
     }
 }
