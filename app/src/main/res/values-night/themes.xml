@@ -16,19 +16,18 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor" >@android:color/transparent</item>
-<!--        <item name="fontFamily">@font/roboto_regular</item>-->
         <item name="android:textColor">?attr/colorSecondary</item>
-        <item name="cardBackgroundColor">@color/gray</item>
 
         <!--Edit text style -->
         <item name="editTextStyle">@style/EditText</item>
 
-<!--        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialogDark</item>-->
+        <item name="android:windowBackground">@color/pitch_black</item>
+
     </style>
 
-<!--    <style name="ThemeOverlay.App.BottomSheetDialogDark" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">-->
-<!--        <item name="bottomSheetStyle">@style/ModalBottomSheetDialogDark</item>-->
-<!--    </style>-->
+    <style name="ThemeOverlay.App.BottomSheetDialogDark" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialogDark</item>
+    </style>
 
 
 </resources>

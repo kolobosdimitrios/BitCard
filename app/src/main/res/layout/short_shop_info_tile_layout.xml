@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    android:layout_margin="5dp"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/shop_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:padding="5dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -27,10 +11,9 @@
             android:layout_height="45dp"
             android:padding="5dp"
             android:src="@drawable/ic_baseline_store_24"
-
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -42,7 +25,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/current_distance"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@id/shop_title">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
 
             <TextView
@@ -51,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="5dp"
-                android:text="Αθήνα/Ελευσίνα"
                 android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold" />
 
@@ -61,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="5dp"
-                android:text="Αναστασίου Στάμου 4, Μαγούλα"
                 android:textColor="@color/gray" />
 
 
@@ -73,7 +66,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:maxLines="1"
-            android:text="5 χλμ."
             android:textColor="@color/primaryDarkColor"
             android:textStyle="bold"
 
@@ -81,8 +73,4 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,4 +16,7 @@
     <color name="background_light">@color/design_default_color_background</color>
     <color name="yellow_star">#FFEB3B</color>
     <color name="red">#F44336</color>
+    <color name="white_opaque">#FFFFFFFF</color>
+    <color name="pitch_black">#272727</color>
+
 </resources>
