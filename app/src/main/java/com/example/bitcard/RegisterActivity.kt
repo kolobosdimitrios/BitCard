@@ -216,7 +216,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, MainActivityBottomNavigation::class.java))
         finish()
     }
 
