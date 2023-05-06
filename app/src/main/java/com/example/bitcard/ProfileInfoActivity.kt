@@ -132,9 +132,7 @@ class ProfileInfoActivity : AppCompatActivity() {
 
     private fun getUserDataFromHTTP(userId: Long){
 
-        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-
-        bitcardApiV1.get(userId).enqueue(object : Callback<GetUserResponse> {
+        RetrofitHelper.newInstance.get(userId).enqueue(object : Callback<GetUserResponse> {
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
@@ -277,7 +275,6 @@ class ProfileInfoActivity : AppCompatActivity() {
     }
 
     private fun uploadUserImage(user_id: Long, image: Bitmap){
-        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
         val imageB64 = encodeBitmapToBase64(image)
 
@@ -285,10 +282,10 @@ class ProfileInfoActivity : AppCompatActivity() {
             image = imageB64
         ))
 
-        bitcardApiV1.updateUsersProfilePicture(user_id = user_id, registerModel = registerModel).enqueue(object : Callback<SimpleResponse>{
+        RetrofitHelper.newInstance.updateUsersProfilePicture(user_id = user_id, registerModel = registerModel).enqueue(object : Callback<SimpleResponse<Any>>{
             override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
+                call: Call<SimpleResponse<Any>>,
+                response: Response<SimpleResponse<Any>>
             ) {
                 if(response.isSuccessful) {
                     Log.i("response", "successful")
@@ -296,7 +293,7 @@ class ProfileInfoActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SimpleResponse<Any>>, t: Throwable) {
                 t.localizedMessage?.let { Log.e("Image upload failed", it) }
             }
 

@@ -51,9 +51,7 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
 
     private fun fetchData(purchaseId: Long){
 
-        val api = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-
-        api.getPurchaseProducts(
+        RetrofitHelper.newInstance.getPurchaseProducts(
             purchaseId
         ).enqueue(object : Callback<List<Product>>{
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {

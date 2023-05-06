@@ -58,12 +58,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun callLogout(userId: Long){
-        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
 
-        bitcardApiV1.logout().enqueue( object : Callback<SimpleResponse> {
+        RetrofitHelper.newInstance.logout().enqueue( object : Callback<SimpleResponse<Any>> {
             override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
+                call: Call<SimpleResponse<Any>>,
+                response: Response<SimpleResponse<Any>>
             ) {
                 if(response.isSuccessful) {
                     val simpleResponse = response.body()
@@ -94,7 +93,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SimpleResponse<Any>>, t: Throwable) {
                 Snackbar.make(binding.root, R.string.logout_error, Snackbar.LENGTH_SHORT).show()
             }
 

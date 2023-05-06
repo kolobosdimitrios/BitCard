@@ -15,7 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.ShopsListRecycler
-import com.example.bitcard.databinding.ShopsFragmentBinding
+import com.example.bitcard.databinding.SimpleRecyclerInCardviewLayoutBinding
 import com.example.bitcard.network.daos.responses.models.Shop
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -23,7 +23,7 @@ import com.google.android.gms.location.Priority
 
 class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
 
-    private lateinit var binder : ShopsFragmentBinding
+    private lateinit var binder : SimpleRecyclerInCardviewLayoutBinding
     private val shopsViewModel : ShopsFragmentsViewModel by activityViewModels() {defaultViewModelProviderFactory}
     private lateinit var adapter: ShopsListRecycler
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -52,7 +52,7 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.binder = ShopsFragmentBinding.inflate(inflater)
+        this.binder = SimpleRecyclerInCardviewLayoutBinding.inflate(inflater)
         this.adapter = ShopsListRecycler(this, requireContext())
         this.binder.shopsRecycler.layoutManager = LinearLayoutManager(requireContext())
         this.binder.shopsRecycler.setHasFixedSize(false)

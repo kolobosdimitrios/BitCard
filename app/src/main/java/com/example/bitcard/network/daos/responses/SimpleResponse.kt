@@ -1,10 +1,10 @@
 package com.example.bitcard.network.daos.responses
 
-data class SimpleResponse(
+data class SimpleResponse<T>(
 
     val status_code : Int,
     val description: String,
-    val data: Any
+    val data: T
 
 ) {
 

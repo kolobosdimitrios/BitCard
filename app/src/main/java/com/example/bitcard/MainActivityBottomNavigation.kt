@@ -39,9 +39,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     private val purchasesFragmentViewModel : PurchasesFragmentViewModel by viewModels() {defaultViewModelProviderFactory}
     private val purchases = ArrayList<Purchase>()
 
-    private val api by lazy {
-        RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +111,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     }
 
     private fun getToken(userId : Long){
-        api.getToken(userId).enqueue(object : Callback<TokenResponse> {
+        RetrofitHelper.newInstance.getToken(userId).enqueue(object : Callback<TokenResponse> {
             override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
                 if(response.isSuccessful){
                     val tokenResponse = response.body()
@@ -142,7 +140,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     private fun getUserCoupons(userId: Long){
 
 
-        api.getCoupons(userId).enqueue(object : Callback<List<Coupon>>{
+        RetrofitHelper.newInstance.getCoupons(userId).enqueue(object : Callback<List<Coupon>>{
             override fun onResponse(call: Call<List<Coupon>>, response: Response<List<Coupon>>) {
                 if (response.isSuccessful){
                     runOnUiThread {
@@ -168,7 +166,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     }
 
     private fun getUserData(userId: Long){
-        api.get(userId).enqueue(object : Callback<GetUserResponse>{
+        RetrofitHelper.newInstance.get(userId).enqueue(object : Callback<GetUserResponse>{
 
             override fun onResponse(
                 call: Call<GetUserResponse>,
@@ -207,7 +205,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     }
 
     private fun getShops(){
-        api.getShops().enqueue(object : Callback<List<Shop>> {
+        RetrofitHelper.newInstance.getShops().enqueue(object : Callback<List<Shop>> {
             override fun onResponse(call: Call<List<Shop>>, response: Response<List<Shop>>) {
                 if(response.isSuccessful){
                     val shopsList = response.body()
@@ -225,7 +223,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
     private fun getTokensPurchasesHistory(user_id : Long){
 
-        api.getUsersPurchases(user_id).enqueue( object :
+        RetrofitHelper.newInstance.getUsersPurchases(user_id).enqueue( object :
             Callback<List<Purchase>> {
             override fun onResponse(
                 call: Call<List<Purchase>>,

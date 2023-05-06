@@ -4,10 +4,12 @@ import com.example.bitcard.network.daos.requests.RegisterModel
 import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.*
 import com.example.bitcard.db.entities.Coupon
+import com.example.bitcard.network.daos.requests.FavoriteShopModel
 import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.daos.responses.models.Shop
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 
@@ -24,7 +26,7 @@ interface BitcardApiV1 {
     fun login(@Query("user_key")user_key: String): Call<GetUserResponse>
 
     @POST("users/logout/")
-    fun logout(/*@Query("user_id") id: Long*/) : Call<SimpleResponse>
+    fun logout(/*@Query("user_id") id: Long*/) : Call<SimpleResponse<Any>>
 
     @Headers("Content-Type: application/json")
     @GET("users/{id}/tokens_get")
@@ -40,7 +42,7 @@ interface BitcardApiV1 {
     fun getPurchaseProducts(@Path("purchase_id") purchase_id: Long) : Call<List<Product>>
 
     @PUT("users/{user_id}")
-    fun updateUsersProfilePicture(@Path("user_id") user_id: Long, @Body registerModel: RegisterModel) : Call<SimpleResponse>
+    fun updateUsersProfilePicture(@Path("user_id") user_id: Long, @Body registerModel: RegisterModel) : Call<SimpleResponse<Any>>
 
     @GET("shops/")
     fun getShops() : Call<List<Shop>>
@@ -51,6 +53,14 @@ interface BitcardApiV1 {
     @GET("users/{user_id}/coupons")
     fun getCoupons(@Path("user_id") user_id: Long) : Call<List<Coupon>>
 
+    @POST("favorite_shops/")
+    fun setShopAsFavorite(@Body requestData: FavoriteShopModel): Call<SimpleResponse<Any>>
+
+    @DELETE("users/{user_id}/shops/{shop_id}/remove_relation")
+    fun removeShopFromFavorites(@Path("user_id") user_id: Long,@Path("shop_id") shop_id: Long): Call<SimpleResponse<Any>>
+
+    @GET("users/{user_id}/shops/{shop_id}/is_favorite")
+    fun isShopFavorite(@Path("user_id") user_id: Long, @Path("shop_id") shop_id: Long) : Call<SimpleResponse<Any>>
 
 
 }

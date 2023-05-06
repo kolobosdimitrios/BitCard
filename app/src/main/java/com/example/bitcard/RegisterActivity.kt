@@ -160,9 +160,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener {
     private fun sendCreateUserRequest(user: UserDataSenderObj){
         val register = RegisterModel(user)
 
-        val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
-
-        bitcardApiV1.register(register).enqueue(object : Callback<GetUserResponse> {
+        RetrofitHelper.newInstance.register(register).enqueue(object : Callback<GetUserResponse> {
             override fun onResponse(
                 call: Call<GetUserResponse>,
                 response: Response<GetUserResponse>

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/add_to_favorites"
         android:icon="@drawable/ic_baseline_star_rate_24"
-        android:title="@string/add_to_favorites"
+        android:title="@string/added_to_favorite_shops"
         app:showAsAction="always"/>
 
 </menu>

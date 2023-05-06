@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
-    private val bitcardApiV1 = RetrofitHelper.getRetrofitInstance().create(BitcardApiV1::class.java)
+    private val bitcardApiV1 = RetrofitHelper.newInstance
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

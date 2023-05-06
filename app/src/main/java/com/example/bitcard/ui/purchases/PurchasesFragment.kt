@@ -5,20 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcard.adapters.OnTileClickedListener
 import com.example.bitcard.adapters.PurchaseRecyclerModel
 import com.example.bitcard.adapters.PurchasesRecyclerViewAdapter
-import com.example.bitcard.databinding.ShopsFragmentBinding
+import com.example.bitcard.databinding.SimpleRecyclerInCardviewLayoutBinding
 import com.example.bitcard.network.daos.responses.models.Purchase
 
 class PurchasesFragment : Fragment(), OnTileClickedListener<Purchase> {
 
-    private lateinit var binder: ShopsFragmentBinding
+    private lateinit var binder: SimpleRecyclerInCardviewLayoutBinding
     private lateinit var adapter : PurchasesRecyclerViewAdapter
     private val purchasesFragmentViewModel : PurchasesFragmentViewModel by activityViewModels() {defaultViewModelProviderFactory}
 
@@ -31,7 +29,7 @@ class PurchasesFragment : Fragment(), OnTileClickedListener<Purchase> {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binder = ShopsFragmentBinding.inflate(inflater)
+        binder = SimpleRecyclerInCardviewLayoutBinding.inflate(inflater)
         adapter = PurchasesRecyclerViewAdapter(
             requireContext(),
             this,
