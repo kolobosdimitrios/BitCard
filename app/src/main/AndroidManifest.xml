@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bitcard">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -79,17 +80,9 @@
             android:exported="false"
             android:label="@string/ProfileInfoActivity" />
         <activity
-            android:name=".PurchaseHistoryActivity"
-            android:exported="false"
-            android:label="@string/purchase_history" />
-        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/settings" />
-        <activity
-            android:name=".MainScreenActivity"
-            android:exported="false"
-            android:label="@string/MainScreenActivityTitle" />
 
         <!--
              TODO: Before you run your application, you need a Google Maps API key.

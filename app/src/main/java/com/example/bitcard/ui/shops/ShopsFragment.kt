@@ -116,6 +116,8 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
         b.putString("location_address", model.location_address)
         b.putFloat("location_longitude", model.location_longitude)
         b.putFloat("location_latitude", model.location_latitude)
+        b.putString("working_hours", model.working_hours)
+        b.putString("contact_info", model.contact_info)
         b.putLong("shop_id", model.id)
         model.distanceFromUser?.let {
             b.putDouble("distance_from_user", it)

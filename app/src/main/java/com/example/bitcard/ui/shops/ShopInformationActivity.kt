@@ -3,6 +3,7 @@ package com.example.bitcard.ui.shops
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,6 +12,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.example.bitcard.R
 import com.example.bitcard.databinding.ActivityShopInformationBinding
+import com.example.bitcard.globals.JSONParser
 import com.example.bitcard.globals.SharedPreferencesHelpers
 import com.example.bitcard.network.daos.requests.FavoriteShopModel
 import com.example.bitcard.network.daos.responses.SimpleResponse
@@ -31,6 +33,7 @@ class ShopInformationActivity : AppCompatActivity() {
 
     private lateinit var binder: ActivityShopInformationBinding
     private val viewModel: ItemViewModel<Boolean> by viewModels() { defaultViewModelProviderFactory }
+    private lateinit var shop : Shop
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +41,13 @@ class ShopInformationActivity : AppCompatActivity() {
         binder = ActivityShopInformationBinding.inflate(layoutInflater)
         setContentView(binder.root)
         setSupportActionBar(binder.mainScreenToolbar)
+        shop = getShopFromIntentData(intent.extras!!)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = intent.extras?.let { getShopFromIntentData(it).shop_name }
+        supportActionBar?.title = shop.shop_name
+        Log.i("working_hours", shop.working_hours)
+        val jsonObj = JSONParser.parseString(shop.working_hours)
+        Log.i("monday" , JSONParser.getValue("monday", jsonObj).toString())
 
     }
 
@@ -49,12 +56,12 @@ class ShopInformationActivity : AppCompatActivity() {
         if(intent.extras == null) {
             throw IllegalStateException("intent extras are null")
         }
-        intent.extras?.let { extras ->
-            isShopFavorite(
-                SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-                getShopFromIntentData(extras).id
-            )
-        }
+
+        isShopFavorite(
+            SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+            shop.id
+        )
+
 
 
     }
@@ -88,17 +95,15 @@ class ShopInformationActivity : AppCompatActivity() {
         when(item.itemId){
 
             R.id.add_to_favorites -> {
-                intent.extras?.let { extras ->
-                    viewModel.selectedItem.value?.let { isFavorite ->
-                        if(isFavorite){
-                            removeShopFromFavorites(
-                                userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-                                shopId = getShopFromIntentData(extras).id
-                            )
+                viewModel.selectedItem.value?.let { isFavorite ->
+                    if(isFavorite){
+                        removeShopFromFavorites(
+                            userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+                            shopId = shop.id
+                        )
 
-                        }else{
-                            setShopAsFavorite(extras)
-                        }
+                    }else{
+                        setShopAsFavorite()
                     }
                 }
 
@@ -110,10 +115,10 @@ class ShopInformationActivity : AppCompatActivity() {
     }
 
 
-    private fun setShopAsFavorite(bundle: Bundle){
+    private fun setShopAsFavorite(){
         val favShopModel = FavoriteShopModel(
             user_id = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-            shop_id = getShopFromIntentData(bundle).id
+            shop_id = shop.id
         )
         RetrofitHelper.newInstance.setShopAsFavorite(favShopModel).enqueue(object : Callback<SimpleResponse<Any>>{
             override fun onResponse(
@@ -232,11 +237,13 @@ class ShopInformationActivity : AppCompatActivity() {
                 b.getString("location_address", ""),
                 b.getString("created_at", ""),
                 b.getString("updated_at", ""),
+                b.getString("working_hours", ""),
+                b.getString("contact_info", ""),
                 b.getDouble("distance_from_user")
             )
 
         }
     }
 
-
+    
 }
