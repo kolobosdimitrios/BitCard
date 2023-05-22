@@ -45,7 +45,6 @@ class ShopInformationActivity : AppCompatActivity() {
         shop = getShopFromIntentData(intent.extras!!)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = shop.shop_name
         renderWorkingHours(
             jsonObject = JSONParser.parseString(shop.working_hours)
         )
@@ -63,13 +62,13 @@ class ShopInformationActivity : AppCompatActivity() {
     }
 
     private fun renderWorkingHours(jsonObject: JSONObject){
-        binder.workingHoursLayout.mondayTextView.text = JSONParser.getValue("monday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.tuesdayTextView.text = JSONParser.getValue("tuesday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.thursdayTextView.text = JSONParser.getValue("thursday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.wednesdayTextView.text = JSONParser.getValue("wednesday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.fridayTextView.text = JSONParser.getValue("friday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.saturdayTextView.text = JSONParser.getValue("saturday", jsonObject).toString().replace("||", ",")
-        binder.workingHoursLayout.sundayTextView.text = JSONParser.getValue("sunday", jsonObject).toString().replace("||", ",")
+//        binder.workingHoursLayout.mondayTextView.text = JSONParser.getValue("monday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.tuesdayTextView.text = JSONParser.getValue("tuesday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.thursdayTextView.text = JSONParser.getValue("thursday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.wednesdayTextView.text = JSONParser.getValue("wednesday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.fridayTextView.text = JSONParser.getValue("friday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.saturdayTextView.text = JSONParser.getValue("saturday", jsonObject).toString().replace("||", "\n")
+//        binder.workingHoursLayout.sundayTextView.text = JSONParser.getValue("sunday", jsonObject).toString().replace("||", "\n")
 
     }
 

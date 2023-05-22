@@ -20,7 +20,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.shops.ShopInformationActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/ShopDetailActivityLabel">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

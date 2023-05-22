@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
@@ -36,14 +36,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
                 android:padding="2.5dp"
-                android:text="@string/monday_string"/>
+                android:text="@string/monday_string" />
 
             <TextView
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -51,8 +51,8 @@
                 android:id="@+id/mondayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:layout_gravity="center_vertical"
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -66,14 +66,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/tuesday_string"/>
+                android:text="@string/tuesday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -81,8 +79,7 @@
                 android:id="@+id/tuesdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -96,14 +93,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/thursday_string"/>
+                android:text="@string/thursday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -111,8 +106,7 @@
                 android:id="@+id/thursdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -126,14 +120,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/wednesday_string"/>
+                android:text="@string/wednesday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -141,8 +133,7 @@
                 android:id="@+id/wednesdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -156,14 +147,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/friday_string"/>
+                android:text="@string/friday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -171,8 +160,7 @@
                 android:id="@+id/fridayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -186,14 +174,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/saturday_string"/>
+                android:text="@string/saturday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -201,8 +187,7 @@
                 android:id="@+id/saturdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
@@ -216,14 +201,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
-                android:text="@string/sunday_string"/>
+                android:text="@string/sunday_string" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="2.5dp"
                 android:text="@string/d_dots"/>
 
@@ -231,8 +214,7 @@
                 android:id="@+id/sundayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="2.5dp"/>
+                android:padding="2.5dp" />
 
         </LinearLayout>
 
