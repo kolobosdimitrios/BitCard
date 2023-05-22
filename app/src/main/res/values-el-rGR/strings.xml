@@ -73,4 +73,11 @@
     <string name="added_to_favorite_shops">Προστέθηκε στα αγαπημένα σας καταστήματα!</string>
     <string name="fail">Αποτυχία!</string>
     <string name="removed_from_favorite_shops">Αφαιρέθηκε απο τα αγαπημένα σας καταστήματα!</string>
+    <string name="monday_string">Δευτέρα</string>
+    <string name="tuesday_string">Τρίτη</string>
+    <string name="thursday_string">Τετάρτη</string>
+    <string name="wednesday_string">Πέμπτη</string>
+    <string name="friday_string">Παρασκευή</string>
+    <string name="saturday_string">Σάββατο</string>
+    <string name="sunday_string">Κυριακή</string>
 </resources>

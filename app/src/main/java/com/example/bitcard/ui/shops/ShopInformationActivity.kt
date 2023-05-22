@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,23 +46,34 @@ class ShopInformationActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = shop.shop_name
-        Log.i("working_hours", shop.working_hours)
-        val jsonObj = JSONParser.parseString(shop.working_hours)
-        Log.i("monday" , JSONParser.getValue("monday", jsonObj).toString())
-
+        renderWorkingHours(
+            jsonObject = JSONParser.parseString(shop.working_hours)
+        )
+        renderContactInfo(
+            jsonObject = JSONParser.parseString(shop.contact_info)
+        )
+        isShopFavorite(
+            userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
+            shopId = shop.id
+        )
     }
 
     override fun onResume() {
         super.onResume()
-        if(intent.extras == null) {
-            throw IllegalStateException("intent extras are null")
-        }
+    }
 
-        isShopFavorite(
-            SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
-            shop.id
-        )
+    private fun renderWorkingHours(jsonObject: JSONObject){
+        binder.workingHoursLayout.mondayTextView.text = JSONParser.getValue("monday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.tuesdayTextView.text = JSONParser.getValue("tuesday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.thursdayTextView.text = JSONParser.getValue("thursday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.wednesdayTextView.text = JSONParser.getValue("wednesday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.fridayTextView.text = JSONParser.getValue("friday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.saturdayTextView.text = JSONParser.getValue("saturday", jsonObject).toString().replace("||", ",")
+        binder.workingHoursLayout.sundayTextView.text = JSONParser.getValue("sunday", jsonObject).toString().replace("||", ",")
 
+    }
+
+    private fun renderContactInfo(jsonObject: JSONObject){
 
 
     }

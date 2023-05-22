@@ -13,42 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:padding="15dp"
-        android:layout_margin="5dp"
-        android:id="@+id/map_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:name="com.example.bitcard.ui.shops.ShopInformationActivity$MapFragment"
-        tools:layout="@layout/fragment_shop_location_maps" />
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:padding="15dp"-->
+<!--        android:layout_margin="5dp"-->
+<!--        android:id="@+id/map_fragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="350dp"-->
+<!--        android:name="com.example.bitcard.ui.shops.ShopInformationActivity$MapFragment"-->
+<!--        tools:layout="@layout/fragment_shop_location_maps" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/opening_hours"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <include layout="@layout/working_hours_layout" android:id="@+id/working_hours_layout"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/opening_hours_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/contact_info"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contact_info_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
 
 </LinearLayout>
 

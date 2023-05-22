@@ -240,7 +240,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
             }
 
             override fun onFailure(call: Call<List<Purchase>>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
         })
