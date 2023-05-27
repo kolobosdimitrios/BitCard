@@ -34,7 +34,7 @@
     <string name="points">points</string>
     <string name="next_reward">next reward</string>
     <string name="coupons">coupons</string>
-    <string name="ShopDetailActivityLabel">Shop Info</string>
+    <string name="ShopDetailActivityLabel">Store Information</string>
     <string name="CreateCardActivityLabel">Create Card</string>
     <string name="ShopsActivityLabel">Shops</string>
     <string name="email" translatable="false">E-mail</string>
@@ -82,4 +82,7 @@
     <string name="friday_string">Friday</string>
     <string name="saturday_string">Saturday</string>
     <string name="sunday_string">Sunday</string>
+    <string name="and">and</string>
+    <string name="contact_phone">Contact phone</string>
+    <string name="cancel">Cancel</string>
 </resources>

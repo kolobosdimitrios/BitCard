@@ -80,4 +80,7 @@
     <string name="friday_string">Παρασκευή</string>
     <string name="saturday_string">Σάββατο</string>
     <string name="sunday_string">Κυριακή</string>
+    <string name="and">καί</string>
+    <string name="contact_phone">Τηλέφωνο επικοινωνίας</string>
+    <string name="cancel">Άκυρο</string>
 </resources>

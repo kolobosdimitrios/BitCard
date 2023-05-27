@@ -1,12 +1,14 @@
 package com.example.bitcard.ui.shops
 
+import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -25,15 +27,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.json.JSONObject
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShopInformationActivity : AppCompatActivity() {
+
+class ShopInformationActivity : AppCompatActivity(){
 
     private lateinit var binder: ActivityShopInformationBinding
-    private val viewModel: ItemViewModel<Boolean> by viewModels() { defaultViewModelProviderFactory }
+    private val viewModel: ItemViewModel<Boolean> by viewModels { defaultViewModelProviderFactory }
     private lateinit var shop : Shop
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,35 +48,58 @@ class ShopInformationActivity : AppCompatActivity() {
         shop = getShopFromIntentData(intent.extras!!)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        renderWorkingHours(
-            jsonObject = JSONParser.parseString(shop.working_hours)
-        )
-        renderContactInfo(
-            jsonObject = JSONParser.parseString(shop.contact_info)
-        )
+        binder.shopInfoMapBanner.goToMapsLl.setOnClickListener {
+            openGoogleMaps(
+                locationLatitude = shop.location_latitude,
+                locationLongitude = shop.location_longitude
+            )
+        }
+        binder.shopInfoMapBanner.contactPhoneLl.setOnClickListener {
+            displayDialog()
+        }
         isShopFavorite(
             userId = SharedPreferencesHelpers.readLong(applicationContext, SharedPreferencesHelpers.USER_DATA, "id"),
             shopId = shop.id
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    private fun renderWorkingHours(jsonObject: JSONObject){
-//        binder.workingHoursLayout.mondayTextView.text = JSONParser.getValue("monday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.tuesdayTextView.text = JSONParser.getValue("tuesday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.thursdayTextView.text = JSONParser.getValue("thursday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.wednesdayTextView.text = JSONParser.getValue("wednesday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.fridayTextView.text = JSONParser.getValue("friday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.saturdayTextView.text = JSONParser.getValue("saturday", jsonObject).toString().replace("||", "\n")
-//        binder.workingHoursLayout.sundayTextView.text = JSONParser.getValue("sunday", jsonObject).toString().replace("||", "\n")
+        binder.shopNameTextView.text = shop.shop_name
+        binder.fullAddressTextView.text = shop.location_address
 
     }
 
-    private fun renderContactInfo(jsonObject: JSONObject){
+    private fun openGoogleMaps(locationLatitude: Float, locationLongitude: Float){
 
+        val latLng = "$locationLatitude,$locationLongitude"
+        val gmmIntentUri = Uri.parse("http://maps.google.com/maps?daddr=$latLng")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
+
+    }
+
+    private fun displayDialog(){
+        val phoneNumbers = getPhoneNumbersArray(JSONParser.parseString(shop.contact_info).getJSONArray("phones"))
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.contact_phone))
+            .setItems(phoneNumbers) { _, which ->
+                // Handle the click event for the selected phone number
+                val phoneNumber: String = phoneNumbers[which]
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                startActivity(intent)
+            }
+            .setNegativeButton(getString(R.string.cancel)
+            ) { dialog, _ -> dialog.cancel() }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+    private fun getPhoneNumbersArray(jsonArray: JSONArray):Array<String>{
+        val strings = ArrayList<String>()
+        for (index in 1 until jsonArray.length() step 1){
+            strings.add(jsonArray.get(index).toString())
+        }
+        return strings.toTypedArray()
 
     }
 
@@ -200,6 +226,12 @@ class ShopInformationActivity : AppCompatActivity() {
         })
     }
 
+
+
+
+
+
+
     class MapFragment : Fragment(), OnMapReadyCallback{
 
         override fun onCreateView(
@@ -256,5 +288,7 @@ class ShopInformationActivity : AppCompatActivity() {
         }
     }
 
-    
+
+
+
 }
