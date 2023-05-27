@@ -74,6 +74,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             sync()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
         binding.swipeRefreshLayout.setColorSchemeColors(getColor(R.color.primaryDarkColor), getColor(R.color.secondaryDarkColor))
         sync()
