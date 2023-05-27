@@ -12,7 +12,7 @@ object RetrofitHelper {
     val newInstance: BitcardApiV1
 
     init {
-        val retrofit = Retrofit.Builder().baseUrl("http://192.168.1.3:3000/api/v1/")
+        val retrofit = Retrofit.Builder().baseUrl("https://bitcard.herokuapp.com//api/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
