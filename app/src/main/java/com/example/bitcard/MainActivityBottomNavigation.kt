@@ -12,13 +12,11 @@ import androidx.fragment.app.Fragment
 import com.example.bitcard.databinding.ActivityMainBottomNavigationBinding
 import com.example.bitcard.db.entities.Coupon
 import com.example.bitcard.globals.SharedPreferencesHelpers
-import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.daos.responses.TokenResponse
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.daos.responses.models.Shop
-import com.example.bitcard.network.retrofit.api.BitcardApiV1
 import com.example.bitcard.network.retrofit.client.RetrofitHelper
 import com.example.bitcard.ui.home.HomeFragment
 import com.example.bitcard.ui.home.HomeFragmentViewModel
@@ -37,8 +35,6 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels() {defaultViewModelProviderFactory}
     private val shopsFragmentViewModel : ShopsFragmentsViewModel by viewModels() {defaultViewModelProviderFactory}
     private val purchasesFragmentViewModel : PurchasesFragmentViewModel by viewModels() {defaultViewModelProviderFactory}
-    private val purchases = ArrayList<Purchase>()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,11 +72,24 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
             true
         }
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            sync()
+        }
+        binding.swipeRefreshLayout.setColorSchemeColors(getColor(R.color.primaryDarkColor), getColor(R.color.secondaryDarkColor))
+        sync()
+
+    }
+
+    private fun backgroundSyncing(){
+
+    }
+
+    private fun sync(){
         fetchUserData(getUserId())
         fetchShopsListData()
         getTokensPurchasesHistory(getUserId())
-
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.settings_toolbar_menu, menu)
