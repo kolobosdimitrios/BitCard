@@ -83,4 +83,6 @@
     <string name="and">καί</string>
     <string name="contact_phone">Τηλέφωνο επικοινωνίας</string>
     <string name="cancel">Άκυρο</string>
+    <string name="sync_successfull">" Επιτυχής συγχρονισμός! Τα δεδομένα σας είναι ενημερωμένα!"</string>
+    <string name="sync_error">" Σφάλμα συγχρονισμού! Παρακαλώ δοκιμάστε ξανά αργότερα."</string>
 </resources>

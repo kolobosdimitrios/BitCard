@@ -1,6 +1,9 @@
 package com.example.bitcard
 
+import android.app.job.JobInfo
+import android.content.ComponentName
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -11,7 +14,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import com.example.bitcard.databinding.ActivityMainBottomNavigationBinding
 import com.example.bitcard.db.entities.Coupon
+import com.example.bitcard.db.entities.User
 import com.example.bitcard.globals.SharedPreferencesHelpers
+import com.example.bitcard.network.daos.requests.Token
 import com.example.bitcard.network.daos.responses.GetUserResponse
 import com.example.bitcard.network.daos.responses.SimpleResponse
 import com.example.bitcard.network.daos.responses.TokenResponse
@@ -24,9 +29,16 @@ import com.example.bitcard.ui.purchases.PurchasesFragment
 import com.example.bitcard.ui.purchases.PurchasesFragmentViewModel
 import com.example.bitcard.ui.shops.ShopsFragment
 import com.example.bitcard.ui.shops.ShopsFragmentsViewModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class MainActivityBottomNavigation : AppCompatActivity() {
 
@@ -73,22 +85,110 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            sync()
-            binding.swipeRefreshLayout.isRefreshing = false
+            backgroundSyncing()
         }
         binding.swipeRefreshLayout.setColorSchemeColors(getColor(R.color.primaryDarkColor), getColor(R.color.secondaryDarkColor))
-        sync()
+
+        backgroundSyncing()
 
     }
 
     private fun backgroundSyncing(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val userId = getUserId()
+            var isCompletedPurchase = false
+            var isCompletedShopList = false
+            var isCompletedTokenRefresh = false
+            var isCompletedUserDataRefresh = false
+            var isCompleteUserCouponsRefresh = false
+            try{
 
+                val userDataResponse = RetrofitHelper.newInstance.get(userId).execute()
+                isCompletedUserDataRefresh = userDataResponse.isSuccessful && userDataResponse.body() != null
+                userDataResponse.body()?.let {
+                    user -> syncUserInUi(user.data)
+                }
+
+                val userCouponsResponse = RetrofitHelper.newInstance.getCoupons(userId).execute()
+                isCompleteUserCouponsRefresh = userCouponsResponse.isSuccessful && userCouponsResponse.body() != null
+                userCouponsResponse.body()?.let {
+                    coupons -> syncUserCouponsInUi(coupons)
+                }
+
+                val userPurchasesResponse = RetrofitHelper.newInstance.getUsersPurchases(userId).execute()
+                isCompletedPurchase = userPurchasesResponse.isSuccessful && userPurchasesResponse.body() != null
+                userPurchasesResponse.body()?.let {
+                    purchases -> syncPurchasesInUi(purchases)
+                }
+
+                val shopsListResponse = RetrofitHelper.newInstance.getShops().execute()
+                isCompletedShopList = shopsListResponse.isSuccessful && shopsListResponse.body() != null
+                shopsListResponse.body()?.let {
+                    shops -> syncShopsInUi(shops)
+                }
+
+                val tokenResponse = RetrofitHelper.newInstance.getToken(userId).execute()
+                isCompletedTokenRefresh = tokenResponse.isSuccessful && tokenResponse.body() != null
+                tokenResponse.body()?.let {
+                    syncTokenInUi(it.data)
+                }
+
+            }catch (ioException: IOException){
+                ioException.printStackTrace()
+            }
+
+            withContext(Main){
+                binding.swipeRefreshLayout.isRefreshing = false
+                if(isCompletedPurchase && isCompletedShopList && isCompletedTokenRefresh && isCompletedUserDataRefresh && isCompleteUserCouponsRefresh){
+
+                    //Show success sync message
+                    Snackbar.make(binding.root, R.string.sync_successfull, Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(getColor(R.color.primaryDarkColor))
+                        .setTextColor(Color.WHITE)
+                        .show()
+                }else{
+                    //Show error success message
+                    Snackbar.make(binding.root, R.string.sync_error, Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(Color.RED)
+                        .setTextColor(Color.WHITE)
+                        .show()
+                }
+            }
+
+        }
     }
 
-    private fun sync(){
-        fetchUserData(getUserId())
-        fetchShopsListData()
-        getTokensPurchasesHistory(getUserId())
+    private suspend fun syncUserInUi(user: User){
+        withContext(Main){
+            homeFragmentViewModel.selectItem(user)
+        }
+    }
+
+    private suspend fun syncUserCouponsInUi(coupons: List<Coupon>){
+        withContext(Main){
+            homeFragmentViewModel.selectItem(HomeFragmentViewModel.CouponsList(coupons))
+        }
+    }
+
+    private suspend fun syncTokenInUi(token: Token){
+        withContext(Main){
+            homeFragmentViewModel.selectItem(token)
+            SharedPreferencesHelpers.write(applicationContext, SharedPreferencesHelpers.USER_DATA, "token_id", token.id)
+        }
+    }
+
+    private suspend fun syncShopsInUi(shopsList: List<Shop>){
+        withContext(Main){
+            shopsFragmentViewModel.selectShopList(shopsList)
+        }
+    }
+
+    private suspend fun syncPurchasesInUi(purchases: List<Purchase>){
+        withContext(Main){
+            purchasesFragmentViewModel.setSelectedPurchases(
+                purchases
+            )
+        }
     }
 
 
@@ -148,8 +248,6 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
     }
 
     private fun getUserCoupons(userId: Long){
-
-
         RetrofitHelper.newInstance.getCoupons(userId).enqueue(object : Callback<List<Coupon>>{
             override fun onResponse(call: Call<List<Coupon>>, response: Response<List<Coupon>>) {
                 if (response.isSuccessful){
@@ -263,15 +361,15 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
         return true
     }
 
-    private fun fetchUserData(userId: Long){
+    /*private fun fetchUserData(userId: Long){
         getUserData(userId)
         getToken(userId)
         getUserCoupons(userId)
-    }
+    }*/
 
-    private fun fetchShopsListData(){
+   /* private fun fetchShopsListData(){
 
         getShops()
-    }
+    }*/
 
 }

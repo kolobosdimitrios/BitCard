@@ -63,7 +63,7 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
             }
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                TODO("Not yet implemented")
+                t.printStackTrace()
             }
 
         })
