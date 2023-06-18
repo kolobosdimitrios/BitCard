@@ -1,5 +1,6 @@
 package com.example.bitcard.ui.shops
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,6 +66,81 @@ class ShopInformationActivity : AppCompatActivity(){
         binder.shopNameTextView.text = shop.shop_name
         binder.fullAddressTextView.text = shop.location_address
 
+        val socialMedia = SocialMedia(JSONParser.parseString(shop.contact_info).getJSONObject("social_media"))
+
+        renderSocialMedia(socialMedia)
+
+        binder.facebookImageView.setOnClickListener {
+
+        }
+
+        binder.twitterImageView.setOnClickListener {
+
+        }
+
+    }
+
+    private fun openTwitterIntent(userName: String){
+
+        val twitterUri = Uri.parse("http://twitter.com/$userName")
+        val twitterIntent = Intent(Intent.ACTION_VIEW, twitterUri)
+        twitterIntent.setPackage("com.twitter.android")
+        try {
+            startActivity(twitterIntent)
+        } catch (e: ActivityNotFoundException) {
+            /*
+            App not exist
+             */
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://www.twitter.com/$userName")
+                )
+            )
+        }
+
+    }
+
+    private fun openFacebookIntent(userName: String){
+        // Open Facebook profile
+        val facebookUri = Uri.parse("http://www.facebook.com/$userName")
+        val facebookIntent = Intent(Intent.ACTION_VIEW, facebookUri)
+        facebookIntent.setPackage("com.facebook.katana")
+        try {
+            startActivity(facebookIntent)
+        } catch (e: ActivityNotFoundException) {
+            /*
+            App not exist
+             */
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://www.facebook.com/$userName")
+                )
+            )
+        }
+    }
+
+    private fun openInstagramIntent(userName: String){
+        val uri = Uri.parse("http://instagram.com/_u/$userName")
+
+        val i = Intent(Intent.ACTION_VIEW, uri)
+
+        i.setPackage("com.instagram.android")
+
+        try {
+            startActivity(i)
+        } catch (e: ActivityNotFoundException) {
+            /*
+            App not exist
+             */
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://instagram.com/$userName")
+                )
+            )
+        }
     }
 
     private fun openGoogleMaps(locationLatitude: Float, locationLongitude: Float){
@@ -92,6 +169,35 @@ class ShopInformationActivity : AppCompatActivity(){
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
+    }
+
+    private fun renderSocialMedia(socialMedia: SocialMedia){
+        if(socialMedia.instagram.isNotEmpty()){
+            binder.instagramImageView.visibility = View.VISIBLE
+            binder.instagramImageView.setOnClickListener {
+                openInstagramIntent(socialMedia.instagram)
+            }
+        }else{
+            binder.instagramImageView.visibility = View.GONE
+        }
+
+        if(socialMedia.facebook.isNotEmpty()){
+            binder.facebookImageView.visibility = View.VISIBLE
+            binder.facebookImageView.setOnClickListener {
+                openFacebookIntent(socialMedia.facebook)
+            }
+        }else{
+            binder.facebookImageView.visibility = View.GONE
+        }
+
+        if(socialMedia.twitter.isNotEmpty()){
+            binder.twitterImageView.visibility = View.VISIBLE
+            binder.twitterImageView.setOnClickListener {
+                openTwitterIntent(socialMedia.twitter)
+            }
+        }else{
+            binder.twitterImageView.visibility = View.GONE
+        }
     }
 
     private fun getPhoneNumbersArray(jsonArray: JSONArray):Array<String>{
@@ -288,6 +394,16 @@ class ShopInformationActivity : AppCompatActivity(){
         }
     }
 
+    data class SocialMedia(
+        val jsonObject: JSONObject
+    ){
+        val instagram: String = jsonObject.get("instagram").toString()
+
+        val facebook: String = jsonObject.get("facebook").toString()
+
+        val twitter: String = jsonObject.get("twitter").toString()
+
+    }
 
 
 
