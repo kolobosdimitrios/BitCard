@@ -38,6 +38,20 @@ class ShopsListRecycler(
         notifyItemInserted(0)
     }
 
+    fun updateDistanceFromUser(longitude: Float, latitude: Float){
+        this.shopsList.iterator().forEachRemaining { shop ->
+            shop.distanceFromUser = Distance.calculateDistance(
+                longitude_start = longitude,
+                latitude_start = latitude,
+                longitude_end = shop.location_longitude,
+                latitude_end = shop.location_latitude
+            ).toDouble()
+        }
+
+        notifyDataSetChanged()
+
+    }
+
     class ShopViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         fun bind(shop : Shop, onTileClickedListener: OnTileClickedListener<Shop>, adapterPosition: Int, context: Context){

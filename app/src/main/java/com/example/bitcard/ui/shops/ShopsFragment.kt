@@ -68,8 +68,14 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
             getLocationUpdate()
         }else{
             askLocationPermission()
+            if(hasLocationPermissions()) {
+                getLocationUpdate()
+            }else {
+                //TODO: Show explanatory message!
+            }
         }
         shopsViewModel.shopsList.observe(viewLifecycleOwner){
+
             this.adapter.updateData(ArrayList(it))
         }
 
@@ -99,6 +105,10 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
         ).addOnSuccessListener {
             val latitude = it.latitude
             val longitude = it.longitude
+            this.adapter.updateDistanceFromUser(
+                longitude = it.longitude.toFloat(),
+                latitude = it.latitude.toFloat()
+            )
             Log.i("Location point is", "Latitude: $latitude Longitude: $longitude")
         }.addOnFailureListener {
 
