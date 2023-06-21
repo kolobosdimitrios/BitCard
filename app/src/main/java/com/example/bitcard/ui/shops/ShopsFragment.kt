@@ -64,19 +64,18 @@ class ShopsFragment : Fragment(), OnTileClickedListener<Shop> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (hasLocationPermissions()){
-            getLocationUpdate()
-        }else{
-            askLocationPermission()
-            if(hasLocationPermissions()) {
-                getLocationUpdate()
-            }else {
-                //TODO: Show explanatory message!
-            }
-        }
+
         shopsViewModel.shopsList.observe(viewLifecycleOwner){
 
             this.adapter.updateData(ArrayList(it))
+            if (hasLocationPermissions()){
+                getLocationUpdate()
+            }else{
+                askLocationPermission()
+                if(hasLocationPermissions()) {
+                    getLocationUpdate()
+                }
+            }
         }
 
     }
