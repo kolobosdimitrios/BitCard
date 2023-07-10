@@ -30,15 +30,20 @@ import com.example.bitcard.ui.purchases.PurchasesFragmentViewModel
 import com.example.bitcard.ui.shops.ShopsFragment
 import com.example.bitcard.ui.shops.ShopsFragmentsViewModel
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.Arrays
 
 class MainActivityBottomNavigation : AppCompatActivity() {
 
@@ -93,67 +98,78 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
     }
 
-    private fun backgroundSyncing(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val userId = getUserId()
-            var isCompletedPurchase = false
-            var isCompletedShopList = false
-            var isCompletedTokenRefresh = false
-            var isCompletedUserDataRefresh = false
-            var isCompleteUserCouponsRefresh = false
-            try{
+    private fun backgroundSyncing() {
+        binding.swipeRefreshLayout.isRefreshing = true
+        val userId = getUserId()
 
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val isCompletedPurchase: Boolean
+            val isCompletedShopList: Boolean
+            val isCompletedTokenRefresh: Boolean
+            val isCompletedUserDataRefresh: Boolean
+            val isCompleteUserCouponsRefresh: Boolean
+            try{
                 val userDataResponse = RetrofitHelper.newInstance.get(userId).execute()
                 isCompletedUserDataRefresh = userDataResponse.isSuccessful && userDataResponse.body() != null
-                userDataResponse.body()?.let {
-                    user -> syncUserInUi(user.data)
-                }
 
                 val userCouponsResponse = RetrofitHelper.newInstance.getCoupons(userId).execute()
                 isCompleteUserCouponsRefresh = userCouponsResponse.isSuccessful && userCouponsResponse.body() != null
-                userCouponsResponse.body()?.let {
-                    coupons -> syncUserCouponsInUi(coupons)
-                }
 
                 val userPurchasesResponse = RetrofitHelper.newInstance.getUsersPurchases(userId).execute()
                 isCompletedPurchase = userPurchasesResponse.isSuccessful && userPurchasesResponse.body() != null
-                userPurchasesResponse.body()?.let {
-                    purchases -> syncPurchasesInUi(purchases)
-                }
 
                 val shopsListResponse = RetrofitHelper.newInstance.getShops().execute()
                 isCompletedShopList = shopsListResponse.isSuccessful && shopsListResponse.body() != null
-                shopsListResponse.body()?.let {
-                    shops -> syncShopsInUi(shops)
-                }
 
                 val tokenResponse = RetrofitHelper.newInstance.getToken(userId).execute()
                 isCompletedTokenRefresh = tokenResponse.isSuccessful && tokenResponse.body() != null
-                tokenResponse.body()?.let {
-                    syncTokenInUi(it.data)
+
+
+                withContext(Main){
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    if(isCompletedPurchase && isCompletedShopList && isCompletedTokenRefresh && isCompletedUserDataRefresh && isCompleteUserCouponsRefresh){
+
+                        userDataResponse.body()?.let {
+                                user -> syncUserInUi(user.data)
+                        }
+
+                        userCouponsResponse.body()?.let {
+                                coupons -> syncUserCouponsInUi(coupons)
+                        }
+
+                        userPurchasesResponse.body()?.let {
+                                purchases -> syncPurchasesInUi(purchases)
+                        }
+
+                        shopsListResponse.body()?.let {
+                                shops -> syncShopsInUi(shops)
+                        }
+
+                        tokenResponse.body()?.let {
+                            syncTokenInUi(it.data)
+                        }
+
+                        //Show success sync message
+                        Snackbar.make(binding.root, R.string.sync_successfull, Snackbar.LENGTH_SHORT)
+                            .setBackgroundTint(getColor(R.color.primaryDarkColor))
+                            .setTextColor(Color.WHITE)
+                            .show()
+                    }else{
+                        //Show error success message
+                        Snackbar.make(binding.root, R.string.sync_error, Snackbar.LENGTH_SHORT)
+                            .setBackgroundTint(Color.RED)
+                            .setTextColor(Color.WHITE)
+                            .show()
+                    }
                 }
 
             }catch (ioException: IOException){
                 ioException.printStackTrace()
             }
 
-            withContext(Main){
-                binding.swipeRefreshLayout.isRefreshing = false
-                if(isCompletedPurchase && isCompletedShopList && isCompletedTokenRefresh && isCompletedUserDataRefresh && isCompleteUserCouponsRefresh){
 
-                    //Show success sync message
-                    Snackbar.make(binding.root, R.string.sync_successfull, Snackbar.LENGTH_SHORT)
-                        .setBackgroundTint(getColor(R.color.primaryDarkColor))
-                        .setTextColor(Color.WHITE)
-                        .show()
-                }else{
-                    //Show error success message
-                    Snackbar.make(binding.root, R.string.sync_error, Snackbar.LENGTH_SHORT)
-                        .setBackgroundTint(Color.RED)
-                        .setTextColor(Color.WHITE)
-                        .show()
-                }
-            }
 
         }
     }
@@ -371,5 +387,7 @@ private lateinit var binding: ActivityMainBottomNavigationBinding
 
         getShops()
     }*/
+
+
 
 }

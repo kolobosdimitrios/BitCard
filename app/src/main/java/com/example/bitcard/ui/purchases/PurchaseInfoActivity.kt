@@ -80,11 +80,6 @@ class PurchaseInfoActivity : AppCompatActivity(), OnTileClickedListener<Product>
         return intent.getLongExtra("purchase_id", Long.MIN_VALUE)
     }
 
-    private fun getTokenId() : Long {
-
-        return intent.getLongExtra("token_id", Long.MIN_VALUE)
-    }
-
     override fun onClick(adapterPosition: Int, model: Product) {
 
     }

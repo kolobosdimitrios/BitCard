@@ -8,6 +8,7 @@ import com.example.bitcard.network.daos.requests.FavoriteShopModel
 import com.example.bitcard.network.daos.responses.models.Product
 import com.example.bitcard.network.daos.responses.models.Purchase
 import com.example.bitcard.network.daos.responses.models.Shop
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.http.*
@@ -18,6 +19,9 @@ interface BitcardApiV1 {
     @Headers("Content-Type: application/json")
     @POST("users/")
     fun register(@Body requestData: RegisterModel) : Call<GetUserResponse>
+
+    @GET("users/{id}")
+    fun getUserObservable(@Path("id")userID : Long) : Observable<GetUserResponse>
 
     @GET("users/{id}")
     fun get(@Path("id")userID : Long) : Call<GetUserResponse>
@@ -32,8 +36,15 @@ interface BitcardApiV1 {
     @GET("users/{id}/tokens_get")
     fun getToken(@Path("id")userID : Long) : Call<TokenResponse>
 
+    @Headers("Content-Type: application/json")
+    @GET("users/{id}/tokens_get")
+    fun getTokenObservable(@Path("id")userID : Long) : Observable<TokenResponse>
+
     @GET("users/{id}/tokens/")
     fun getUserTokens(@Path("id")userID : Long) : Call<List<Token>>
+
+    @GET("users/{user_id}/index_users_purchases")
+    fun getUsersPurchasesObservable(@Path("user_id") user_id : Long) : Observable<List<Purchase>>
 
     @GET("users/{user_id}/index_users_purchases")
     fun getUsersPurchases(@Path("user_id") user_id : Long) : Call<List<Purchase>>
@@ -45,10 +56,16 @@ interface BitcardApiV1 {
     fun updateUsersProfilePicture(@Path("user_id") user_id: Long, @Body registerModel: RegisterModel) : Call<SimpleResponse<Any>>
 
     @GET("shops/")
+    fun getShopsObservable() : Observable<List<Shop>>
+
+    @GET("shops/")
     fun getShops() : Call<List<Shop>>
 
     @GET("shops/{shop_id}")
     fun getShop(@Path("shop_id") shop_id: Long) : Call<Shop>
+
+    @GET("users/{user_id}/coupons")
+    fun getCouponsObservable(@Path("user_id") user_id: Long) : Observable<List<Coupon>>
 
     @GET("users/{user_id}/coupons")
     fun getCoupons(@Path("user_id") user_id: Long) : Call<List<Coupon>>
