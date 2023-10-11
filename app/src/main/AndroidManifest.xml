@@ -19,7 +19,7 @@
         android:theme="@style/Theme.AppSplash"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.shops.ShopInformationActivity"
+            android:name=".ui.fragments.shops.ShopInformationActivity"
             android:exported="false"
             android:label="@string/ShopDetailActivityLabel">
             <meta-data
@@ -27,7 +27,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivityBottomNavigation"
+            android:name=".ui.activities.MainActivity"
             android:exported="false"
             android:label="@string/title_home">
             <meta-data
@@ -35,7 +35,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.purchases.PurchaseInfoActivity"
+            android:name=".ui.fragments.purchases.PurchaseInfoActivity"
             android:exported="false"
             android:label="@string/purchase_info">
             <meta-data
@@ -43,7 +43,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SelectThemeActivity"
+            android:name=".ui.activities.SelectThemeActivity"
             android:exported="false"
             android:label="@string/select_theme">
             <meta-data
@@ -51,7 +51,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name=".ui.activities.ChangePasswordActivity"
             android:exported="false"
             android:label="@string/change_password">
             <meta-data
@@ -59,7 +59,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,19 +68,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="false"
             android:label="@string/LoginActivityLabel" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.activities.RegisterActivity"
             android:exported="false"
             android:label="@string/register" />
         <activity
-            android:name=".ProfileInfoActivity"
+            android:name=".ui.activities.ProfileInfoActivity"
             android:exported="false"
             android:label="@string/ProfileInfoActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:exported="false"
             android:label="@string/settings" />
 

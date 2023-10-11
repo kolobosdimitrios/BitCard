@@ -33,5 +33,4 @@ data class User(
     @ColumnInfo(name = "remaining_points")
     @SerializedName("remaining_points")
     val remainingPoints: Int
-) {
-}
+)

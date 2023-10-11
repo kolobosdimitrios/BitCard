@@ -37,7 +37,7 @@
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:name="com.example.bitcard.fragments.ShopLocationMapsFragment"
+            android:name="com.example.bitcard.dialogs.ShopLocationMapsFragment"
             tools:layout="@layout/fragment_shop_location_maps" />
 
         <TextView
